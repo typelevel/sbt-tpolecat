@@ -14,8 +14,16 @@ It also enables the excellent [sbt-partial-unification](https://github.com/fiadl
 
 Add the following to your project's `project/plugins.sbt`:
 
+```scala
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.1")
 ```
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.0")
+
+If necessary you can filter out scalac options that are unhelpful in the REPL from user-defined tasks or scopes.
+
+By default the plugin only applies this filtering to the `console` task in the `Compile` and `Test` configurations.
+
+```scala
+scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 ```
 
 ### License

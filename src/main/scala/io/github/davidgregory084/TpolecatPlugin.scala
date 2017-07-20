@@ -93,7 +93,7 @@ object TpolecatPlugin extends AutoPlugin {
 
     val filterConsoleScalacOptions = { options: Seq[String] =>
       options.filterNot(Set(
-        "-Ywarn-unused:import",
+        "-Ywarn-unused:imports",
         "-Ywarn-unused-import",
         "-Ywarn-dead-code",
         "-Xfatal-warnings"
@@ -105,6 +105,7 @@ object TpolecatPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     scalacOptions ++= scalacOptionsFor(scalaVersion.value),
-    scalacOptions.in(console) ~= filterConsoleScalacOptions
+    scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
+    scalacOptions.in(Test, console) ~= filterConsoleScalacOptions
   )
 }
