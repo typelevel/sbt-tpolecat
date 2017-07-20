@@ -8,7 +8,7 @@ description := "scalac options for the enlightened"
 
 organization := "io.github.davidgregory084"
 
-version := "0.1.2"
+version := "0.1.3-SNAPSHOT"
 
 scalaVersion := "2.10.6"
 
