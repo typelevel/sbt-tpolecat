@@ -92,7 +92,12 @@ object TpolecatPlugin extends AutoPlugin {
       })
 
     val filterConsoleScalacOptions = { options: Seq[String] =>
-      options.filterNot(Set("-Ywarn-unused:import", "-Ywarn-unused-import", "-Xfatal-warnings"))
+      options.filterNot(Set(
+        "-Ywarn-unused:import",
+        "-Ywarn-unused-import",
+        "-Ywarn-dead-code",
+        "-Xfatal-warnings"
+      ))
     }
   }
 
