@@ -8,7 +8,6 @@ sbtPlugin := true
 
 scriptedSettings
 
-// Uncomment to see the scripted test output
 scriptedBufferLog := false
 
 scriptedLaunchOpts := scriptedLaunchOpts.value ++ Seq(
