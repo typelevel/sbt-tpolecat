@@ -26,6 +26,14 @@ By default the plugin only applies this filtering to the `console` task in the `
 scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 ```
 
+### Caveat
+
+I can't promise this plugin will work for old minor releases of Scala. It has been tested with:
+
+* 2.12.2
+* 2.11.11
+* 2.10.6
+
 ### License
 
 All code in this repository is licensed under the Apache License, Version 2.0.  See [LICENSE](./LICENSE).
