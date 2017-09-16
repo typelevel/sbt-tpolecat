@@ -10,7 +10,7 @@ organization := "io.github.davidgregory084"
 
 version := "0.1.3-SNAPSHOT"
 
-scalaVersion := "2.10.6"
+crossSbtVersions := Seq("0.13.16", "1.0.1")
 
 sbtPlugin := true
 
@@ -18,7 +18,11 @@ licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html
 
 // Dependencies
 
-addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.0.0")
+libraryDependencies += Defaults.sbtPluginExtra(
+  "org.lyranthe.sbt" % "partial-unification" % "1.1.0",
+  (sbtBinaryVersion in pluginCrossBuild).value,
+  (scalaBinaryVersion in pluginCrossBuild).value
+)
 
 // License headers
 
