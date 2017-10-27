@@ -15,7 +15,7 @@ It also enables the excellent [sbt-partial-unification](https://github.com/fiadl
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.2")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.3")
 ```
 
 If necessary you can filter out scalac options that are unhelpful in the REPL from user-defined tasks or scopes.
