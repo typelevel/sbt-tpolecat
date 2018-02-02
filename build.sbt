@@ -10,7 +10,7 @@ organization := "io.github.davidgregory084"
 
 version := "0.1.4-SNAPSHOT"
 
-crossSbtVersions := Seq("0.13.16", "1.0.1")
+crossSbtVersions := Seq("0.13.16", "1.1.0")
 
 sbtPlugin := true
 
