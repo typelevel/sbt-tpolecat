@@ -8,7 +8,7 @@ description := "scalac options for the enlightened"
 
 organization := "io.github.davidgregory084"
 
-version := "0.1.4-SNAPSHOT"
+version := "0.1.4"
 
 crossSbtVersions := Seq("0.13.16", "1.1.0")
 
