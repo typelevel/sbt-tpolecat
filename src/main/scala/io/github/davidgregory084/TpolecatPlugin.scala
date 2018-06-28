@@ -35,7 +35,6 @@ object TpolecatPlugin extends AutoPlugin {
     "-Xcheckinit",                       // Wrap field accessors to throw an exception on uninitialized access.
     "-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
     "-Xfuture",                          // Turn on future language features.
-    "-Yno-adapted-args",                 // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
     "-Ywarn-dead-code",                  // Warn when dead code is identified.
     "-Ywarn-inaccessible",               // Warn about inaccessible types in method signatures.
     "-Ywarn-nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
@@ -45,14 +44,14 @@ object TpolecatPlugin extends AutoPlugin {
   )
 
   val scalacOptionsGte212 = List(
-    "-Xlint:constant",               // Evaluation of a constant arithmetic expression results in an error.
-    "-Ywarn-unused:implicits",       // Warn if an implicit parameter is unused.
-    "-Ywarn-unused:imports",         // Warn if an import selector is not referenced.
-    "-Ywarn-unused:locals",          // Warn if a local definition is unused.
-    "-Ywarn-unused:params",          // Warn if a value parameter is unused.
-    "-Ywarn-unused:patvars",         // Warn if a variable bound in a pattern is unused.
-    "-Ywarn-unused:privates",        // Warn if a private member is unused.
-    "-Ywarn-extra-implicit"          // Warn when more than one implicit parameter section is defined.
+    "-Xlint:constant",                   // Evaluation of a constant arithmetic expression results in an error.
+    "-Ywarn-unused:implicits",           // Warn if an implicit parameter is unused.
+    "-Ywarn-unused:imports",             // Warn if an import selector is not referenced.
+    "-Ywarn-unused:locals",              // Warn if a local definition is unused.
+    "-Ywarn-unused:params",              // Warn if a value parameter is unused.
+    "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
+    "-Ywarn-unused:privates",            // Warn if a private member is unused.
+    "-Ywarn-extra-implicit"              // Warn when more than one implicit parameter section is defined.
   )
 
   val scalacOptionsGte211 = List(
@@ -76,19 +75,24 @@ object TpolecatPlugin extends AutoPlugin {
   )
 
   val scalacOptionsEq211 = List(
-    "-Ywarn-unused-import"          // Warn if an import selector is not referenced.
+    "-Ywarn-unused-import"               // Warn if an import selector is not referenced.
   )
 
   val scalacOptionsEq210 = List(
     "-Xlint"
   )
 
+  val scalacOptionsLte213 = List(
+    "-Yno-adapted-args"                  // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
+  )
+
   object autoImport {
     def scalacOptionsFor(version: String): Seq[String] =
       commonScalacOptions ++ (CrossVersion.partialVersion(version) match {
-        case Some((2, min)) if min >= 12 => scalacOptionsGte212 ++ scalacOptionsGte211
-        case Some((2, min)) if min >= 11 => scalacOptionsGte211 ++ scalacOptionsEq211
-        case _ =>                           scalacOptionsEq210
+        case Some((2, min)) if min >= 13 => scalacOptionsGte212 ++ scalacOptionsGte211
+        case Some((2, min)) if min >= 12 => scalacOptionsGte212 ++ scalacOptionsGte211 ++ scalacOptionsLte213
+        case Some((2, min)) if min >= 11 => scalacOptionsGte211 ++ scalacOptionsEq211  ++ scalacOptionsLte213
+        case _ =>                           scalacOptionsEq210  ++ scalacOptionsLte213
       })
 
     val filterConsoleScalacOptions = { options: Seq[String] =>

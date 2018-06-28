@@ -19,7 +19,7 @@ licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html
 // Dependencies
 
 libraryDependencies += Defaults.sbtPluginExtra(
-  "org.lyranthe.sbt" % "partial-unification" % "1.1.0",
+  "org.lyranthe.sbt" % "partial-unification" % "1.1.1",
   (sbtBinaryVersion in pluginCrossBuild).value,
   (scalaBinaryVersion in pluginCrossBuild).value
 )
