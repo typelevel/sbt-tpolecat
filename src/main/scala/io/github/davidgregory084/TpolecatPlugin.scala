@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 David Gregory
+ * Copyright 2019 David Gregory
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,77 +22,70 @@ import sbt.Keys._
 object TpolecatPlugin extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
-  val commonScalacOptions = List(
-    "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
-    "-encoding", "utf-8",                // Specify character encoding used by source files.
-    "-explaintypes",                     // Explain type errors in more detail.
-    "-feature",                          // Emit warning and location for usages of features that should be imported explicitly.
-    "-language:existentials",            // Existential types (besides wildcard types) can be written and inferred
-    "-language:experimental.macros",     // Allow macro definition (besides implementation and application)
-    "-language:higherKinds",             // Allow higher-kinded types
-    "-language:implicitConversions",     // Allow definition of implicit functions called views
-    "-unchecked",                        // Enable additional warnings where generated code depends on assumptions.
-    "-Xcheckinit",                       // Wrap field accessors to throw an exception on uninitialized access.
-    "-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
-    "-Xfuture",                          // Turn on future language features.
-    "-Ywarn-dead-code",                  // Warn when dead code is identified.
-    "-Ywarn-inaccessible",               // Warn about inaccessible types in method signatures.
-    "-Ywarn-nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
-    "-Ywarn-nullary-unit",               // Warn when nullary methods return Unit.
-    "-Ywarn-numeric-widen",              // Warn when numerics are widened.
-    "-Ywarn-value-discard"               // Warn when non-Unit expression results are unused.
+  case class ScalacOption(
+    name: String,
+    addedIn: Option[Int] = None,
+    removedIn: Option[Int] = None
   )
 
-  val scalacOptionsGte212 = List(
-    "-Xlint:constant",                   // Evaluation of a constant arithmetic expression results in an error.
-    "-Ywarn-unused:implicits",           // Warn if an implicit parameter is unused.
-    "-Ywarn-unused:imports",             // Warn if an import selector is not referenced.
-    "-Ywarn-unused:locals",              // Warn if a local definition is unused.
-    "-Ywarn-unused:params",              // Warn if a value parameter is unused.
-    "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
-    "-Ywarn-unused:privates",            // Warn if a private member is unused.
-    "-Ywarn-extra-implicit"              // Warn when more than one implicit parameter section is defined.
-  )
-
-  val scalacOptionsGte211 = List(
-    "-Xlint:adapted-args",               // Warn if an argument list is modified to match the receiver.
-    "-Xlint:by-name-right-associative",  // By-name parameter of right associative operator.
-    "-Xlint:delayedinit-select",         // Selecting member of DelayedInit.
-    "-Xlint:doc-detached",               // A Scaladoc comment appears to be detached from its element.
-    "-Xlint:inaccessible",               // Warn about inaccessible types in method signatures.
-    "-Xlint:infer-any",                  // Warn when a type argument is inferred to be `Any`.
-    "-Xlint:missing-interpolator",       // A string literal appears to be missing an interpolator id.
-    "-Xlint:nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
-    "-Xlint:nullary-unit",               // Warn when nullary methods return Unit.
-    "-Xlint:option-implicit",            // Option.apply used implicit view.
-    "-Xlint:package-object-classes",     // Class or object defined in package object.
-    "-Xlint:poly-implicit-overload",     // Parameterized overloaded implicit methods are not visible as view bounds.
-    "-Xlint:private-shadow",             // A private field (or class parameter) shadows a superclass field.
-    "-Xlint:stars-align",                // Pattern sequence wildcard must align with sequence component.
-    "-Xlint:type-parameter-shadow",      // A local type parameter shadows a type already in scope.
-    "-Xlint:unsound-match",              // Pattern match may not be typesafe.
-    "-Ywarn-infer-any"                   // Warn when a type argument is inferred to be `Any`.
-  )
-
-  val scalacOptionsEq211 = List(
-    "-Ywarn-unused-import"               // Warn if an import selector is not referenced.
-  )
-
-  val scalacOptionsEq210 = List(
-    "-Xlint"
-  )
-
-  val scalacOptionsLte213 = List(
-    "-Yno-adapted-args"                  // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
+  val allScalacOptions = List(
+    ScalacOption("-deprecation"),                                          // Emit warning and location for usages of deprecated APIs.
+    ScalacOption("-explaintypes"),                                         // Explain type errors in more detail.
+    ScalacOption("-feature"),                                              // Emit warning and location for usages of features that should be imported explicitly.
+    ScalacOption("-language:existentials"),                                // Existential types (besides wildcard types) can be written and inferred
+    ScalacOption("-language:experimental.macros"),                         // Allow macro definition (besides implementation and application)
+    ScalacOption("-language:higherKinds"),                                 // Allow higher-kinded types
+    ScalacOption("-language:implicitConversions"),                         // Allow definition of implicit functions called views
+    ScalacOption("-unchecked"),                                            // Enable additional warnings where generated code depends on assumptions.
+    ScalacOption("-Xcheckinit"),                                           // Wrap field accessors to throw an exception on uninitialized access.
+    ScalacOption("-Xfatal-warnings"),                                      // Fail the compilation if there are any warnings.
+    ScalacOption("-Xfuture"),                                              // Turn on future language features.
+    ScalacOption("-Xlint", removedIn = Some(11)),
+    ScalacOption("-Xlint:adapted-args", addedIn = Some(11)),               // Warn if an argument list is modified to match the receiver.
+    ScalacOption("-Xlint:by-name-right-associative", addedIn = Some(11), removedIn = Some(13)),   // By-name parameter of right associative operator.
+    ScalacOption("-Xlint:constant", addedIn = Some(12)),                   // Evaluation of a constant arithmetic expression results in an error.
+    ScalacOption("-Xlint:delayedinit-select", addedIn = Some(11)),         // Selecting member of DelayedInit.
+    ScalacOption("-Xlint:doc-detached", addedIn = Some(11)),               // A Scaladoc comment appears to be detached from its element.
+    ScalacOption("-Xlint:inaccessible", addedIn = Some(11)),               // Warn about inaccessible types in method signatures.
+    ScalacOption("-Xlint:infer-any", addedIn = Some(11)),                  // Warn when a type argument is inferred to be `Any`.
+    ScalacOption("-Xlint:missing-interpolator", addedIn = Some(11)),       // A string literal appears to be missing an interpolator id.
+    ScalacOption("-Xlint:nullary-override", addedIn = Some(11)),           // Warn when non-nullary `def f()' overrides nullary `def f'.
+    ScalacOption("-Xlint:nullary-unit", addedIn = Some(11)),               // Warn when nullary methods return Unit.
+    ScalacOption("-Xlint:option-implicit", addedIn = Some(11)),            // Option.apply used implicit view.
+    ScalacOption("-Xlint:package-object-classes", addedIn = Some(11)),     // Class or object defined in package object.
+    ScalacOption("-Xlint:poly-implicit-overload", addedIn = Some(11)),     // Parameterized overloaded implicit methods are not visible as view bounds.
+    ScalacOption("-Xlint:private-shadow", addedIn = Some(11)),             // A private field (or class parameter) shadows a superclass field.
+    ScalacOption("-Xlint:stars-align", addedIn = Some(11)),                // Pattern sequence wildcard must align with sequence component.
+    ScalacOption("-Xlint:type-parameter-shadow", addedIn = Some(11)),      // A local type parameter shadows a type already in scope.
+    ScalacOption("-Xlint:unsound-match", addedIn = Some(11), removedIn = Some(13)), // Pattern match may not be typesafe.
+    ScalacOption("-Yno-adapted-args", removedIn = Some(13)),               // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
+    ScalacOption("-Ywarn-dead-code"),                  // Warn when dead code is identified.
+    ScalacOption("-Ywarn-extra-implicit", addedIn = Some(12)),             // Warn when more than one implicit parameter section is defined.
+    ScalacOption("-Ywarn-inaccessible", removedIn = Some(13)),             // Warn about inaccessible types in method signatures.
+    ScalacOption("-Ywarn-infer-any", addedIn = Some(11), removedIn = Some(13)), // Warn when a type argument is inferred to be `Any`.
+    ScalacOption("-Ywarn-nullary-override", removedIn = Some(13)),         // Warn when non-nullary `def f()' overrides nullary `def f'.
+    ScalacOption("-Ywarn-nullary-unit", removedIn = Some(13)),             // Warn when nullary methods return Unit.
+    ScalacOption("-Ywarn-numeric-widen"),                                  // Warn when numerics are widened.
+    ScalacOption("-Ywarn-unused-import", addedIn = Some(11), removedIn = Some(12)), // Warn if an import selector is not referenced.
+    ScalacOption("-Ywarn-unused:implicits", addedIn = Some(12)),           // Warn if an implicit parameter is unused.
+    ScalacOption("-Ywarn-unused:imports", addedIn = Some(12)),             // Warn if an import selector is not referenced.
+    ScalacOption("-Ywarn-unused:locals", addedIn = Some(12)),              // Warn if a local definition is unused.
+    ScalacOption("-Ywarn-unused:params", addedIn = Some(12)),              // Warn if a value parameter is unused.
+    ScalacOption("-Ywarn-unused:patvars", addedIn = Some(12)),             // Warn if a variable bound in a pattern is unused.
+    ScalacOption("-Ywarn-unused:privates", addedIn = Some(12)),            // Warn if a private member is unused.
+    ScalacOption("-Ywarn-value-discard")                                   // Warn when non-Unit expression results are unused.
   )
 
   object autoImport {
     def scalacOptionsFor(version: String): Seq[String] =
-      commonScalacOptions ++ (CrossVersion.partialVersion(version) match {
-        case Some((2, min)) if min >= 13 => scalacOptionsGte212 ++ scalacOptionsGte211
-        case Some((2, min)) if min >= 12 => scalacOptionsGte212 ++ scalacOptionsGte211 ++ scalacOptionsLte213
-        case Some((2, min)) if min >= 11 => scalacOptionsGte211 ++ scalacOptionsEq211  ++ scalacOptionsLte213
-        case _ =>                           scalacOptionsEq210  ++ scalacOptionsLte213
+      List(
+        "-encoding", "utf-8"                // Specify character encoding used by source files.
+      ) ++ (CrossVersion.partialVersion(version) match {
+        case Some((2, min)) =>
+          allScalacOptions.filter { opt =>
+            opt.addedIn.getOrElse(Int.MinValue) <= min &&
+              opt.removedIn.getOrElse(Int.MaxValue) > min
+          }.map(_.name)
       })
 
     val filterConsoleScalacOptions = { options: Seq[String] =>

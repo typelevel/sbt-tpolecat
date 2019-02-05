@@ -10,7 +10,7 @@ organization := "io.github.davidgregory084"
 
 version := "0.1.5-SNAPSHOT"
 
-crossSbtVersions := Seq("0.13.16", "1.1.0")
+crossSbtVersions := Seq("0.13.17", "1.2.8")
 
 sbtPlugin := true
 
@@ -19,14 +19,14 @@ licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html
 // Dependencies
 
 libraryDependencies += Defaults.sbtPluginExtra(
-  "org.lyranthe.sbt" % "partial-unification" % "1.1.1",
+  "org.lyranthe.sbt" % "partial-unification" % "1.1.2",
   (sbtBinaryVersion in pluginCrossBuild).value,
   (scalaBinaryVersion in pluginCrossBuild).value
 )
 
 // License headers
 
-headers := Map("scala" -> Apache2_0("2017", "David Gregory"))
+headers := Map("scala" -> Apache2_0("2019", "David Gregory"))
 
 createHeaders.in(Compile) := { createHeaders.in(Compile).triggeredBy(compile.in(Compile)).value }
 
