@@ -15,7 +15,7 @@ It also enables the excellent [sbt-partial-unification](https://github.com/fiadl
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.5")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.6")
 ```
 
 If necessary you can filter out scalac options that are unhelpful in the REPL from user-defined tasks or scopes.
@@ -30,7 +30,7 @@ scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 
 I can't promise this plugin will work for old minor releases of Scala. It has been tested with:
 
-* 2.13.0-M5
+* 2.13.0-RC1
 * 2.12.8
 * 2.11.12
 * 2.10.7
