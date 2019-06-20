@@ -73,7 +73,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Ywarn-unused:implicits", addedIn = Some(12), removedIn = Some(13)),           // Warn if an implicit parameter is unused.
     ScalacOption("-Wunused:implicits", addedIn = Some(13)),                // ^ Replaces the above
     ScalacOption("-Ywarn-unused:imports", addedIn = Some(12), removedIn = Some(13)),             // Warn if an import selector is not referenced.
-    ScalacOption("-Wunused:implicits", addedIn = Some(13)),                // ^ Replaces the above
+    ScalacOption("-Wunused:imports", addedIn = Some(13)),                // ^ Replaces the above
     ScalacOption("-Ywarn-unused:locals", addedIn = Some(12), removedIn = Some(13)),              // Warn if a local definition is unused.
     ScalacOption("-Wunused:locals", addedIn = Some(13)),                   // ^ Replaces the above
     ScalacOption("-Ywarn-unused:params", addedIn = Some(12), removedIn = Some(13)),              // Warn if a value parameter is unused.
