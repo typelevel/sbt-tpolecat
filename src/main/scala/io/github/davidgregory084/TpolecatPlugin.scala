@@ -39,7 +39,6 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-unchecked"),                                            // Enable additional warnings where generated code depends on assumptions.
     ScalacOption("-Xcheckinit"),                                           // Wrap field accessors to throw an exception on uninitialized access.
     ScalacOption("-Xfatal-warnings"),                                      // Fail the compilation if there are any warnings.
-    ScalacOption("-Xfuture", removedIn = Some(13)),                        // Turn on future language features. This is not really removed in 2.13 but is replaced by -Xsource which requires the user to choose which language version they want.
     ScalacOption("-Xlint", removedIn = Some(11)),                          // Used to mean enable all linting options but now the syntax for that is different (-Xlint:_ I think)
     ScalacOption("-Xlint:adapted-args", addedIn = Some(11)),               // Warn if an argument list is modified to match the receiver.
     ScalacOption("-Xlint:by-name-right-associative", addedIn = Some(11), removedIn = Some(13)),   // By-name parameter of right associative operator.
