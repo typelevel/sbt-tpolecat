@@ -68,6 +68,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Ywarn-nullary-unit", removedIn = Some(13)),             // Warn when nullary methods return Unit.
     ScalacOption("-Ywarn-numeric-widen", removedIn = Some(13)),                                  // Warn when numerics are widened.
     ScalacOption("-Wnumeric-widen", addedIn = Some(13)),                       // ^ Replaces the above
+    ScalacOption("-Wself-implicit", addedIn = Some(13)),                   // Warn when an implicit resolves to an enclosing self-definition
     ScalacOption("-Ywarn-unused-import", addedIn = Some(11), removedIn = Some(12)), // Warn if an import selector is not referenced.
     ScalacOption("-Ywarn-unused:implicits", addedIn = Some(12), removedIn = Some(13)),           // Warn if an implicit parameter is unused.
     ScalacOption("-Wunused:implicits", addedIn = Some(13)),                // ^ Replaces the above
