@@ -4,9 +4,26 @@ jdk:
   - openjdk8
   - openjdk11
 
+before_install:
+  - git fetch --tags
+
+stages:
+  - name: test
+  - name: release
+    if: ((branch = master AND type = push) OR (tag IS present)) AND NOT fork
+
 script:
   - sbt headerCheck
   - sbt ^test
+
+jobs:
+  include:
+    - name: headers
+      script: sbt headerCheck
+    - name: sbt-scripted
+      script: sbt ^test
+    - stage: release
+      script: sbt ci-release
 
 before_cache:
   - find $HOME/.sbt -name "*.lock" -type f -delete

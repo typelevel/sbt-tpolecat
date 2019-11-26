@@ -27,12 +27,6 @@ addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
 
 Compile / headerCreate := { (Compile / headerCreate).triggeredBy(Compile / compile).value }
 
-// Publishing
-
-publishMavenStyle := false
-bintrayRepository := "sbt-plugins"
-bintrayOrganization in bintray := None
-
 // Testing
 
 scriptedBufferLog := false
