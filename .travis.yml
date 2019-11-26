@@ -18,11 +18,8 @@ script:
 
 jobs:
   include:
-    - name: headers
-      script: sbt headerCheck
-    - name: sbt-scripted
-      script: sbt ^test
     - stage: release
+      jdk: openjdk8
       script: sbt ci-release
 
 before_cache:
