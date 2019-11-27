@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/DavidGregory084/sbt-tpolecat.svg)](https://travis-ci.org/DavidGregory084/sbt-tpolecat)
 [![License](https://img.shields.io/github/license/DavidGregory084/sbt-tpolecat.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Download](https://api.bintray.com/packages/davidgregory084/sbt-plugins/sbt-tpolecat/images/download.svg)](https://bintray.com/davidgregory084/sbt-plugins/sbt-tpolecat/_latestVersion)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.davidgregory084/sbt-tpolecat_2.12_1.0)
 
 ### scalac options for the enlightened
 
