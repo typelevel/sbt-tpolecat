@@ -13,6 +13,14 @@ scmInfo := Some(
     "scm:git:git@github.com:DavidGregory084/sbt-tpolecat.git"
   )
 )
+developers := List(
+  Developer(
+    "DavidGregory084",
+    "David Gregory",
+    "davidgregory084@gmail.com",
+    url("https://github.com/DavidGregory084")
+  )
+)
 homepage := scmInfo.value.map(_.browseUrl)
 
 crossSbtVersions := Seq("0.13.18", "1.2.8")
