@@ -92,7 +92,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Wunused:privates", addedIn = Some(13), removedIn = dotty),                    // ^ Replaces the above
     ScalacOption("-Ywarn-value-discard", removedIn = Some(13)),                                  // Warn when non-Unit expression results are unused.
     ScalacOption("-Wvalue-discard", addedIn = Some(13), removedIn = dotty),                      // ^ Replaces the above
-    ScalacOption("-Ykind-projector", addedIn = dotty),                                           // Enables a subset of kind-projector syntax (see https://github.com/lampepfl/dotty/pull/7775)
+    ScalacOption("-Ykind-projector", addedIn = dotty)                                            // Enables a subset of kind-projector syntax (see https://github.com/lampepfl/dotty/pull/7775)
   )
 
   object autoImport {
