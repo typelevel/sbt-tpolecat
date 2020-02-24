@@ -2,7 +2,6 @@
 
 [![Build Status](https://api.travis-ci.org/DavidGregory084/sbt-tpolecat.svg)](https://travis-ci.org/DavidGregory084/sbt-tpolecat)
 [![License](https://img.shields.io/github/license/DavidGregory084/sbt-tpolecat.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.davidgregory084/sbt-tpolecat_2.12_1.0)](https://search.maven.org/search?q=g:%20io.github.davidgregory084%20a:%20sbt-tpolecat)
 
 ### scalac options for the enlightened
 
@@ -15,7 +14,7 @@ It also enables the excellent [sbt-partial-unification](https://github.com/fiadl
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.10")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.11")
 ```
 
 If necessary you can filter out scalac options that are unhelpful in the REPL from user-defined tasks or scopes.
