@@ -9,6 +9,8 @@ sbt-tpolecat configures your scalac options according to [@tpolecat](https://git
 
 It also enables the excellent [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin.
 
+As of version 0.1.11, it also supports setting options for Dotty.
+
 ### Usage
 
 Add the following to your project's `project/plugins.sbt`:
@@ -33,6 +35,10 @@ I can't promise this plugin will work for old minor releases of Scala. It has be
 * 2.12.10
 * 2.11.12
 * 2.10.7
+
+and Dotty versions:
+
+* 0.21.0
 
 ### License
 
