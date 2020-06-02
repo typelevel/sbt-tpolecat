@@ -65,6 +65,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Xlint:stars-align", addedIn = Some(11), removedIn = dotty),                // Pattern sequence wildcard must align with sequence component.
     ScalacOption("-Xlint:type-parameter-shadow", addedIn = Some(11), removedIn = dotty),      // A local type parameter shadows a type already in scope.
     ScalacOption("-Xlint:unsound-match", addedIn = Some(11), removedIn = Some(13)), // Pattern match may not be typesafe.
+    ScalacOption("-Wunused:nowarn", addedIn = Some(13), removedIn = dotty),         // Ensure that a `@nowarn` annotation actually suppresses a warning.
     ScalacOption("-Yno-adapted-args", removedIn = Some(13)),               // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
     ScalacOption("-Ywarn-dead-code", removedIn = Some(13)),                // Warn when dead code is identified.
     ScalacOption("-Wdead-code", addedIn = Some(13), removedIn = dotty),                          // ^ Replaces the above
