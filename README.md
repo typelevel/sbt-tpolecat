@@ -5,9 +5,9 @@
 
 ### scalac options for the enlightened
 
-sbt-tpolecat configures your scalac options according to [@tpolecat](https://github.com/tpolecat)'s [recommendations](https://tpolecat.github.io/2017/04/25/scalac-flags.html) where possible, according to the Scala version you are using.
+sbt-tpolecat is an SBT plugin for automagically configuring scalac options according to the project Scala version, inspired by Rob Norris ([@tpolecat](https://github.com/tpolecat))'s excellent series of blog posts providing [recommended options](https://tpolecat.github.io/2017/04/25/scalac-flags.html) to get the most out of the compiler.
 
-It also enables the excellent [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin.
+It also enables the excellent [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin for those Scala versions where it is needed.
 
 As of version 0.1.11, it also supports setting options for Dotty.
 
