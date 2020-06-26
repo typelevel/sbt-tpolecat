@@ -56,7 +56,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Xlint:inaccessible", addedIn = Some(11), removedIn = dotty),               // Warn about inaccessible types in method signatures.
     ScalacOption("-Xlint:infer-any", addedIn = Some(11), removedIn = dotty),                  // Warn when a type argument is inferred to be `Any`.
     ScalacOption("-Xlint:missing-interpolator", addedIn = Some(11), removedIn = dotty),       // A string literal appears to be missing an interpolator id.
-    ScalacOption("-Xlint:nullary-override", addedIn = Some(11), removedIn = dotty),           // Warn when non-nullary `def f()' overrides nullary `def f'.
+    ScalacOption("-Xlint:nullary-override", addedIn = Some(11), removedIn = Some(13)),        // Warn when non-nullary `def f()' overrides nullary `def f'.
     ScalacOption("-Xlint:nullary-unit", addedIn = Some(11), removedIn = dotty),               // Warn when nullary methods return Unit.
     ScalacOption("-Xlint:option-implicit", addedIn = Some(11), removedIn = dotty),            // Option.apply used implicit view.
     ScalacOption("-Xlint:package-object-classes", addedIn = Some(11), removedIn = dotty),     // Class or object defined in package object.
