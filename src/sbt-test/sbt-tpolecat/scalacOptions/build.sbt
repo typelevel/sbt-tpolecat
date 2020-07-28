@@ -1,8 +1,8 @@
 val scala2Versions = Seq(
   "2.10.7",
   "2.11.12",
-  "2.12.10",
-  "2.13.1"
+  "2.12.12",
+  "2.13.3"
 )
 
 crossScalaVersions := (CrossVersion.partialVersion(sbtVersion.value) match {
