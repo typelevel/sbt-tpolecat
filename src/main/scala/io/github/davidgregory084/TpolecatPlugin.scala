@@ -78,6 +78,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Wnumeric-widen", addedIn = Some(13), removedIn = dotty),                      // ^ Replaces the above
     // Disabled due to false positives; see https://github.com/scala/bug/issues/11813
     // ScalacOption("-Wself-implicit", addedIn = Some(13), removedIn = dotty),                   // Warn when an implicit resolves to an enclosing self-definition
+    ScalacOption("-Ywarn-unused", addedIn = Some(11), removedIn = Some(12)),                     // Warn when local and private vals, vars, defs, and types are unused.
     ScalacOption("-Ywarn-unused-import", addedIn = Some(11), removedIn = Some(12)), // Warn if an import selector is not referenced.
     ScalacOption("-Ywarn-unused:implicits", addedIn = Some(12), removedIn = Some(13)),           // Warn if an implicit parameter is unused.
     ScalacOption("-Wunused:implicits", addedIn = Some(13), removedIn = dotty),                   // ^ Replaces the above
@@ -113,6 +114,7 @@ object TpolecatPlugin extends AutoPlugin {
         "-Werror",
         "-Wdead-code",
         "-Wunused:imports",
+        "-Ywarn-unused",
         "-Ywarn-unused:imports",
         "-Ywarn-unused-import",
         "-Ywarn-dead-code",
