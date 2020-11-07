@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    branches: [master, main]
+    tags: ["*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up JDK & sbt
+      uses: olafurpg/setup-scala@v10
+      with:
+        java-version: adopt@1.8
+
+    - name: Run tests
+      run: |
+        sbt headerCheck
+        sbt ^test
+        
+    - name: Publish release
+      run: sbt ci-release
