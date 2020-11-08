@@ -1,4 +1,6 @@
-target/
-project/.bloop
+.bloop/
+.bsp/
 .metals/
-
+.vscode/
+target/
+metals.sbt

@@ -6,6 +6,6 @@ val scala2Versions = Seq(
 )
 
 crossScalaVersions := (CrossVersion.partialVersion(sbtVersion.value) match {
-  case Some((1, _)) => scala2Versions :+ "0.21.0" // the dotty plugin isn't available for sbt 0.13.x, so we can only add the dotty version here
+  case Some((1, _)) => scala2Versions :+ "0.26.0" :+ "0.27.0-RC1" :+ "3.0.0-M1" // the dotty plugin isn't available for sbt 0.13.x, so we can only add the dotty version here
   case _ => scala2Versions
 })

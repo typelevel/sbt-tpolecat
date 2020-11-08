@@ -23,7 +23,7 @@ developers := List(
 )
 homepage := scmInfo.value.map(_.browseUrl)
 
-crossSbtVersions := Seq("0.13.18", "1.3.8")
+crossSbtVersions := Seq("0.13.18", "1.4.1")
 
 enablePlugins(SbtPlugin)
 
@@ -34,6 +34,14 @@ addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
 // License headers
 
 Compile / headerCreate := { (Compile / headerCreate).triggeredBy(Compile / compile).value }
+
+val munitVersion = "0.7.16"
+
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "3.2.2" % Test,
+  "org.scalacheck" %% "scalacheck" % "1.14.1" % Test,
+  "org.scalatestplus" %% "scalacheck-1-14" % "3.2.2.0" % Test
+)
 
 // Testing
 
