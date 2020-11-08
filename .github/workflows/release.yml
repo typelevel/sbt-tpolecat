@@ -24,7 +24,9 @@ jobs:
         sbt ^test
         
     - name: Publish release
-      run: sbt ci-release
+      run: |
+        export GPG_TTY=$(tty)
+        sbt ci-release
       env:
         CI_RELEASE: '^publishSigned'
         CI_SNAPSHOT_RELEASE: '^publish'
