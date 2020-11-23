@@ -28,6 +28,7 @@ object TpolecatPlugin extends AutoPlugin {
     val V2_11_0 = Version(2, 11, 0)
     val V2_12_0 = Version(2, 12, 0)
     val V2_13_0 = Version(2, 13, 0)
+    val V2_13_4 = Version(2, 13, 4)
     val V3_0_0  = Version(3, 0, 0)
 
     implicit val versionOrdering: Ordering[Version] =
@@ -74,6 +75,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Xlint:poly-implicit-overload", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),     // Parameterized overloaded implicit methods are not visible as view bounds.
     ScalacOption("-Xlint:private-shadow", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),             // A private field (or class parameter) shadows a superclass field.
     ScalacOption("-Xlint:stars-align", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),                // Pattern sequence wildcard must align with sequence component.
+    ScalacOption("-Xlint:strict-unsealed-patmat", addedIn = Some(V2_13_4), removedIn = Some(V3_0_0)),     // Warn when a pattern match on an unsealed type may not be exhaustive
     ScalacOption("-Xlint:type-parameter-shadow", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),      // A local type parameter shadows a type already in scope.
     ScalacOption("-Xlint:unsound-match", addedIn = Some(V2_11_0), removedIn = Some(V2_13_0)),             // Pattern match may not be typesafe.
     ScalacOption("-Wunused:nowarn", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // Ensure that a `@nowarn` annotation actually suppresses a warning.
