@@ -16,7 +16,7 @@ As of version 0.1.11, it also supports setting options for Dotty.
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.15")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.16")
 ```
 
 If necessary you can filter out scalac options that are unhelpful in the REPL from user-defined tasks or scopes.
@@ -31,6 +31,7 @@ scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 
 I can't promise this plugin will work for old minor releases of Scala. It has been tested with:
 
+* 2.13.4
 * 2.13.3
 * 2.12.12
 * 2.11.12
