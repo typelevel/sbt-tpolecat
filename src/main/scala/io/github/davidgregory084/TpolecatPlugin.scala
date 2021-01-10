@@ -133,7 +133,7 @@ object TpolecatPlugin extends AutoPlugin {
           allScalacOptions
             .filter(validFor(V3_0_0)) // treat dotty prereleases as 3.0.0
             .map(_.name)
-        case (Some((maj, min)), Array(maj2, min2, patch)) if maj == maj2 && min == min2 =>
+        case (Some((maj, min)), Array(maj2, min2, patch)) if maj.toString == maj2 && min.toString == min2 =>
           allScalacOptions
             .filter(validFor(Version(maj, min, Try(patch.toLong).getOrElse(0))))
             .map(_.name)
