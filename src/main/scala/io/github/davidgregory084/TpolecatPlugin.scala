@@ -30,6 +30,7 @@ object TpolecatPlugin extends AutoPlugin {
     val V2_13_0 = Version(2, 13, 0)
     val V2_13_3 = Version(2, 13, 3)
     val V2_13_4 = Version(2, 13, 4)
+    val V2_13_5 = Version(2, 13, 5)
     val V3_0_0  = Version(3, 0, 0)
 
     implicit val versionOrdering: Ordering[Version] =
