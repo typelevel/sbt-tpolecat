@@ -114,7 +114,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Wvalue-discard", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // ^ Replaces the above
     ScalacOption("-Ykind-projector", addedIn = Some(V3_0_0)),                                             // Enables a subset of kind-projector syntax (see https://github.com/lampepfl/dotty/pull/7775)
     ScalacOption("-Vimplicits", addedIn = Some(V2_13_6), removedIn = Some(V3_0_0)),                       // Enables the tek/splain features to make the compiler print implicit resolution chains when no implicit value can be found
-    ScalacOption("-Vtype-diffs", addedIn = Some(V2_13_6), removedIn = Some(V3_0_0)),                      // Enables the tek/splain features to turn type error messages (found: X, required: Y) into colored diffs between the two types
+    ScalacOption("-Vtype-diffs", addedIn = Some(V2_13_6), removedIn = Some(V3_0_0))                       // Enables the tek/splain features to turn type error messages (found: X, required: Y) into colored diffs between the two types
   )
 
   object autoImport {
@@ -167,7 +167,7 @@ object TpolecatPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     scalacOptions ++= scalacOptionsFor(scalaVersion.value),
-    scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
-    scalacOptions.in(Test, console) ~= filterConsoleScalacOptions
+    Compile / console / scalacOptions ~= filterConsoleScalacOptions,
+    Test /  console / scalacOptions ~= filterConsoleScalacOptions
   )
 }
