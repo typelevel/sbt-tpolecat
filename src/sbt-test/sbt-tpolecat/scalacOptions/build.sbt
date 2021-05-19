@@ -37,7 +37,9 @@ crossScalaVersions := {
     (major, minor, patch) match {
       case (1, 5, z) if z >= 2 => true
       case (x, y, _) if x == 1 && y > 5 => true
-      case (x, _, _) if x > 1 => true
+      case (1, 5, patch) if patch >= 2 => true
+      case (1, minor, _) if minor > 5 => true
+      case (major, _, _) if major > 1 => true
       case _ => false
     }
 
