@@ -57,7 +57,8 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-language:experimental.macros", removedIn = Some(V3_0_0)),                              // Allow macro definition (besides implementation and application)
     ScalacOption("-language:higherKinds", removedIn = Some(V3_0_0)),                                      // Allow higher-kinded types
     ScalacOption("-language:implicitConversions", removedIn = Some(V3_0_0)),                              // Allow definition of implicit functions called views
-    ScalacOption("-language:existentials,experimental.macros,higherKinds,implicitConversions", addedIn = Some(V3_0_0)), // the four options above, dotty style
+    ScalacOption("-source future", addedIn = Some(V3_0_0)),                                                       // Emit warnings for features that are planned to be removed (e.g. extending non-open classes outside their files).
+    ScalacOption("-language:existentials,experimental.macros,higherKinds,implicitConversions,strictEquality", addedIn = Some(V3_0_0)), // Require CanEqual for equality checks + the four options above, dotty style
     ScalacOption("-unchecked"),                                                                           // Enable additional warnings where generated code depends on assumptions.
     ScalacOption("-Xcheckinit", removedIn = Some(V3_0_0)),                                                // Wrap field accessors to throw an exception on uninitialized access.
     ScalacOption("-Xfatal-warnings"),                                                                     // Fail the compilation if there are any warnings.
@@ -132,23 +133,24 @@ object TpolecatPlugin extends AutoPlugin {
     def scalacOptionsFor(version: String): Seq[String] =
       List(
         "-encoding", "utf8" // Specify character encoding used by source files.
-      ) ++ ((CrossVersion.partialVersion(version), version.split('.')) match {
-        case (Some((0, min)), _) => // dotty prereleases use 0 as major version
-          allScalacOptions
-            .filter(validFor(V3_0_0)) // treat dotty prereleases as 3.0.0
-            .map(_.name)
-        case (Some((maj, min)), Array(maj2, min2, patch)) if maj.toString == maj2 && min.toString == min2 =>
-          allScalacOptions
-            .filter(validFor(Version(maj, min, Try(patch.toLong).getOrElse(0))))
-            .map(_.name)
-        case (Some((maj, min)), _) =>
-          allScalacOptions
-            .filter(validFor(Version(maj, min, 0)))
-            .map(_.name)
-        case (None, _) =>
-          Nil
-      })
+      ) ++ {
 
+        val flags = (CrossVersion.partialVersion(version), version.split('.')) match {
+          case (Some((0, min)), _) => // dotty prereleases use 0 as major version
+            allScalacOptions
+              .filter(validFor(V3_0_0)) // treat dotty prereleases as 3.0.0
+          case (Some((maj, min)), Array(maj2, min2, patch)) if maj.toString == maj2 && min.toString == min2 =>
+            allScalacOptions
+              .filter(validFor(Version(maj, min, Try(patch.toLong).getOrElse(0))))
+          case (Some((maj, min)), _) =>
+            allScalacOptions
+              .filter(validFor(Version(maj, min, 0)))
+          case (None, _) =>
+            Nil
+        }
+
+      flags.flatMap(_.name.split("\\s+"))
+}
     val filterConsoleScalacOptions = { options: Seq[String] =>
       options.filterNot(Set(
         "-Werror",
