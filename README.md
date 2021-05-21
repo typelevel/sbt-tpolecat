@@ -31,6 +31,7 @@ scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 
 I can't promise this plugin will work for old minor releases of Scala. It has been tested with:
 
+* 2.13.6
 * 2.13.5
 * 2.13.4
 * 2.13.3
@@ -40,9 +41,8 @@ I can't promise this plugin will work for old minor releases of Scala. It has be
 
 and Dotty versions:
 
-* 3.0.0-M1
-* 0.27.0-RC1
-* 0.26.0
+* 3.0.0
+* 3.0.0-RC3
 
 ### License
 

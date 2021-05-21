@@ -1,13 +1,51 @@
+import scala.util.Try
+
 val scala2Versions = Seq(
   "2.10.7",
   "2.11.12",
   "2.12.12",
   "2.13.3",
   "2.13.4",
-  "2.13.5"
+  "2.13.5",
+  "2.13.6"
 )
 
-crossScalaVersions := (CrossVersion.partialVersion(sbtVersion.value) match {
-  case Some((1, _)) => scala2Versions :+ "0.26.0" :+ "0.27.0-RC1" :+ "3.0.0-M1" // the dotty plugin isn't available for sbt 0.13.x, so we can only add the dotty version here
-  case _ => scala2Versions
-})
+val scala3Versions = Seq(
+  "3.0.0-RC3",
+  "3.0.0"
+)
+
+crossScalaVersions := {
+  object ExtractVersion {
+    val sbtVersionMatch = raw"(\d+)\.(\d+)\.(\d+)".r
+    def unapply(sbtVersion: String): Option[(Long, Long, Long)] = {
+      sbtVersion match {
+        case sbtVersionMatch(major, minor, patch) =>
+          for {
+            maj <- Try(major.toLong).toOption
+            min <- Try(minor.toLong).toOption
+            p <- Try(patch.toLong).toOption
+          } yield (maj, min, p)
+
+        case _ =>
+          None
+      }
+    }
+  }
+
+  def supportedSbtVersions(major: Long, minor: Long, patch: Long): Boolean =
+    (major, minor, patch) match {
+      case (1, 5, patch) if patch >= 2 => true
+      case (1, minor, _) if minor > 5 => true
+      case (major, _, _) if major > 1 => true
+      case _ => false
+    }
+
+  sbtVersion.value match {
+    case ExtractVersion(major, minor, patch) if supportedSbtVersions(major, minor, patch) =>
+      scala2Versions ++ scala3Versions
+
+    case _ =>
+      scala2Versions
+  }
+}

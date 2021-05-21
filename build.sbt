@@ -23,7 +23,7 @@ developers := List(
 )
 homepage := scmInfo.value.map(_.browseUrl)
 
-crossSbtVersions := Seq("0.13.18", "1.4.7")
+crossSbtVersions := Seq("1.4.9")
 
 enablePlugins(SbtPlugin)
 
