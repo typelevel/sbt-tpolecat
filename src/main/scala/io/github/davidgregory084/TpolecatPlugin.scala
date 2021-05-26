@@ -54,11 +54,10 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-explain", addedIn = Some(V3_0_0)),                                                     // Explain errors in more detail.
     ScalacOption("-feature"),                                                                             // Emit warning and location for usages of features that should be imported explicitly.
     ScalacOption("-language:existentials", removedIn = Some(V3_0_0)),                                     // Existential types (besides wildcard types) can be written and inferred
-    ScalacOption("-language:experimental.macros", removedIn = Some(V3_0_0)),                              // Allow macro definition (besides implementation and application)
-    ScalacOption("-language:higherKinds", removedIn = Some(V3_0_0)),                                      // Allow higher-kinded types
-    ScalacOption("-language:implicitConversions", removedIn = Some(V3_0_0)),                              // Allow definition of implicit functions called views
-    ScalacOption("-source future", addedIn = Some(V3_0_0)),                                                       // Emit warnings for features that are planned to be removed (e.g. extending non-open classes outside their files).
-    ScalacOption("-language:existentials,experimental.macros,higherKinds,implicitConversions,strictEquality", addedIn = Some(V3_0_0)), // Require CanEqual for equality checks + the four options above, dotty style
+    ScalacOption("-language:experimental.macros"),                              // Allow macro definition (besides implementation and application)
+    ScalacOption("-language:higherKinds"),                                      // Allow higher-kinded types
+    ScalacOption("-language:implicitConversions"),                              // Allow definition of implicit functions called views
+    ScalacOption("-source future", addedIn = Some(V3_0_0)),                                               // Emit warnings for features that are planned to be removed (e.g. extending non-open classes outside their files).
     ScalacOption("-unchecked"),                                                                           // Enable additional warnings where generated code depends on assumptions.
     ScalacOption("-Xcheckinit", removedIn = Some(V3_0_0)),                                                // Wrap field accessors to throw an exception on uninitialized access.
     ScalacOption("-Xfatal-warnings"),                                                                     // Fail the compilation if there are any warnings.
