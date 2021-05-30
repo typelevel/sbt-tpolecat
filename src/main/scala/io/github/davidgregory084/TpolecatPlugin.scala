@@ -57,7 +57,6 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-language:experimental.macros"),                              // Allow macro definition (besides implementation and application)
     ScalacOption("-language:higherKinds"),                                      // Allow higher-kinded types
     ScalacOption("-language:implicitConversions"),                              // Allow definition of implicit functions called views
-    ScalacOption("-source future", addedIn = Some(V3_0_0)),                                               // Emit warnings for features that are planned to be removed (e.g. extending non-open classes outside their files).
     ScalacOption("-unchecked"),                                                                           // Enable additional warnings where generated code depends on assumptions.
     ScalacOption("-Xcheckinit", removedIn = Some(V3_0_0)),                                                // Wrap field accessors to throw an exception on uninitialized access.
     ScalacOption("-Xfatal-warnings"),                                                                     // Fail the compilation if there are any warnings.
@@ -148,7 +147,7 @@ object TpolecatPlugin extends AutoPlugin {
             Nil
         }
 
-      flags.flatMap(_.name.split("\\s+"))
+      flags.map(_.name)
 }
     val filterConsoleScalacOptions = { options: Seq[String] =>
       options.filterNot(Set(
