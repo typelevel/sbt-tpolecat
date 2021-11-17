@@ -27,6 +27,10 @@ By default the plugin only applies this filtering to the `console` task in the `
 scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 ```
 
+Additionally, if you need to temporarily disable fatal warnings.
+You can do it by running the `relaxedMode` command.
+Then, you can enable them again by running the `strictMode` command.
+
 ### Caveat
 
 I can't promise this plugin will work for old minor releases of Scala. It has been tested with:

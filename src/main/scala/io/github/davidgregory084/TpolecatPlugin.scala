@@ -161,6 +161,20 @@ object TpolecatPlugin extends AutoPlugin {
         "-Xfatal-warnings"
       ))
     }
+
+    lazy val strictMode: Command = Command.command("strictMode") { state =>
+      Project.extract(state).appendWithSession(
+        scalacOptions += "-Xfatal-warnings",
+        state
+      )
+    }
+
+    lazy val relaxedMode: Command = Command.command("relaxedMode") { state =>
+      Project.extract(state).appendWithSession(
+        scalacOptions -= "-Xfatal-warnings",
+        state
+      )
+    }
   }
 
   import autoImport._
@@ -168,6 +182,7 @@ object TpolecatPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] = Seq(
     scalacOptions ++= scalacOptionsFor(scalaVersion.value),
     Compile / console / scalacOptions ~= filterConsoleScalacOptions,
-    Test /  console / scalacOptions ~= filterConsoleScalacOptions
+    Test /  console / scalacOptions ~= filterConsoleScalacOptions,
+    commands ++= Seq(strictMode, relaxedMode)
   )
 }
