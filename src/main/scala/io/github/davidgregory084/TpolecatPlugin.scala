@@ -163,15 +163,27 @@ object TpolecatPlugin extends AutoPlugin {
     }
 
     lazy val strictMode: Command = Command.command("strictMode") { state =>
-      Project.extract(state).appendWithSession(
-        scalacOptions += "-Xfatal-warnings",
+      val projectRef = Project.extract(state)
+
+      val actions = projectRef.structure.allProjectRefs.map { p =>
+        p / scalacOptions += "-Xfatal-warnings"
+      }
+
+      projectRef.appendWithSession(
+        actions,
         state
       )
     }
 
     lazy val relaxedMode: Command = Command.command("relaxedMode") { state =>
-      Project.extract(state).appendWithSession(
-        scalacOptions -= "-Xfatal-warnings",
+      val projectRef = Project.extract(state)
+
+      val actions = projectRef.structure.allProjectRefs.map { p =>
+        p / scalacOptions -= "-Xfatal-warnings"
+      }
+
+      projectRef.appendWithSession(
+        actions,
         state
       )
     }
