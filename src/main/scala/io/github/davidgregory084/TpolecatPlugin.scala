@@ -18,7 +18,7 @@ package io.github.davidgregory084
 
 import sbt._
 import sbt.Keys._
-import scala.util.Try
+import scala.util.{Properties, Try}
 
 object TpolecatPlugin extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
@@ -128,27 +128,31 @@ object TpolecatPlugin extends AutoPlugin {
       addedPriorTo && notYetRemoved
     }
 
-    def scalacOptionsFor(version: String): Seq[String] =
-      List(
-        "-encoding", "utf8" // Specify character encoding used by source files.
-      ) ++ {
+    def scalacOptionsFor(version: String): Seq[String] = {
+      val flags = (CrossVersion.partialVersion(version), version.split('.')) match {
+        case (Some((0, min)), _) => // dotty prereleases use 0 as major version
+          allScalacOptions
+            .filter(validFor(V3_0_0)) // treat dotty prereleases as 3.0.0
+        case (Some((maj, min)), Array(maj2, min2, patch)) if maj.toString == maj2 && min.toString == min2 =>
+          allScalacOptions
+            .filter(validFor(Version(maj, min, Try(patch.toLong).getOrElse(0))))
+        case (Some((maj, min)), _) =>
+          allScalacOptions
+            .filter(validFor(Version(maj, min, 0)))
+        case (None, _) =>
+          Nil
+      }
 
-        val flags = (CrossVersion.partialVersion(version), version.split('.')) match {
-          case (Some((0, min)), _) => // dotty prereleases use 0 as major version
-            allScalacOptions
-              .filter(validFor(V3_0_0)) // treat dotty prereleases as 3.0.0
-          case (Some((maj, min)), Array(maj2, min2, patch)) if maj.toString == maj2 && min.toString == min2 =>
-            allScalacOptions
-              .filter(validFor(Version(maj, min, Try(patch.toLong).getOrElse(0))))
-          case (Some((maj, min)), _) =>
-            allScalacOptions
-              .filter(validFor(Version(maj, min, 0)))
-          case (None, _) =>
-            Nil
-        }
+      // Specify character encoding used by source files.
+      val allFlags = "-encoding" :: "utf8" :: flags.map(_.name)
 
-      flags.map(_.name)
-}
+      // Check if we are in relaxed mode.
+      val relaxed = Properties.envOrNone(name = "SBT_TPOLECAT_RELAXED")
+      relaxed.fold(ifEmpty = allFlags) { _ =>
+        allFlags.filterNot(Set("-Xfatal-warnings"))
+      }
+    }
+
     val filterConsoleScalacOptions = { options: Seq[String] =>
       options.filterNot(Set(
         "-Werror",

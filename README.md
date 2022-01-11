@@ -29,7 +29,8 @@ scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 
 Additionally, if you need to temporarily disable fatal warnings.
 You can do it by running the `relaxedMode` command.
-Then, you can enable them again by running the `strictMode` command.
+Then, you can enable them again by running the `strictMode` command.<br>
+You may also enable the relaxed mode by setting the `SBT_TPOLECAT_RELAXED` env var.
 
 ### Caveat
 
