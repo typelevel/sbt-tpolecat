@@ -49,9 +49,6 @@ object TpolecatPlugin extends AutoPlugin {
   val allScalacOptions = List(
     ScalacOption("-deprecation", removedIn = Some(V2_13_0)),                                              // Emit warning and location for usages of deprecated APIs. Not really removed but deprecated in 2.13.
     ScalacOption("-deprecation", addedIn = Some(V3_0_0)),                                                 // Emit warning and location for usages of deprecated APIs.
-    ScalacOption("-explaintypes", removedIn = Some(V3_0_0)),                                              // Explain type errors in more detail.
-    ScalacOption("-explain-types", addedIn = Some(V3_0_0)),                                               // Explain type errors in more detail.
-    ScalacOption("-explain", addedIn = Some(V3_0_0)),                                                     // Explain errors in more detail.
     ScalacOption("-feature"),                                                                             // Emit warning and location for usages of features that should be imported explicitly.
     ScalacOption("-language:existentials", removedIn = Some(V3_0_0)),                                     // Existential types (besides wildcard types) can be written and inferred
     ScalacOption("-language:experimental.macros"),                              // Allow macro definition (besides implementation and application)
@@ -112,8 +109,6 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Ywarn-value-discard", removedIn = Some(V2_13_0)),                                      // Warn when non-Unit expression results are unused.
     ScalacOption("-Wvalue-discard", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // ^ Replaces the above
     ScalacOption("-Ykind-projector", addedIn = Some(V3_0_0)),                                             // Enables a subset of kind-projector syntax (see https://github.com/lampepfl/dotty/pull/7775)
-    ScalacOption("-Vimplicits", addedIn = Some(V2_13_6), removedIn = Some(V3_0_0)),                       // Enables the tek/splain features to make the compiler print implicit resolution chains when no implicit value can be found
-    ScalacOption("-Vtype-diffs", addedIn = Some(V2_13_6), removedIn = Some(V3_0_0))                       // Enables the tek/splain features to turn type error messages (found: X, required: Y) into colored diffs between the two types
   )
 
   object autoImport {
