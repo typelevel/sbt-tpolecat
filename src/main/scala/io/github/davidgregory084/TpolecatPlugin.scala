@@ -65,6 +65,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Xlint:deprecation", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                // Emit warning and location for usages of deprecated APIs.
     ScalacOption("-Xlint:doc-detached", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // A Scaladoc comment appears to be detached from its element.
     ScalacOption("-Xlint:implicit-recursion", addedIn = Some(V2_13_3), removedIn = Some(V3_0_0)),         // Warn when an implicit resolves to an enclosing self-definition
+    ScalacOption("-Xlint:implicit-not-found", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),         // Warn when an @implicitNotFound or @implicitAmbigous annotation references an invalid type parameter.
     ScalacOption("-Xlint:inaccessible", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // Warn about inaccessible types in method signatures.
     ScalacOption("-Xlint:infer-any", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),                  // Warn when a type argument is inferred to be `Any`.
     ScalacOption("-Xlint:missing-interpolator", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),       // A string literal appears to be missing an interpolator id.
