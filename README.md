@@ -29,20 +29,23 @@ scalacOptions.in(Tut) ~= filterConsoleScalacOptions
 
 ### Caveat
 
-I can't promise this plugin will work for old minor releases of Scala. It has been tested with:
+I can't promise this plugin will work for old minor releases of Scala.
 
-* 2.13.6
-* 2.13.5
-* 2.13.4
-* 2.13.3
-* 2.12.12
+It is currently tested with Scala 2.x releases:
+
+* 2.13.8
+* 2.12.15
 * 2.11.12
 * 2.10.7
 
-and Dotty versions:
+and Scala 3.x releases:
 
-* 3.0.0
-* 3.0.0-RC3
+* 3.0.2
+* 3.1.1
+
+### Conduct
+
+Participants are expected to follow the [Scala Code of Conduct](https://www.scala-lang.org/conduct/) while discussing the project on GitHub and any other venues associated with the project.
 
 ### License
 

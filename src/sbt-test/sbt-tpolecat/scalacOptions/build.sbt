@@ -3,16 +3,13 @@ import scala.util.Try
 val scala2Versions = Seq(
   "2.10.7",
   "2.11.12",
-  "2.12.12",
-  "2.13.3",
-  "2.13.4",
-  "2.13.5",
-  "2.13.6"
+  "2.12.15",
+  "2.13.8"
 )
 
 val scala3Versions = Seq(
-  "3.0.0-RC3",
-  "3.0.0"
+  "3.0.2",
+  "3.1.1"
 )
 
 crossScalaVersions := {
