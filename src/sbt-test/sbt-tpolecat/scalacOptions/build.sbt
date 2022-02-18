@@ -1,7 +1,6 @@
 import scala.util.Try
 
 val scala2Versions = Seq(
-  "2.10.7",
   "2.11.12",
   "2.12.15",
   "2.13.8"

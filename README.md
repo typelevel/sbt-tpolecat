@@ -36,7 +36,6 @@ It is currently tested with Scala 2.x releases:
 * 2.13.8
 * 2.12.15
 * 2.11.12
-* 2.10.7
 
 and Scala 3.x releases:
 
