@@ -9,14 +9,14 @@ sbt-tpolecat is an SBT plugin for automagically configuring scalac options accor
 
 It also enables the excellent [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin for those Scala versions where it is needed.
 
-As of version 0.1.11, it also supports setting options for Dotty.
+As of version 0.1.11, it also supports setting options for Scala 3.x.
 
 ### Usage
 
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.20")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.21")
 ```
 
 If necessary you can filter out scalac options that are unhelpful in the REPL from user-defined tasks or scopes.
