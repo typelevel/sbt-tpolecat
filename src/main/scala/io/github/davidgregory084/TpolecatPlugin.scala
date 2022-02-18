@@ -64,6 +64,7 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Xlint:delayedinit-select", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),         // Selecting member of DelayedInit.
     ScalacOption("-Xlint:deprecation", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                // Emit warning and location for usages of deprecated APIs.
     ScalacOption("-Xlint:doc-detached", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // A Scaladoc comment appears to be detached from its element.
+    ScalacOption("-Xlint:implicit-recursion", addedIn = Some(V2_13_3), removedIn = Some(V3_0_0)),         // Warn when an implicit resolves to an enclosing self-definition
     ScalacOption("-Xlint:inaccessible", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // Warn about inaccessible types in method signatures.
     ScalacOption("-Xlint:infer-any", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),                  // Warn when a type argument is inferred to be `Any`.
     ScalacOption("-Xlint:missing-interpolator", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),       // A string literal appears to be missing an interpolator id.
@@ -89,8 +90,6 @@ object TpolecatPlugin extends AutoPlugin {
     ScalacOption("-Ywarn-nullary-unit", removedIn = Some(V2_13_0)),                                       // Warn when nullary methods return Unit.
     ScalacOption("-Ywarn-numeric-widen", removedIn = Some(V2_13_0)),                                      // Warn when numerics are widened.
     ScalacOption("-Wnumeric-widen", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // ^ Replaces the above
-    // Disabled due to false positives; see https://github.com/scala/bug/issues/11813
-    // ScalacOption("-Wself-implicit", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                // Warn when an implicit resolves to an enclosing self-definition
     ScalacOption("-Ywarn-unused", addedIn = Some(V2_11_0), removedIn = Some(V2_12_0)),                    // Warn when local and private vals, vars, defs, and types are unused.
     ScalacOption("-Ywarn-unused-import", addedIn = Some(V2_11_0), removedIn = Some(V2_12_0)),             // Warn if an import selector is not referenced.
     ScalacOption("-Ywarn-unused:implicits", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),          // Warn if an implicit parameter is unused.
