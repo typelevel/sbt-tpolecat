@@ -16,7 +16,7 @@ As of version 0.1.11, it also supports setting options for Scala 3.x.
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.22")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.2.0")
 ```
 
 To filter out scala compiler options that don't work well in the REPL, use the `tpolecatConsoleOptionsFilter`.
