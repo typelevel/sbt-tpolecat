@@ -48,6 +48,12 @@ ThisBuild / semanticdbEnabled                              := true
 ThisBuild / semanticdbVersion                              := scalafixSemanticdb.revision
 ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
+ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
+
+mimaPreviousArtifacts := Set(
+  projectID.value.withRevision("0.2.0")
+)
+
 // Testing
 
 scriptedBufferLog := false
