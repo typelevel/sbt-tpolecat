@@ -19,4 +19,15 @@ package io.github.davidgregory084
 case class ScalacOption(
   tokens: List[String],
   isSupported: ScalaVersion => Boolean = _ => true
-)
+) {
+  // We don't want to use `isSupported` in hashCode
+  override def hashCode(): Int =
+    41 * tokens.hashCode
+
+  // We don't want to compare `isSupported` for equality
+  override def equals(other: Any): Boolean =
+    other match {
+      case that: ScalacOption => this.tokens == that.tokens
+      case _                  => false
+    }
+}
