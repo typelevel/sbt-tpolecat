@@ -16,153 +16,127 @@
 
 package io.github.davidgregory084
 
-import sbt._
 import sbt.Keys._
+import sbt._
+
 import scala.util.Try
 
 object TpolecatPlugin extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
-  case class Version(major: Long, minor: Long, patch: Long)
-  object Version {
-    val V2_11_0 = Version(2, 11, 0)
-    val V2_12_0 = Version(2, 12, 0)
-    val V2_13_0 = Version(2, 13, 0)
-    val V2_13_3 = Version(2, 13, 3)
-    val V2_13_4 = Version(2, 13, 4)
-    val V2_13_5 = Version(2, 13, 5)
-    val V2_13_6 = Version(2, 13, 6)
-    val V3_0_0  = Version(3, 0, 0)
-
-    implicit val versionOrdering: Ordering[Version] =
-      Ordering.by(version => (version.major, version.minor, version.patch))
-  }
-
-  case class ScalacOption(
-    name: String,
-    addedIn: Option[Version] = None,
-    removedIn: Option[Version] = None
-  )
-
-  import Version._
-
-  val allScalacOptions = List(
-    ScalacOption("-deprecation", removedIn = Some(V2_13_0)),                                              // Emit warning and location for usages of deprecated APIs. Not really removed but deprecated in 2.13.
-    ScalacOption("-deprecation", addedIn = Some(V3_0_0)),                                                 // Emit warning and location for usages of deprecated APIs.
-    ScalacOption("-feature"),                                                                             // Emit warning and location for usages of features that should be imported explicitly.
-    ScalacOption("-language:existentials", removedIn = Some(V3_0_0)),                                     // Existential types (besides wildcard types) can be written and inferred
-    ScalacOption("-language:experimental.macros"),                              // Allow macro definition (besides implementation and application)
-    ScalacOption("-language:higherKinds"),                                      // Allow higher-kinded types
-    ScalacOption("-language:implicitConversions"),                              // Allow definition of implicit functions called views
-    ScalacOption("-unchecked"),                                                                           // Enable additional warnings where generated code depends on assumptions.
-    ScalacOption("-Xcheckinit", removedIn = Some(V3_0_0)),                                                // Wrap field accessors to throw an exception on uninitialized access.
-    ScalacOption("-Xfatal-warnings"),                                                                     // Fail the compilation if there are any warnings.
-    ScalacOption("-Xlint", removedIn = Some(V2_11_0)),                                                    // Used to mean enable all linting options but now the syntax for that is different (-Xlint:_ I think)
-    ScalacOption("-Xlint:adapted-args", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // Warn if an argument list is modified to match the receiver.
-    ScalacOption("-Xlint:by-name-right-associative", addedIn = Some(V2_11_0), removedIn = Some(V2_13_0)), // By-name parameter of right associative operator.
-    ScalacOption("-Xlint:constant", addedIn = Some(V2_12_0), removedIn = Some(V3_0_0)),                   // Evaluation of a constant arithmetic expression results in an error.
-    ScalacOption("-Xlint:delayedinit-select", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),         // Selecting member of DelayedInit.
-    ScalacOption("-Xlint:deprecation", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                // Emit warning and location for usages of deprecated APIs.
-    ScalacOption("-Xlint:doc-detached", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // A Scaladoc comment appears to be detached from its element.
-    ScalacOption("-Xlint:implicit-recursion", addedIn = Some(V2_13_3), removedIn = Some(V3_0_0)),         // Warn when an implicit resolves to an enclosing self-definition
-    ScalacOption("-Xlint:implicit-not-found", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),         // Warn when an @implicitNotFound or @implicitAmbigous annotation references an invalid type parameter.
-    ScalacOption("-Xlint:inaccessible", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // Warn about inaccessible types in method signatures.
-    ScalacOption("-Xlint:infer-any", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),                  // Warn when a type argument is inferred to be `Any`.
-    ScalacOption("-Xlint:missing-interpolator", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),       // A string literal appears to be missing an interpolator id.
-    ScalacOption("-Xlint:nullary-override", addedIn = Some(V2_11_0), removedIn = Some(V2_13_0)),          // Warn when non-nullary `def f()' overrides nullary `def f'.
-    ScalacOption("-Xlint:nullary-unit", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),               // Warn when nullary methods return Unit.
-    ScalacOption("-Xlint:option-implicit", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),            // Option.apply used implicit view.
-    ScalacOption("-Xlint:package-object-classes", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),     // Class or object defined in package object.
-    ScalacOption("-Xlint:poly-implicit-overload", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),     // Parameterized overloaded implicit methods are not visible as view bounds.
-    ScalacOption("-Xlint:private-shadow", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),             // A private field (or class parameter) shadows a superclass field.
-    ScalacOption("-Xlint:stars-align", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),                // Pattern sequence wildcard must align with sequence component.
-    ScalacOption("-Xlint:strict-unsealed-patmat", addedIn = Some(V2_13_4), removedIn = Some(V3_0_0)),     // Warn when a pattern match on an unsealed type may not be exhaustive
-    ScalacOption("-Xlint:type-parameter-shadow", addedIn = Some(V2_11_0), removedIn = Some(V3_0_0)),      // A local type parameter shadows a type already in scope.
-    ScalacOption("-Xlint:unsound-match", addedIn = Some(V2_11_0), removedIn = Some(V2_13_0)),             // Pattern match may not be typesafe.
-    ScalacOption("-Xlint:-byname-implicit", addedIn = Some(V2_13_3), removedIn = Some(V3_0_0)),           // This conflicts with generic derivation used via shapeless
-    ScalacOption("-Wunused:nowarn", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // Ensure that a `@nowarn` annotation actually suppresses a warning.
-    ScalacOption("-Yno-adapted-args", removedIn = Some(V2_13_0)),                                         // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
-    ScalacOption("-Ywarn-dead-code", removedIn = Some(V2_13_0)),                                          // Warn when dead code is identified.
-    ScalacOption("-Wdead-code", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                       // ^ Replaces the above
-    ScalacOption("-Ywarn-extra-implicit", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),            // Warn when more than one implicit parameter section is defined.
-    ScalacOption("-Wextra-implicit", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                  // ^ Replaces the above
-    ScalacOption("-Ywarn-inaccessible", removedIn = Some(V2_11_0)),                                       // Warn about inaccessible types in method signatures. Alias for -Xlint:inaccessible so can be removed as of 2.11.
-    ScalacOption("-Ywarn-nullary-override", removedIn = Some(V2_13_0)),                                   // Warn when non-nullary `def f()' overrides nullary `def f'.
-    ScalacOption("-Ywarn-nullary-unit", removedIn = Some(V2_13_0)),                                       // Warn when nullary methods return Unit.
-    ScalacOption("-Ywarn-numeric-widen", removedIn = Some(V2_13_0)),                                      // Warn when numerics are widened.
-    ScalacOption("-Wnumeric-widen", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // ^ Replaces the above
-    ScalacOption("-Ywarn-unused", addedIn = Some(V2_11_0), removedIn = Some(V2_12_0)),                    // Warn when local and private vals, vars, defs, and types are unused.
-    ScalacOption("-Ywarn-unused-import", addedIn = Some(V2_11_0), removedIn = Some(V2_12_0)),             // Warn if an import selector is not referenced.
-    ScalacOption("-Ywarn-unused:implicits", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),          // Warn if an implicit parameter is unused.
-    ScalacOption("-Wunused:implicits", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                // ^ Replaces the above
-    ScalacOption("-Wunused:explicits", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                // Warn if an explicit parameter is unused.
-    ScalacOption("-Ywarn-unused:imports", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),            // Warn if an import selector is not referenced.
-    ScalacOption("-Wunused:imports", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                  // ^ Replaces the above
-    ScalacOption("-Ywarn-unused:locals", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),             // Warn if a local definition is unused.
-    ScalacOption("-Wunused:locals", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // ^ Replaces the above
-    ScalacOption("-Ywarn-unused:params", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),             // Warn if a value parameter is unused.
-    ScalacOption("-Wunused:params", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // ^ Replaces the above
-    ScalacOption("-Ywarn-unused:patvars", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),            // Warn if a variable bound in a pattern is unused.
-    ScalacOption("-Wunused:patvars", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                  // ^ Replaces the above
-    ScalacOption("-Ywarn-unused:privates", addedIn = Some(V2_12_0), removedIn = Some(V2_13_0)),           // Warn if a private member is unused.
-    ScalacOption("-Wunused:privates", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                 // ^ Replaces the above
-    ScalacOption("-Ywarn-value-discard", removedIn = Some(V2_13_0)),                                      // Warn when non-Unit expression results are unused.
-    ScalacOption("-Wvalue-discard", addedIn = Some(V2_13_0), removedIn = Some(V3_0_0)),                   // ^ Replaces the above
-    ScalacOption("-Ykind-projector", addedIn = Some(V3_0_0)),                                             // Enables a subset of kind-projector syntax (see https://github.com/lampepfl/dotty/pull/7775)
-  )
+  import ScalaVersion._
 
   object autoImport {
-    def validFor(currentVersion: Version)(opt: ScalacOption)(implicit ord: Ordering[Version]) = {
-      val addedPriorTo = opt.addedIn
-        .map(addedVersion => ord.gteq(currentVersion, addedVersion))
-        .getOrElse(true)
-      val notYetRemoved = opt.removedIn
-        .map(removedVersion => ord.lt(currentVersion, removedVersion))
-        .getOrElse(true)
+    object ScalacOptions extends ScalacOptions
 
-      addedPriorTo && notYetRemoved
+    def scalacOptionsFor(
+      version: String,
+      modeScalacOptions: Set[ScalacOption]
+    ): Seq[String] = {
+      val supportedOptions = (CrossVersion.partialVersion(version), version.split('.')) match {
+        case (Some((0, min)), _) => // dotty prereleases use 0 as major version
+          modeScalacOptions
+            .filter(_.isSupported(V3_0_0)) // treat dotty prereleases as 3.0.0
+        case (Some((maj, min)), Array(maj2, min2, patch))
+            if maj.toString == maj2 && min.toString == min2 =>
+          modeScalacOptions
+            .filter(_.isSupported(ScalaVersion(maj, min, Try(patch.toLong).getOrElse(0))))
+        case (Some((maj, min)), _) =>
+          modeScalacOptions
+            .filter(_.isSupported(ScalaVersion(maj, min, 0)))
+        case (None, _) =>
+          Nil
+      }
+
+      supportedOptions.toList.flatMap(_.tokens)
     }
 
-    def scalacOptionsFor(version: String): Seq[String] =
-      List(
-        "-encoding", "utf8" // Specify character encoding used by source files.
-      ) ++ {
-
-        val flags = (CrossVersion.partialVersion(version), version.split('.')) match {
-          case (Some((0, min)), _) => // dotty prereleases use 0 as major version
-            allScalacOptions
-              .filter(validFor(V3_0_0)) // treat dotty prereleases as 3.0.0
-          case (Some((maj, min)), Array(maj2, min2, patch)) if maj.toString == maj2 && min.toString == min2 =>
-            allScalacOptions
-              .filter(validFor(Version(maj, min, Try(patch.toLong).getOrElse(0))))
-          case (Some((maj, min)), _) =>
-            allScalacOptions
-              .filter(validFor(Version(maj, min, 0)))
-          case (None, _) =>
-            Nil
-        }
-
-      flags.map(_.name)
-}
-    val filterConsoleScalacOptions = { options: Seq[String] =>
-      options.filterNot(Set(
-        "-Werror",
-        "-Wdead-code",
-        "-Wunused:imports",
-        "-Ywarn-unused",
-        "-Ywarn-unused:imports",
-        "-Ywarn-unused-import",
-        "-Ywarn-dead-code",
-        "-Xfatal-warnings"
-      ))
+    val tpolecatConsoleOptionsFilter = { options: Set[ScalacOption] =>
+      options.filterNot(
+        ScalacOptions.privateWarnUnusedOptions ++
+          ScalacOptions.warnUnusedOptions ++
+          ScalacOptions.fatalWarningOptions +
+          ScalacOptions.privateWarnDeadCode +
+          ScalacOptions.warnDeadCode
+      )
     }
+
+    val tpolecatDefaultOptionsMode = settingKey[OptionsMode](
+      "The default mode to use for configuring scalac options via the sbt-tpolecat plugin."
+    )
+
+    val tpolecatOptionsMode = settingKey[OptionsMode](
+      "The mode to use for configuring scalac options via the sbt-tpolecat plugin."
+    )
+
+    val tpolecatDevModeEnvVar = settingKey[String](
+      "The environment variable to use to enable the sbt-tpolecat development mode."
+    )
+
+    val tpolecatCiModeEnvVar = settingKey[String](
+      "The environment variable to use to enable the sbt-tpolecat continuous integration mode."
+    )
+
+    val tpolecatReleaseModeEnvVar = settingKey[String](
+      "The environment variable to use to enable the sbt-tpolecat release mode."
+    )
+
+    val tpolecatDevModeOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that will be applied by the sbt-tpolecat plugin in the development mode."
+    )
+
+    val tpolecatCiModeOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that will be applied by the sbt-tpolecat plugin in the continuous integration mode."
+    )
+
+    val tpolecatReleaseModeOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that will be applied by the sbt-tpolecat plugin in the release mode."
+    )
+
+    val tpolecatScalacOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that will be applied by the sbt-tpolecat plugin."
+    )
   }
 
   import autoImport._
 
+  val commandAliases =
+    addCommandAlias(
+      "tpolecatDevMode",
+      "set tpolecatOptionsMode := _root_.io.github.davidgregory084.DevMode"
+    ) ++
+      addCommandAlias(
+        "tpolecatCiMode",
+        "set tpolecatOptionsMode := _root_.io.github.davidgregory084.CiMode"
+      ) ++
+      addCommandAlias(
+        "tpolecatReleaseMode",
+        "set tpolecatOptionsMode := _root_.io.github.davidgregory084.ReleaseMode"
+      )
+
   override def projectSettings: Seq[Setting[_]] = Seq(
-    scalacOptions ++= scalacOptionsFor(scalaVersion.value),
-    Compile / console / scalacOptions ~= filterConsoleScalacOptions,
-    Test /  console / scalacOptions ~= filterConsoleScalacOptions
-  )
+    scalacOptions              := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value),
+    tpolecatDefaultOptionsMode := DevMode,
+    tpolecatDevModeEnvVar      := "SBT_TPOLECAT_DEV",
+    tpolecatCiModeEnvVar       := "SBT_TPOLECAT_CI",
+    tpolecatReleaseModeEnvVar  := "SBT_TPOLECAT_RELEASE",
+    tpolecatDevModeOptions     := ScalacOptions.default,
+    tpolecatCiModeOptions      := ScalacOptions.default ++ ScalacOptions.fatalWarningOptions,
+    tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal,
+    tpolecatOptionsMode := {
+      if (sys.env.get(tpolecatReleaseModeEnvVar.value).nonEmpty) ReleaseMode
+      else if (sys.env.get(tpolecatCiModeEnvVar.value).nonEmpty) CiMode
+      else if (sys.env.get(tpolecatDevModeEnvVar.value).nonEmpty) DevMode
+      else tpolecatDefaultOptionsMode.value
+    },
+    tpolecatScalacOptions := {
+      tpolecatOptionsMode.value match {
+        case DevMode     => tpolecatDevModeOptions.value
+        case CiMode      => tpolecatCiModeOptions.value
+        case ReleaseMode => tpolecatReleaseModeOptions.value
+      }
+    },
+    Compile / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter,
+    Test / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter
+  ) ++ commandAliases
 }
