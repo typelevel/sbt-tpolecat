@@ -116,12 +116,12 @@ object TpolecatPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     scalacOptions              := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value),
-    tpolecatDefaultOptionsMode := DevMode,
+    tpolecatDefaultOptionsMode := CiMode,
     tpolecatDevModeEnvVar      := "SBT_TPOLECAT_DEV",
     tpolecatCiModeEnvVar       := "SBT_TPOLECAT_CI",
     tpolecatReleaseModeEnvVar  := "SBT_TPOLECAT_RELEASE",
     tpolecatDevModeOptions     := ScalacOptions.default,
-    tpolecatCiModeOptions      := ScalacOptions.default ++ ScalacOptions.fatalWarningOptions,
+    tpolecatCiModeOptions      := tpolecatDevModeOptions.value ++ ScalacOptions.fatalWarningOptions,
     tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal,
     tpolecatOptionsMode := {
       if (sys.env.get(tpolecatReleaseModeEnvVar.value).nonEmpty) ReleaseMode

@@ -1,5 +1,5 @@
-# Dev mode is the default mode
-> +checkDevMode
+# CI mode is the default mode
+> +checkCiMode
 > +compile
 # Check dev mode options
 > +tpolecatDevMode
