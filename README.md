@@ -94,7 +94,7 @@ tpolecatReleaseModeOptions ++= ScalacOptions.optimizerOptions("your.library.**")
 
 To understand more about the Scala optimizer read [The Scala 2.12 / 2.13 Inliner and Optimizer](https://docs.scala-lang.org/overviews/compiler-options/optimizer.html).
 
-You can customise the environment variable that is used to enable this mode by modifying the `ThisBuild / tpolecatReleaseModeEnvVar` key. Default: `"SBT_TPOLECAT_RELEASE`.
+You can customise the environment variable that is used to enable this mode by modifying the `ThisBuild / tpolecatReleaseModeEnvVar` key. Default: `"SBT_TPOLECAT_RELEASE"`.
 
 ### Caveat
 
