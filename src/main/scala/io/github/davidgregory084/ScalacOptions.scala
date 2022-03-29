@@ -48,7 +48,7 @@ trait ScalacOptions {
     List("-language:implicitConversions")
   )
 
-  val languageFeatures: Set[ScalacOption] = ListSet(
+  val languageFeatureOptions: Set[ScalacOption] = ListSet(
     languageExistentials,
     languageExperimentalMacros,
     languageHigherKinds,
@@ -330,7 +330,7 @@ trait ScalacOptions {
     deprecation,
     feature,
     unchecked
-  ) ++ languageFeatures ++ advancedOptions ++ privateOptions ++ warnOptions
+  ) ++ languageFeatureOptions ++ advancedOptions ++ privateOptions ++ warnOptions
 
   def optimizerOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
     ScalacOption(List(s"-opt$name"), isSupported)
