@@ -1,2 +1,15 @@
-> +show scalacOptions
+# CI mode is the default mode
+> +checkCiMode
+> +compile
+# Check dev mode options
+> tpolecatDevMode
+> +checkDevMode
+> +compile
+# Check CI mode options
+> tpolecatCiMode
+> +checkCiMode
+> +compile
+# Check release mode options
+> tpolecatReleaseMode
+> +checkReleaseMode
 > +compile

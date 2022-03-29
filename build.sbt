@@ -1,11 +1,11 @@
 // Common settings
 
-name := "sbt-tpolecat"
-description := "scalac options for the enlightened"
+name         := "sbt-tpolecat"
+description  := "scalac options for the enlightened"
 organization := "io.github.davidgregory084"
 
 organizationName := "David Gregory"
-startYear := Some(2022)
+startYear        := Some(2022)
 licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 scmInfo := Some(
   ScmInfo(
@@ -34,20 +34,27 @@ addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
 // License headers
 
 Compile / headerCreate := { (Compile / headerCreate).triggeredBy(Compile / compile).value }
-Test / headerCreate := { (Test / headerCreate).triggeredBy(Test / compile).value }
+Test / headerCreate    := { (Test / headerCreate).triggeredBy(Test / compile).value }
+
+scalacOptions += "-Xlint:unused"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.2.11" % Test,
-  "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
+  "org.scalatest"     %% "scalatest"       % "3.2.11"   % Test,
+  "org.scalacheck"    %% "scalacheck"      % "1.15.4"   % Test,
   "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test
 )
+
+ThisBuild / semanticdbEnabled                              := true
+ThisBuild / semanticdbVersion                              := scalafixSemanticdb.revision
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
 // Testing
 
 scriptedBufferLog := false
 
 scriptedLaunchOpts := scriptedLaunchOpts.value ++ Seq(
-  "-Xmx1024M", "-Dplugin.version=" + version.value
+  "-Xmx1024M",
+  "-Dplugin.version=" + version.value
 )
 
 test := {

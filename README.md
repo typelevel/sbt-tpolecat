@@ -19,13 +19,82 @@ Add the following to your project's `project/plugins.sbt`:
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.22")
 ```
 
-If necessary you can filter out scalac options that are unhelpful in the REPL from user-defined tasks or scopes.
+To filter out scala compiler options that don't work well in the REPL, use the `tpolecatConsoleOptionsFilter`.
 
-By default the plugin only applies this filtering to the `console` task in the `Compile` and `Test` configurations.
+By default the plugin only applies this filter to the `console` task in the `Compile` and `Test` configurations.
+
+For example, to apply this filter to the `console` task in the `IntegrationTest` configuration you can do the following:
 
 ```scala
-scalacOptions.in(Tut) ~= filterConsoleScalacOptions
+IntegrationTest / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter
 ```
+
+### Modes
+
+This plugin can be used in several modes. The default mode is the continous integration mode.
+
+Modes can selected by using mode switching commands, or by setting environment variables.
+
+When multiple mode-setting environment variables are defined, the most restrictive mode is selected. For example, if the `SBT_TPOLECAT_DEV` and `SBT_TPOLECAT_CI` variables are both defined, continuous integration mode will be enabled.
+
+You can customise the default mode by modifying the `ThisBuild / tpolecatDefaultOptionsMode` key. Default: `CiMode`.
+
+#### Development mode
+
+To enable the development mode, use the `tpolecatDevMode` command or define the environment variable `SBT_TPOLECAT_DEV`.
+
+In this mode a baseline set of scala compiler options are enabled.
+
+You can customise the options that are enabled in this mode by modifying the `tpolecatDevModeOptions` key. Default: `ScalacOptions.default`.
+
+For example, to disable macros you could customise the development mode options as follows:
+
+```scala
+tpolecatDevModeOptions ~= { opts =>
+  opts.filterNot(Set(ScalacOptions.languageExperimentalMacros))
+}
+```
+
+You can customise the environment variable that is used to enable this mode by modifying the `ThisBuild / tpolecatDevModeEnvVar` key. Default: `"SBT_TPOLECAT_DEV"`.
+
+#### Continuous integration mode
+
+To enable the continuous integration mode, use the `tpolecatCiMode` command or define the environment variable `SBT_TPOLECAT_CI`.
+
+In this mode all development mode options are enabled, and the fatal warning options (`-Xfatal-warnings` / `-Werror`) are added as appropriate for your Scala version.
+
+You can customise the options that are enabled in this mode by modifying the `tpolecatCiModeOptions` key. Default: `tpolecatDevModeOptions.value ++ ScalacOptions.fatalWarningOptions`.
+
+For example, to disable unused linting you could customise the CI options as follows:
+
+```scala
+tpolecatCiModeOptions ~= { opts =>
+  opts.filterNot(
+    ScalacOptions.privateWarnUnusedOptions ++
+      ScalacOptions.warnUnusedOptions
+  )
+}
+```
+
+You can customise the environment variable that is used to enable this mode by modifying the `ThisBuild / tpolecatCiModeEnvVar` key. Default: `"SBT_TPOLECAT_CI"`.
+
+#### Release mode
+
+To enable the release mode, use the `tpolecatReleaseMode` command or define the environment variable `SBT_TPOLECAT_RELEASE`.
+
+In this mode all CI mode options are enabled, and the method-local optimisation option (`-opt:l:method`) is enabled if available for your Scala version.
+
+You can customise the options that are enabled in this mode by modifying the `tpolecatReleaseModeOptions` key. Default: `tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal`.
+
+For example, to enable inlining within your library or application's packages you could customise the release options as follows:
+
+```scala
+tpolecatReleaseModeOptions ++= ScalacOptions.optimizerOptions("your.library.**")
+```
+
+To understand more about the Scala optimizer read [The Scala 2.12 / 2.13 Inliner and Optimizer](https://docs.scala-lang.org/overviews/compiler-options/optimizer.html).
+
+You can customise the environment variable that is used to enable this mode by modifying the `ThisBuild / tpolecatReleaseModeEnvVar` key. Default: `"SBT_TPOLECAT_RELEASE"`.
 
 ### Caveat
 
