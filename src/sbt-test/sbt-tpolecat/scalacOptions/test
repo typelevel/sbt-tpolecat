@@ -2,14 +2,14 @@
 > +checkCiMode
 > +compile
 # Check dev mode options
-> +tpolecatDevMode
+> tpolecatDevMode
 > +checkDevMode
 > +compile
 # Check CI mode options
-> +tpolecatCiMode
+> tpolecatCiMode
 > +checkCiMode
 > +compile
 # Check release mode options
-> +tpolecatReleaseMode
+> tpolecatReleaseMode
 > +checkReleaseMode
 > +compile

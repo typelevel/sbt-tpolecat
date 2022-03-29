@@ -103,34 +103,37 @@ object TpolecatPlugin extends AutoPlugin {
   val commandAliases =
     addCommandAlias(
       "tpolecatDevMode",
-      "set tpolecatOptionsMode := _root_.io.github.davidgregory084.DevMode"
+      "set ThisBuild / tpolecatOptionsMode := _root_.io.github.davidgregory084.DevMode"
     ) ++
       addCommandAlias(
         "tpolecatCiMode",
-        "set tpolecatOptionsMode := _root_.io.github.davidgregory084.CiMode"
+        "set ThisBuild / tpolecatOptionsMode := _root_.io.github.davidgregory084.CiMode"
       ) ++
       addCommandAlias(
         "tpolecatReleaseMode",
-        "set tpolecatOptionsMode := _root_.io.github.davidgregory084.ReleaseMode"
+        "set ThisBuild / tpolecatOptionsMode := _root_.io.github.davidgregory084.ReleaseMode"
       )
 
-  override def projectSettings: Seq[Setting[_]] = Seq(
-    scalacOptions              := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value),
+  override def buildSettings: Seq[Setting[_]] = Seq(
     tpolecatDefaultOptionsMode := CiMode,
     tpolecatDevModeEnvVar      := "SBT_TPOLECAT_DEV",
     tpolecatCiModeEnvVar       := "SBT_TPOLECAT_CI",
     tpolecatReleaseModeEnvVar  := "SBT_TPOLECAT_RELEASE",
-    tpolecatDevModeOptions     := ScalacOptions.default,
-    tpolecatCiModeOptions      := tpolecatDevModeOptions.value ++ ScalacOptions.fatalWarningOptions,
-    tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal,
     tpolecatOptionsMode := {
       if (sys.env.get(tpolecatReleaseModeEnvVar.value).nonEmpty) ReleaseMode
       else if (sys.env.get(tpolecatCiModeEnvVar.value).nonEmpty) CiMode
       else if (sys.env.get(tpolecatDevModeEnvVar.value).nonEmpty) DevMode
       else tpolecatDefaultOptionsMode.value
-    },
+    }
+  ) ++ commandAliases
+
+  override def projectSettings: Seq[Setting[_]] = Seq(
+    scalacOptions              := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value),
+    tpolecatDevModeOptions     := ScalacOptions.default,
+    tpolecatCiModeOptions      := tpolecatDevModeOptions.value ++ ScalacOptions.fatalWarningOptions,
+    tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal,
     tpolecatScalacOptions := {
-      tpolecatOptionsMode.value match {
+      (ThisBuild / tpolecatOptionsMode).value match {
         case DevMode     => tpolecatDevModeOptions.value
         case CiMode      => tpolecatCiModeOptions.value
         case ReleaseMode => tpolecatReleaseModeOptions.value
@@ -138,5 +141,5 @@ object TpolecatPlugin extends AutoPlugin {
     },
     Compile / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter,
     Test / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter
-  ) ++ commandAliases
+  )
 }
