@@ -131,17 +131,13 @@ object TpolecatPlugin extends AutoPlugin {
     Def.derive(
       scalacOptions := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value)
     ),
-
     tpolecatDevModeOptions := ScalacOptions.default,
-
     Def.derive(
       tpolecatCiModeOptions := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings
     ),
-
     Def.derive(
       tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal
     ),
-
     Def.derive(tpolecatScalacOptions := {
       tpolecatOptionsMode.value match {
         case DevMode     => tpolecatDevModeOptions.value
@@ -149,7 +145,6 @@ object TpolecatPlugin extends AutoPlugin {
         case ReleaseMode => tpolecatReleaseModeOptions.value
       }
     }),
-
     Compile / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter,
     Test / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter
   )
