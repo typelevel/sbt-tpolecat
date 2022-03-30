@@ -19,6 +19,12 @@ Add the following to your project's `project/plugins.sbt`:
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.2.0")
 ```
 
+Once you are using this plugin we recommend that you don't manipulate the `scalacOptions` key directly.
+
+Instead you should modify the `tpolecatScalacOptions` key or the options key for the relevant mode, for example `tpolecatDevModeOptions` for the development mode.
+
+### Configuring the REPL
+
 To filter out scala compiler options that don't work well in the REPL, use the `tpolecatConsoleOptionsFilter`.
 
 By default the plugin only applies this filter to the `console` task in the `Compile` and `Test` configurations.
