@@ -94,7 +94,7 @@ trait ScalacOptions {
   /** Fail the compilation if there are any warnings.
     */
   val fatalWarnings =
-    advancedOption("fatal-warnings", version => version < V2_13_0 || version >= V3_0_0)
+    advancedOption("fatal-warnings")
 
   /** Enable recommended warnings.
     */

@@ -130,7 +130,7 @@ object TpolecatPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] = Seq(
     scalacOptions              := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value),
     tpolecatDevModeOptions     := ScalacOptions.default,
-    tpolecatCiModeOptions      := tpolecatDevModeOptions.value ++ ScalacOptions.fatalWarningOptions,
+    tpolecatCiModeOptions      := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings,
     tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal,
     tpolecatScalacOptions := {
       (ThisBuild / tpolecatOptionsMode).value match {

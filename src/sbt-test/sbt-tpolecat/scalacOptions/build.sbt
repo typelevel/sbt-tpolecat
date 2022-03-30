@@ -191,7 +191,7 @@ TaskKey[Unit]("checkCiMode") := {
   val expectedOptions = scalaV match {
     case Scala211 => Scala211Options ++ Seq("-Xfatal-warnings", "-Ypartial-unification")
     case Scala212 => Scala212Options ++ Seq("-Xfatal-warnings", "-Ypartial-unification")
-    case Scala213 => Scala213Options ++ Seq("-Werror")
+    case Scala213 => Scala213Options ++ Seq("-Xfatal-warnings")
     case Scala30  => Scala30Options ++ Seq("-Xfatal-warnings")
     case Scala31  => Scala31Options ++ Seq("-Xfatal-warnings")
   }
@@ -220,7 +220,7 @@ TaskKey[Unit]("checkReleaseMode") := {
       )
     case Scala213 =>
       Scala213Options ++ Seq(
-        "-Werror",
+        "-Xfatal-warnings",
         "-opt:l:method",
         "-opt:l:inline",
         "-opt-inline-from:**"
