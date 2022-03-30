@@ -36,4 +36,7 @@ class ScalacOption(
       case that: ScalacOption => this.tokens == that.tokens
       case _                  => false
     }
+
+  override def toString =
+    "ScalacOption(" + tokens.mkString(" ") + ")"
 }

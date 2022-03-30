@@ -128,7 +128,7 @@ object TpolecatPlugin extends AutoPlugin {
   ) ++ commandAliases
 
   override def projectSettings: Seq[Setting[_]] = Seq(
-    scalacOptions              := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value),
+    Def.derive(scalacOptions := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value)),
     tpolecatDevModeOptions     := ScalacOptions.default,
     tpolecatCiModeOptions      := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings,
     tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal,
