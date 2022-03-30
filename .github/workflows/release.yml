@@ -17,7 +17,7 @@ jobs:
       uses: olafurpg/setup-scala@v10
       with:
         java-version: adopt@1.8
-        
+
     - name: Set up GPG
       run: |
         mkdir ~/.gnupg && chmod 700 ~/.gnupg
@@ -34,7 +34,8 @@ jobs:
       run: |
         sbt headerCheck
         sbt ^test
-        
+        sbt ^mimaReportBinaryIssues
+
     - name: Publish release
       run: |
         export GPG_TTY=$(tty)
