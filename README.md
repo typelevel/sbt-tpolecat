@@ -37,9 +37,9 @@ IntegrationTest / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilte
 
 ### Modes
 
-This plugin can be used in several modes. The default mode is the continous integration mode.
+This plugin can be used in several modes. The default mode is the continuous integration mode.
 
-Modes can selected by using mode switching commands, or by setting environment variables.
+Modes can be selected by using mode switching commands, or by setting environment variables.
 
 When multiple mode-setting environment variables are defined, the most restrictive mode is selected. For example, if the `SBT_TPOLECAT_DEV` and `SBT_TPOLECAT_CI` variables are both defined, continuous integration mode will be enabled.
 
