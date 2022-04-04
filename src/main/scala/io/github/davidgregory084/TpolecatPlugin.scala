@@ -120,16 +120,16 @@ object TpolecatPlugin extends AutoPlugin {
     tpolecatCiModeEnvVar       := "SBT_TPOLECAT_CI",
     tpolecatReleaseModeEnvVar  := "SBT_TPOLECAT_RELEASE",
     tpolecatOptionsMode := {
-      if (sys.env.get(tpolecatReleaseModeEnvVar.value).nonEmpty) ReleaseMode
-      else if (sys.env.get(tpolecatCiModeEnvVar.value).nonEmpty) CiMode
-      else if (sys.env.get(tpolecatDevModeEnvVar.value).nonEmpty) DevMode
+      if (sys.env.contains(tpolecatReleaseModeEnvVar.value)) ReleaseMode
+      else if (sys.env.contains(tpolecatCiModeEnvVar.value)) CiMode
+      else if (sys.env.contains(tpolecatDevModeEnvVar.value)) DevMode
       else tpolecatDefaultOptionsMode.value
     }
   ) ++ commandAliases
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     Def.derive(
-      scalacOptions := scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value)
+      scalacOptions ++= scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value)
     ),
     tpolecatDevModeOptions := ScalacOptions.default,
     Def.derive(
