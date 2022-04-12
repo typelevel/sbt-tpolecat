@@ -111,6 +111,39 @@ trait ScalacOptions {
   def disableLintOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
     advancedOption(s"lint:-$name", isSupported)
 
+  /** Enables some Scala 3 syntax and behavior:
+    *   - Most deprecated syntax generates an error.
+    *   - Infix operators can start a line in the middle of a multiline expression.
+    *   - Implicit search and overload resolution follow Scala 3 handling of contravariance when
+    *     checking specificity.
+    */
+  val earlySource3 =
+    advancedOption("source:3", version => version.isBetween(V2_13_0, V3_0_0))
+
+  def scala3Source(name: String) =
+    new ScalacOption(List(s"-source:$name", version => version >= V3_0_0))
+
+  /** Same as the enabled default `-source:3.0` but with additional helpers to migrate from 2.13. In addition:
+    *   - flags some Scala 2 constructs that are disallowed in Scala 3 as migration warnings instead
+    *     of hard errors
+    *   - changes some rules to be more lenient and backwards compatible with Scala 2.13
+    *   - gives some additional warnings where the semantics has changed between Scala 2.13 and 3.0
+    *   - in conjunction with -rewrite, offer code rewrites from Scala 2.13 to 3.0
+    */
+  val source3Migration =
+    scala3Source("3.0-migration")
+
+  /** A preview of changes introduced in the next versions after 3.0
+    */
+  val source3Future =
+    scala3Source("future")
+
+  /** Same as `-source:future` but with additional helpers to migrate from 3.0. Similarly to the
+    * helpers available under 3.0-migration, these include migration warnings and optional rewrites.
+    */
+  val source3FutureMigration =
+    scala3Source("future-migration")
+
   /** Warn if an argument list is modified to match the receiver.
     */
   val lintAdaptedArgs =
