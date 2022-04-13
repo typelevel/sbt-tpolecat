@@ -1,3 +1,5 @@
+import com.typesafe.tools.mima.core._
+
 // Common settings
 
 name         := "sbt-tpolecat"
@@ -52,6 +54,64 @@ ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
 mimaPreviousArtifacts := Set(
   projectID.value.withRevision("0.2.0")
+)
+
+mimaBinaryIssueFilters ++= Seq(
+  // New ScalacOptions DSL methods
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.source210"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.source211"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.source212"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.source213"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.source3"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.sourceFuture"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.sourceFutureMigration"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.source3Migration"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.source31"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$source210_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$source211_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$source212_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$source213_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$source3_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$sourceFuture_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$sourceFutureMigration_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$source3Migration_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$source31_="
+  )
 )
 
 // Testing
