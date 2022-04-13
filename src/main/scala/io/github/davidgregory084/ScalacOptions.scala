@@ -39,6 +39,46 @@ trait ScalacOptions {
   val feature =
     new ScalacOption(List("-feature"))
 
+  /** Enable features that will be available in a future version of Scala, for purposes of early
+    * migration and alpha testing.
+    */
+  def scala3Source(version: String, isSupported: ScalaVersion => Boolean = _ >= V3_0_0) =
+    new ScalacOption(List("-source", version), isSupported)
+
+  /** Enable features that will be available in Scala 3.0.x with Scala 2.x compatibility mode, for
+    * purposes of early migration and alpha testing.
+    *
+    * Same as the enabled default `-source:3.0` but with additional helpers to migrate from 2.13.
+    *
+    * In addition:
+    *   - flags some Scala 2 constructs that are disallowed in Scala 3 as migration warnings instead
+    *     of hard errors
+    *   - changes some rules to be more lenient and backwards compatible with Scala 2.13
+    *   - gives some additional warnings where the semantics has changed between Scala 2.13 and 3.0
+    *   - in conjunction with -rewrite, offer code rewrites from Scala 2.13 to 3.0
+    */
+  val source3Migration = scala3Source("3.0-migration", version => version >= V3_0_0)
+
+  /** Enable features that will be available in future versions of Scala 3.x, for purposes of early
+    * migration and alpha testing.
+    */
+  val sourceFuture = scala3Source("future", version => version >= V3_0_0)
+
+  /** Enable features that will be available in future versions of Scala 3.x with Scala 2.x
+    * compatibility mode, for purposes of early migration and alpha testing.
+    *
+    * Same as `-source:future` but with additional helpers to migrate from 3.0.
+    *
+    * Similarly to the helpers available under 3.0-migration, these include migration warnings and
+    * optional rewrites.
+    */
+  val sourceFutureMigration = scala3Source("future-migration", version => version >= V3_0_0)
+
+  /** Enable features that will be available in Scala 3.1.x, for purposes of early migration and
+    * alpha testing.
+    */
+  val source31 = scala3Source("3.1", version => version >= V3_1_0)
+
   /** Enable or disable language features
     */
   def languageFeatureOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
@@ -256,6 +296,36 @@ trait ScalacOptions {
     lintUnsoundMatch,
     disableLintBynameImplicit
   )
+
+  /** Treat compiler input as Scala source for the specified version.
+    */
+  def source(version: String, isSupported: ScalaVersion => Boolean = _ >= V3_0_0) =
+    advancedOption(s"source:$version", isSupported)
+
+  /** Treat compiler input as Scala source for version 2.10.
+    */
+  val source210 = source("2.10", version => version < V2_13_2)
+
+  /** Treat compiler input as Scala source for version 2.11.
+    */
+  val source211 = source("2.11", version => version < V2_13_2)
+
+  /** Treat compiler input as Scala source for version 2.12.
+    */
+  val source212 = source("2.12", version => version < V2_13_2)
+
+  /** Treat compiler input as Scala source for version 2.13.
+    */
+  val source213 = source("2.13", version => version.isBetween(V2_12_2, V3_0_0))
+
+  /** Treat compiler input as Scala source for version 3.x:
+    *
+    *   - Most deprecated syntax generates an error.
+    *   - Infix operators can start a line in the middle of a multiline expression.
+    *   - Implicit search and overload resolution follow Scala 3 handling of contravariance when
+    *     checking specificity.
+    */
+  val source3 = source("3", version => version.isBetween(V2_12_2, V3_0_0))
 
   /** Advanced options (-X)
     */
