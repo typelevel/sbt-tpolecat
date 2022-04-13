@@ -15,6 +15,11 @@ crossScalaVersions := Seq(
   Scala31
 )
 
+tpolecatDevModeOptions ++= Set(
+  ScalacOptions.source213,
+  ScalacOptions.source3Migration
+)
+
 tpolecatReleaseModeOptions ++= ScalacOptions.optimizerOptions("**")
 
 val Scala211Options =
@@ -96,7 +101,8 @@ val Scala212Options =
     "-Ywarn-unused:locals",
     "-Ywarn-unused:params",
     "-Ywarn-unused:patvars",
-    "-Ywarn-unused:privates"
+    "-Ywarn-unused:privates",
+    "-Xsource:2.13"
   )
 
 val Scala213Options =
@@ -140,7 +146,8 @@ val Scala213Options =
     "-Wunused:locals",
     "-Wunused:params",
     "-Wunused:patvars",
-    "-Wunused:privates"
+    "-Wunused:privates",
+    "-Xsource:2.13"
   )
 
 val Scala30Options =
@@ -153,7 +160,9 @@ val Scala30Options =
     "-language:experimental.macros",
     "-language:higherKinds",
     "-language:implicitConversions",
-    "-Ykind-projector"
+    "-Ykind-projector",
+    "-source",
+    "3.0-migration"
   )
 
 val Scala31Options =
@@ -166,7 +175,9 @@ val Scala31Options =
     "-language:experimental.macros",
     "-language:higherKinds",
     "-language:implicitConversions",
-    "-Ykind-projector"
+    "-Ykind-projector",
+    "-source",
+    "3.0-migration"
   )
 
 TaskKey[Unit]("checkDevMode") := {
