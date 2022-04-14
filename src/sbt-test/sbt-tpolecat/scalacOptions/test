@@ -13,3 +13,11 @@
 > tpolecatReleaseMode
 > +checkReleaseMode
 > +compile
+# Check console options
+> +checkConsoleScalacOptions
+# Check ThisProject
+> addScalacOptionsToThisProject
+> +checkThisProjectScalacOptions
+# Check ThisBuild (Ignored)
+> addScalacOptionsToThisBuild
+> +checkThisBuildScalacOptions

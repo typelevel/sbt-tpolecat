@@ -244,3 +244,37 @@ TaskKey[Unit]("checkReleaseMode") := {
 
   assertEquals(actualOptions, expectedOptions)
 }
+
+TaskKey[Unit]("checkConsoleScalacOptions") := {
+  val shouldBeMissing       = ScalacOptions.defaultConsoleExclude.flatMap(_.tokens).toSet
+  val testConsoleOptions    = (Test / console / scalacOptions).value
+  val compileConsoleOptions = (Compile / console / scalacOptions).value
+
+  testConsoleOptions.foreach { opt =>
+    assert(!shouldBeMissing.contains(opt), s"$opt is not excluded from Test/console")
+  }
+
+  compileConsoleOptions.foreach { opt =>
+    assert(!shouldBeMissing.contains(opt), s"$opt is not excluded from Compile/console")
+  }
+}
+
+addCommandAlias(
+  "addScalacOptionsToThisProject",
+  "set ThisProject / scalacOptions += \"non-existent-key\""
+)
+
+TaskKey[Unit]("checkThisProjectScalacOptions") := {
+  val options = (Compile / scalacOptions).value
+  assert(options.contains("non-existent-key"), "Scope ThisProject was ignored")
+}
+
+addCommandAlias(
+  "addScalacOptionsToThisBuild",
+  "set ThisBuild / scalacOptions += \"non-existent-key-2\""
+)
+
+TaskKey[Unit]("checkThisBuildScalacOptions") := {
+  val options = (Compile / scalacOptions).value
+  assert(options.contains("non-existent-key-2"), "Scope ThisBuild was ignored")
+}
