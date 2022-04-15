@@ -18,6 +18,6 @@
 # Check ThisProject
 > addScalacOptionsToThisProject
 > +checkThisProjectScalacOptions
-# Check ThisBuild (Ignored)
+# Check ThisBuild
 > addScalacOptionsToThisBuild
 > +checkThisBuildScalacOptions
