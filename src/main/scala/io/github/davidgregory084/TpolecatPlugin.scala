@@ -34,7 +34,7 @@ object TpolecatPlugin extends AutoPlugin {
       modeScalacOptions: Set[ScalacOption]
     ): Seq[String] = {
       val supportedOptions = (CrossVersion.partialVersion(version), version.split('.')) match {
-        case (Some((0, min)), _) => // dotty prereleases use 0 as major version
+        case (Some((0, _)), _) => // dotty prereleases use 0 as major version
           modeScalacOptions
             .filter(_.isSupported(V3_0_0)) // treat dotty prereleases as 3.0.0
         case (Some((maj, min)), Array(maj2, min2, patch))
@@ -49,16 +49,6 @@ object TpolecatPlugin extends AutoPlugin {
       }
 
       supportedOptions.toList.flatMap(_.tokens)
-    }
-
-    val tpolecatConsoleOptionsFilter = { options: Set[ScalacOption] =>
-      options.filterNot(
-        ScalacOptions.privateWarnUnusedOptions ++
-          ScalacOptions.warnUnusedOptions ++
-          ScalacOptions.fatalWarningOptions +
-          ScalacOptions.privateWarnDeadCode +
-          ScalacOptions.warnDeadCode
-      )
     }
 
     val tpolecatDefaultOptionsMode = settingKey[OptionsMode](
@@ -96,6 +86,10 @@ object TpolecatPlugin extends AutoPlugin {
     val tpolecatScalacOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be applied by the sbt-tpolecat plugin."
     )
+
+    val tpolecatExcludeOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that will be excluded."
+    )
   }
 
   import autoImport._
@@ -124,14 +118,20 @@ object TpolecatPlugin extends AutoPlugin {
       else if (sys.env.contains(tpolecatCiModeEnvVar.value)) CiMode
       else if (sys.env.contains(tpolecatDevModeEnvVar.value)) DevMode
       else tpolecatDefaultOptionsMode.value
-    }
+    },
+    tpolecatDevModeOptions := ScalacOptions.default
   ) ++ commandAliases
 
   override def projectSettings: Seq[Setting[_]] = Seq(
     Def.derive(
-      scalacOptions ++= scalacOptionsFor(scalaVersion.value, tpolecatScalacOptions.value)
+      scalacOptions := {
+        val previous   = scalacOptions.value
+        val scalaV     = scalaVersion.value
+        val filters    = scalacOptionsFor(scalaV, tpolecatExcludeOptions.value).toSet
+        val newOptions = scalacOptionsFor(scalaV, tpolecatScalacOptions.value)
+        (previous ++ newOptions).filterNot(filters).distinct
+      }
     ),
-    tpolecatDevModeOptions := ScalacOptions.default,
     Def.derive(
       tpolecatCiModeOptions := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings
     ),
@@ -145,7 +145,11 @@ object TpolecatPlugin extends AutoPlugin {
         case ReleaseMode => tpolecatReleaseModeOptions.value
       }
     }),
-    Compile / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter,
-    Test / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter
+    Compile / console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude,
+    Test / console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude
+  )
+
+  override def globalSettings: Seq[Def.Setting[_]] = Seq(
+    tpolecatExcludeOptions := Set.empty
   )
 }

@@ -630,4 +630,12 @@ trait ScalacOptions {
     optimizerInline,
     optimizerInlineFrom(inlineFromPackages: _*)
   )
+
+  /** Default options to exclude in console tasks
+    */
+  val defaultConsoleExclude: Set[ScalacOption] = privateWarnUnusedOptions ++
+    warnUnusedOptions ++
+    fatalWarningOptions +
+    privateWarnDeadCode +
+    warnDeadCode
 }

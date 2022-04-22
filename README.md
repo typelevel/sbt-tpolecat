@@ -25,14 +25,14 @@ Instead you should modify the `tpolecatScalacOptions` key or the options key for
 
 ### Configuring the REPL
 
-To filter out scala compiler options that don't work well in the REPL, use the `tpolecatConsoleOptionsFilter`.
+To filter out scala compiler options that don't work well in the REPL, use the `tpolecatExcludeOptions`.
 
-By default the plugin only applies this filter to the `console` task in the `Compile` and `Test` configurations.
+By default, the plugin only applies this filter to the `console` task in the `Compile` and `Test` configurations.
 
 For example, to apply this filter to the `console` task in the `IntegrationTest` configuration you can do the following:
 
 ```scala
-IntegrationTest / console / tpolecatScalacOptions ~= tpolecatConsoleOptionsFilter
+IntegrationTest / console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude
 ```
 
 ### Modes
