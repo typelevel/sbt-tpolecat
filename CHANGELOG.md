@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2022-04-22
+
+### Added
+
+* A `defaultConsoleExclude` option set was added to the `ScalacOptions` DSL. This option set can be used for filtering out compiler options that trigger warnings in the Scala REPL.
+
+### Changed
+
+* `tpolecatConsoleOptionsFilter` was replaced by `tpolecatExcludeOptions`. The use of a function to filter out console options did not interact well with the new method of setting `scalacOptions` in sbt-tpolecat [0.2.3](https://github.com/DavidGregory084/sbt-tpolecat/releases/tag/v0.2.3). Please append to `tpolecatExcludeOptions` in the `console` task you wish to configure instead, e.g.
+
+    ```scala
+    IntegrationTest / console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude
+    ```
+
 ## [0.2.3] - 2022-04-14
 
 ### Added
@@ -55,7 +69,8 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 
 * The `validFor` function that was previously exported via this plugin's `autoImport`.
 
-[Unreleased]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.0...v0.2.1
