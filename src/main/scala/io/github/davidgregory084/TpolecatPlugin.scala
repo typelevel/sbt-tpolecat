@@ -118,7 +118,8 @@ object TpolecatPlugin extends AutoPlugin {
       else if (sys.env.contains(tpolecatCiModeEnvVar.value)) CiMode
       else if (sys.env.contains(tpolecatDevModeEnvVar.value)) DevMode
       else tpolecatDefaultOptionsMode.value
-    }
+    },
+    tpolecatDevModeOptions := ScalacOptions.default
   ) ++ commandAliases
 
   override def projectSettings: Seq[Setting[_]] = Seq(
@@ -131,7 +132,6 @@ object TpolecatPlugin extends AutoPlugin {
         (previous ++ newOptions).filterNot(filters).distinct
       }
     ),
-    tpolecatDevModeOptions := ScalacOptions.default,
     Def.derive(
       tpolecatCiModeOptions := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings
     ),
