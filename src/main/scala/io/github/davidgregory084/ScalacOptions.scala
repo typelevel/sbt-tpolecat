@@ -339,11 +339,6 @@ trait ScalacOptions {
   def privateOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
     new ScalacOption(List(s"-Y$name"), isSupported)
 
-  /** Private options (-Y)
-    */
-  def privateOption(name: String, additionalTokens: List[String], isSupported: ScalaVersion => Boolean) =
-    new ScalacOption(s"-Y$name" :: additionalTokens, isSupported)
-
   /** Produce an error if an argument list is modified to match the receiver.
     */
   val privateNoAdaptedArgs =
@@ -363,16 +358,6 @@ trait ScalacOptions {
     */
   val privatePartialUnification =
     privateOption("partial-unification", version => version.isBetween(V2_11_11, V2_13_0))
-
-  /**
-    * Configures the number of worker threads for the compiler backend.
-    *
-    * As of 2.12.5 the compiler can serialize bytecode, perform method-local optimisations and write class files in parallel.
-    *
-    * @param threads the number of worker threads. Default: 8, or the value returned by [[java.lang.Runtime#availableProcessors]] if fewer than 8.
-    */
-  def privateBackendParallelism(threads: Int = math.min(Runtime.getRuntime.availableProcessors, 8)) =
-    privateOption("backend-parallelism", List(threads.toString), version => version.isBetween(V2_12_5, V3_0_0))
 
   /** Private warning options (-Ywarn)
     */
@@ -489,8 +474,7 @@ trait ScalacOptions {
   val privateOptions: Set[ScalacOption] = ListSet(
     privateNoAdaptedArgs,
     privateKindProjector,
-    privatePartialUnification,
-    privateBackendParallelism()
+    privatePartialUnification
   ) ++ privateWarnOptions
 
   /** Warning options (-W)
