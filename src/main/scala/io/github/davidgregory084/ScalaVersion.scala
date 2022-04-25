@@ -24,17 +24,18 @@ case class ScalaVersion(major: Long, minor: Long, patch: Long) {
 }
 
 object ScalaVersion {
-  val V2_11_0 = ScalaVersion(2, 11, 0)
-  val V2_12_0 = ScalaVersion(2, 12, 0)
-  val V2_12_2 = ScalaVersion(2, 12, 2)
-  val V2_13_0 = ScalaVersion(2, 13, 0)
-  val V2_13_2 = ScalaVersion(2, 13, 2)
-  val V2_13_3 = ScalaVersion(2, 13, 3)
-  val V2_13_4 = ScalaVersion(2, 13, 4)
-  val V2_13_5 = ScalaVersion(2, 13, 5)
-  val V2_13_6 = ScalaVersion(2, 13, 6)
-  val V3_0_0  = ScalaVersion(3, 0, 0)
-  val V3_1_0  = ScalaVersion(3, 1, 0)
+  val V2_11_0  = ScalaVersion(2, 11, 0)
+  val V2_11_11 = ScalaVersion(2, 11, 11)
+  val V2_12_0  = ScalaVersion(2, 12, 0)
+  val V2_12_2  = ScalaVersion(2, 12, 2)
+  val V2_13_0  = ScalaVersion(2, 13, 0)
+  val V2_13_2  = ScalaVersion(2, 13, 2)
+  val V2_13_3  = ScalaVersion(2, 13, 3)
+  val V2_13_4  = ScalaVersion(2, 13, 4)
+  val V2_13_5  = ScalaVersion(2, 13, 5)
+  val V2_13_6  = ScalaVersion(2, 13, 6)
+  val V3_0_0   = ScalaVersion(3, 0, 0)
+  val V3_1_0   = ScalaVersion(3, 1, 0)
 
   implicit val scalaVersionOrdering: Ordering[ScalaVersion] =
     Ordering.by(version => (version.major, version.minor, version.patch))

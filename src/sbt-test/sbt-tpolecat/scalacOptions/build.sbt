@@ -51,6 +51,7 @@ val Scala211Options =
     "-Xlint:type-parameter-shadow",
     "-Xlint:unsound-match",
     "-Yno-adapted-args",
+    "-Ypartial-unification",
     "-Ywarn-dead-code",
     "-Ywarn-nullary-override",
     "-Ywarn-nullary-unit",
@@ -90,6 +91,7 @@ val Scala212Options =
     "-Xlint:type-parameter-shadow",
     "-Xlint:unsound-match",
     "-Yno-adapted-args",
+    "-Ypartial-unification",
     "-Ywarn-dead-code",
     "-Ywarn-extra-implicit",
     "-Ywarn-nullary-override",
@@ -184,8 +186,8 @@ TaskKey[Unit]("checkDevMode") := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
-    case Scala211 => Scala211Options ++ Seq("-Ypartial-unification")
-    case Scala212 => Scala212Options ++ Seq("-Ypartial-unification")
+    case Scala211 => Scala211Options
+    case Scala212 => Scala212Options
     case Scala213 => Scala213Options
     case Scala30  => Scala30Options
     case Scala31  => Scala31Options
@@ -200,8 +202,8 @@ TaskKey[Unit]("checkCiMode") := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
-    case Scala211 => Scala211Options ++ Seq("-Xfatal-warnings", "-Ypartial-unification")
-    case Scala212 => Scala212Options ++ Seq("-Xfatal-warnings", "-Ypartial-unification")
+    case Scala211 => Scala211Options ++ Seq("-Xfatal-warnings")
+    case Scala212 => Scala212Options ++ Seq("-Xfatal-warnings")
     case Scala213 => Scala213Options ++ Seq("-Xfatal-warnings")
     case Scala30  => Scala30Options ++ Seq("-Xfatal-warnings")
     case Scala31  => Scala31Options ++ Seq("-Xfatal-warnings")
@@ -217,17 +219,13 @@ TaskKey[Unit]("checkReleaseMode") := {
 
   val expectedOptions = scalaV match {
     case Scala211 =>
-      Scala211Options ++ Seq(
-        "-Xfatal-warnings",
-        "-Ypartial-unification"
-      )
+      Scala211Options ++ Seq("-Xfatal-warnings")
     case Scala212 =>
       Scala212Options ++ Seq(
         "-Xfatal-warnings",
         "-opt:l:method",
         "-opt:l:inline",
-        "-opt-inline-from:**",
-        "-Ypartial-unification"
+        "-opt-inline-from:**"
       )
     case Scala213 =>
       Scala213Options ++ Seq(

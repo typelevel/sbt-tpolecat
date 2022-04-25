@@ -350,6 +350,15 @@ trait ScalacOptions {
   val privateKindProjector =
     privateOption("kind-projector", version => version >= V3_0_0)
 
+  /** Enables support for higher order unification in type constructor inference.
+    *
+    * Initially provided as a compiler option in the 2.12.x series to fix the infamous [[https://github.com/scala/bug/issues/2712 SI-2712]].
+    *
+    * Enabled by default in 2.13.0+ and no longer accepted by the compiler as an option.
+    */
+  val privatePartialUnification =
+    privateOption("partial-unification", version => version.isBetween(V2_11_11, V2_13_0))
+
   /** Private warning options (-Ywarn)
     */
   def privateWarnOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
@@ -464,7 +473,8 @@ trait ScalacOptions {
     */
   val privateOptions: Set[ScalacOption] = ListSet(
     privateNoAdaptedArgs,
-    privateKindProjector
+    privateKindProjector,
+    privatePartialUnification
   ) ++ privateWarnOptions
 
   /** Warning options (-W)

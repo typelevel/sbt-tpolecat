@@ -29,10 +29,6 @@ crossSbtVersions := Seq("1.6.2")
 
 enablePlugins(SbtPlugin)
 
-// Dependencies
-
-addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
-
 // License headers
 
 Compile / headerCreate := { (Compile / headerCreate).triggeredBy(Compile / compile).value }
@@ -56,7 +52,14 @@ mimaPreviousArtifacts := Set(
   projectID.value.withRevision("0.3.0")
 )
 
-mimaBinaryIssueFilters ++= Seq()
+mimaBinaryIssueFilters ++= Seq(
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.privatePartialUnification"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$privatePartialUnification_="
+  )
+)
 
 // Testing
 
