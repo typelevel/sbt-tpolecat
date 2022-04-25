@@ -28,7 +28,6 @@ object ScalaVersion {
   val V2_11_11 = ScalaVersion(2, 11, 11)
   val V2_12_0  = ScalaVersion(2, 12, 0)
   val V2_12_2  = ScalaVersion(2, 12, 2)
-  val V2_12_5  = ScalaVersion(2, 12, 5)
   val V2_13_0  = ScalaVersion(2, 13, 0)
   val V2_13_2  = ScalaVersion(2, 13, 2)
   val V2_13_3  = ScalaVersion(2, 13, 3)
