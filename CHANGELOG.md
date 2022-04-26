@@ -8,7 +8,7 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 
 ### Changed
 
-* The project was migrated to the [Typelevel](https://github.com/typelevel) organisation. The artifact is now published under the `org.typelevel` group ID.
+* The project was migrated to the [Typelevel](https://github.com/typelevel) organisation. The artifact is now published under the `org.typelevel` group ID. It remains binary compatible with the 0.3.x series.
 
 ## [0.3.1] - 2022-04-25
 
