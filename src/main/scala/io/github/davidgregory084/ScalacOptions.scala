@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 David Gregory
+ * Copyright 2022 Typelevel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -352,7 +352,8 @@ trait ScalacOptions {
 
   /** Enables support for higher order unification in type constructor inference.
     *
-    * Initially provided as a compiler option in the 2.12.x series to fix the infamous [[https://github.com/scala/bug/issues/2712 SI-2712]].
+    * Initially provided as a compiler option in the 2.12.x series to fix the infamous
+    * [[https://github.com/scala/bug/issues/2712 SI-2712]].
     *
     * Enabled by default in 2.13.0+ and no longer accepted by the compiler as an option.
     */

@@ -1,40 +1,29 @@
 import com.typesafe.tools.mima.core._
 
-// Common settings
+ThisBuild / tlBaseVersion := "0.4"
 
-name         := "sbt-tpolecat"
-description  := "scalac options for the enlightened"
-organization := "io.github.davidgregory084"
+ThisBuild / organization     := "org.typelevel"
+ThisBuild / organizationName := "Typelevel"
+ThisBuild / developers       := List(tlGitHubDev("DavidGregory084", "David Gregory"))
 
-organizationName := "David Gregory"
-startYear        := Some(2022)
-licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
-scmInfo := Some(
-  ScmInfo(
-    url("https://github.com/DavidGregory084/sbt-tpolecat"),
-    "scm:git:git@github.com:DavidGregory084/sbt-tpolecat.git"
-  )
+ThisBuild / licenses := Seq(License.Apache2)
+
+ThisBuild / crossScalaVersions := Seq("2.12.15")
+
+ThisBuild / githubWorkflowJavaVersions := Seq(
+  JavaSpec.temurin("8"),
+  JavaSpec.temurin("11"),
+  JavaSpec.temurin("17")
 )
-developers := List(
-  Developer(
-    "DavidGregory084",
-    "David Gregory",
-    "davidgregory084@gmail.com",
-    url("https://github.com/DavidGregory084")
-  )
-)
-homepage := scmInfo.value.map(_.browseUrl)
 
-crossSbtVersions := Seq("1.6.2")
+ThisBuild / semanticdbEnabled                              := true
+ThisBuild / semanticdbVersion                              := scalafixSemanticdb.revision
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
+
+name        := "sbt-tpolecat"
+description := "scalac options for the enlightened"
 
 enablePlugins(SbtPlugin)
-
-// License headers
-
-Compile / headerCreate := { (Compile / headerCreate).triggeredBy(Compile / compile).value }
-Test / headerCreate    := { (Test / headerCreate).triggeredBy(Test / compile).value }
-
-scalacOptions += "-Xlint:unused"
 
 libraryDependencies ++= Seq(
   "org.scalatest"     %% "scalatest"       % "3.2.11"   % Test,
@@ -42,14 +31,10 @@ libraryDependencies ++= Seq(
   "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test
 )
 
-ThisBuild / semanticdbEnabled                              := true
-ThisBuild / semanticdbVersion                              := scalafixSemanticdb.revision
-ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
-
-ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
-
 mimaPreviousArtifacts := Set(
-  projectID.value.withRevision("0.3.0")
+  projectID.value
+    .withOrganization("io.github.davidgregory084")
+    .withRevision("0.3.0")
 )
 
 mimaBinaryIssueFilters ++= Seq(
@@ -60,8 +45,6 @@ mimaBinaryIssueFilters ++= Seq(
     "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$privatePartialUnification_="
   )
 )
-
-// Testing
 
 scriptedBufferLog := false
 
