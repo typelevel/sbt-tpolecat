@@ -57,7 +57,13 @@ mimaBinaryIssueFilters ++= Seq(
     "io.github.davidgregory084.ScalacOptions.privatePartialUnification"
   ),
   ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.async"
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
     "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$privatePartialUnification_="
+  ),
+  ProblemFilters.exclude[ReversedMissingMethodProblem](
+    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$async_="
   )
 )
 
