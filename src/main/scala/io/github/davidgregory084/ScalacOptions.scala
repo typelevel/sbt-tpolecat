@@ -141,6 +141,11 @@ trait ScalacOptions {
   val lint =
     advancedOption("lint", version => version < V2_11_0)
 
+  /** Enable SIP-22 async/await constructs
+    */
+  val async =
+    advancedOption("async", version => version.isBetween(V2_13_3, V3_0_0))
+
   /** Enable recommended warnings.
     */
   def lintOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
