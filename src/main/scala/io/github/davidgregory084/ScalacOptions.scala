@@ -39,6 +39,14 @@ trait ScalacOptions {
   val feature =
     new ScalacOption(List("-feature"))
 
+  /** Compile for a specific version of the Java platform. Supported targets: 8, 9, ..., 17, 18.
+    *
+    * The release flag is supported only on JDK 9 and above, since it relies on the functionality
+    * provided in [[http://openjdk.java.net/jeps/247 JEP-247: Compile for Older Platform Versions]].
+    */
+  def release(version: String) =
+    new ScalacOption(List("-release", version), version => version > V2_12_5)
+
   /** Enable features that will be available in a future version of Scala, for purposes of early
     * migration and alpha testing.
     */
@@ -344,6 +352,15 @@ trait ScalacOptions {
   def privateOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
     new ScalacOption(List(s"-Y$name"), isSupported)
 
+  /** Private options (-Y)
+    */
+  def privateOption(
+    name: String,
+    additionalTokens: List[String],
+    isSupported: ScalaVersion => Boolean
+  ) =
+    new ScalacOption(s"-Y$name" :: additionalTokens, isSupported)
+
   /** Produce an error if an argument list is modified to match the receiver.
     */
   val privateNoAdaptedArgs =
@@ -357,12 +374,30 @@ trait ScalacOptions {
 
   /** Enables support for higher order unification in type constructor inference.
     *
-    * Initially provided as a compiler option in the 2.12.x series to fix the infamous [[https://github.com/scala/bug/issues/2712 SI-2712]].
+    * Initially provided as a compiler option in the 2.12.x series to fix the infamous
+    * [[https://github.com/scala/bug/issues/2712 SI-2712]].
     *
     * Enabled by default in 2.13.0+ and no longer accepted by the compiler as an option.
     */
   val privatePartialUnification =
     privateOption("partial-unification", version => version.isBetween(V2_11_11, V2_13_0))
+
+  /** Configures the number of worker threads for the compiler backend.
+    *
+    * As of 2.12.5 the compiler can serialize bytecode, perform method-local optimisations and write
+    * class files in parallel.
+    *
+    * @param threads
+    *   the number of worker threads. Default: 8, or the value returned by
+    *   [[java.lang.Runtime#availableProcessors]] if fewer than 8.
+    */
+  def privateBackendParallelism(
+    threads: Int = math.min(Runtime.getRuntime.availableProcessors, 8)
+  ) = privateOption(
+    "backend-parallelism",
+    List(threads.toString),
+    version => version.isBetween(V2_12_5, V3_0_0)
+  )
 
   /** Private warning options (-Ywarn)
     */
