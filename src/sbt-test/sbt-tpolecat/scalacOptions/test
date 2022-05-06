@@ -15,9 +15,6 @@
 > +compile
 # Check console options
 > +checkConsoleScalacOptions
-# Check ThisProject
+# Check user can still append their own scalacOptions
 > addScalacOptionsToThisProject
 > +checkThisProjectScalacOptions
-# Check ThisBuild
-> addScalacOptionsToThisBuild
-> +checkThisBuildScalacOptions

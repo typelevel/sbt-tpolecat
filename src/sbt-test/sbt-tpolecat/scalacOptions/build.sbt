@@ -20,7 +20,11 @@ tpolecatDevModeOptions ++= Set(
   ScalacOptions.source3Migration
 )
 
-tpolecatReleaseModeOptions ++= ScalacOptions.optimizerOptions("**")
+tpolecatReleaseModeOptions ++= {
+  ScalacOptions.optimizerOptions("**") +
+    ScalacOptions.release("8") +
+    ScalacOptions.privateBackendParallelism(8)
+}
 
 val Scala211Options =
   Seq(
@@ -225,17 +229,25 @@ TaskKey[Unit]("checkReleaseMode") := {
         "-Xfatal-warnings",
         "-opt:l:method",
         "-opt:l:inline",
-        "-opt-inline-from:**"
+        "-opt-inline-from:**",
+        "-release",
+        "8",
+        "-Ybackend-parallelism",
+        "8"
       )
     case Scala213 =>
       Scala213Options ++ Seq(
         "-Xfatal-warnings",
         "-opt:l:method",
         "-opt:l:inline",
-        "-opt-inline-from:**"
+        "-opt-inline-from:**",
+        "-release",
+        "8",
+        "-Ybackend-parallelism",
+        "8"
       )
-    case Scala30 => Scala30Options ++ Seq("-Xfatal-warnings")
-    case Scala31 => Scala31Options ++ Seq("-Xfatal-warnings")
+    case Scala30 => Scala30Options ++ Seq("-Xfatal-warnings", "-release", "8")
+    case Scala31 => Scala31Options ++ Seq("-Xfatal-warnings", "-release", "8")
   }
 
   val actualOptions = scalacOptions.value
@@ -265,14 +277,4 @@ addCommandAlias(
 TaskKey[Unit]("checkThisProjectScalacOptions") := {
   val options = (Compile / scalacOptions).value
   assert(options.contains("non-existent-key"), "Scope ThisProject was ignored")
-}
-
-addCommandAlias(
-  "addScalacOptionsToThisBuild",
-  "set ThisBuild / scalacOptions += \"non-existent-key-2\""
-)
-
-TaskKey[Unit]("checkThisBuildScalacOptions") := {
-  val options = (Compile / scalacOptions).value
-  assert(options.contains("non-existent-key-2"), "Scope ThisBuild was ignored")
 }
