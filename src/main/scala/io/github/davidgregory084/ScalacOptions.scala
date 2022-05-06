@@ -19,25 +19,35 @@ package io.github.davidgregory084
 import scala.Ordering.Implicits._
 import scala.collection.immutable.ListSet
 
-trait ScalacOptions {
+private[davidgregory084] trait ScalacOptions {
   import ScalaVersion._
+
+  /** Provide another option that is not declared by the ScalacOptions DSL.
+    */
+  def other(option: String, isSupported: ScalaVersion => Boolean = _ => true): ScalacOption =
+    ScalacOption(option, isSupported)
+
+  /** Provide another option that is not declared by the ScalacOptions DSL.
+    */
+  def other(option: String, args: List[String], isSupported: ScalaVersion => Boolean): ScalacOption =
+    ScalacOption(option, args, isSupported)
 
   /** Specify character encoding used by source files.
     */
   def encoding(enc: String) =
-    new ScalacOption(List("-encoding", enc))
+    ScalacOption("-encoding", List(enc), _ => true)
 
   /** Emit warning and location for usages of deprecated APIs.
     */
-  val deprecation = new ScalacOption(
-    List("-deprecation"),
+  val deprecation = ScalacOption(
+    "-deprecation",
     version => version < V2_13_0 || version >= V3_0_0
   )
 
   /** Emit warning and location for usages of features that should be imported explicitly.
     */
   val feature =
-    new ScalacOption(List("-feature"))
+    ScalacOption("-feature", _ => true)
 
   /** Compile for a specific version of the Java platform. Supported targets: 8, 9, ..., 17, 18.
     *
@@ -54,7 +64,7 @@ trait ScalacOptions {
     * migration and alpha testing.
     */
   def scala3Source(version: String, isSupported: ScalaVersion => Boolean = _ >= V3_0_0) =
-    new ScalacOption(List("-source", version), isSupported)
+    ScalacOption("-source", List(version), isSupported)
 
   /** Enable features that will be available in Scala 3.0.x with Scala 2.x compatibility mode, for
     * purposes of early migration and alpha testing.
@@ -93,8 +103,8 @@ trait ScalacOptions {
   /** Enable or disable language features
     */
   def languageFeatureOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
-    new ScalacOption(
-      List(s"-language:$name"),
+    ScalacOption(
+      s"-language:$name",
       isSupported
     )
 
@@ -130,12 +140,12 @@ trait ScalacOptions {
   /** Enable additional warnings where generated code depends on assumptions.
     */
   val unchecked =
-    new ScalacOption(List("-unchecked"))
+    ScalacOption("-unchecked", _ => true)
 
   /** Advanced options (-X)
     */
   def advancedOption(name: String, isSupported: ScalaVersion => Boolean = _ => true): ScalacOption =
-    new ScalacOption(List(s"-X$name"), isSupported)
+    ScalacOption(s"-X$name", isSupported)
 
   /** Wrap field accessors to throw an exception on uninitialized access.
     */
@@ -353,7 +363,7 @@ trait ScalacOptions {
   /** Private options (-Y)
     */
   def privateOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
-    new ScalacOption(List(s"-Y$name"), isSupported)
+    ScalacOption(s"-Y$name", isSupported)
 
   /** Private options (-Y)
     */
@@ -523,7 +533,7 @@ trait ScalacOptions {
   /** Warning options (-W)
     */
   def warnOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
-    new ScalacOption(List(s"-W$name"), isSupported)
+    ScalacOption(s"-W$name", isSupported)
 
   /** Warn when dead code is identified.
     */
@@ -553,7 +563,7 @@ trait ScalacOptions {
   /** Unused warning options (-Wunused:)
     */
   def warnUnusedOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
-    new ScalacOption(List(s"-Wunused:$name"), isSupported)
+    ScalacOption(s"-Wunused:$name", isSupported)
 
   /** Warn if a @nowarn annotation did not suppress at least one warning.
     */
@@ -638,7 +648,7 @@ trait ScalacOptions {
   /** Optimizer options (-opt)
     */
   def optimizerOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
-    new ScalacOption(List(s"-opt$name"), isSupported)
+    ScalacOption(s"-opt$name", isSupported)
 
   /** Enable intra-method optimizations:
     * unreachable-code,simplify-jumps,compact-locals,copy-propagation,redundant-casts,box-unbox,nullness-tracking,closure-invocations,allow-skip-core-module-init,assume-modules-non-null,allow-skip-class-loading.

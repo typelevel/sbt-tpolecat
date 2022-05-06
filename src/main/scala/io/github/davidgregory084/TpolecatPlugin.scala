@@ -48,7 +48,7 @@ object TpolecatPlugin extends AutoPlugin {
           Nil
       }
 
-      supportedOptions.toList.flatMap(_.tokens)
+      supportedOptions.toList.flatMap(opt => opt.option :: opt.args)
     }
 
     val tpolecatDefaultOptionsMode = settingKey[OptionsMode](

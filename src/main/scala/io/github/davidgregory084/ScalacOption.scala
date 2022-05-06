@@ -18,25 +18,34 @@ package io.github.davidgregory084
 
 /** A Scala compiler option.
   *
-  * @param tokens
-  *   The tokens which must be provided to declare this option.
+  * @param option The flag that is used to declare this option.
+  * @param args The arguments provided to this option.
   * @param isSupported
   *   A predicate function determining whether the provided Scala compiler version supports this
   *   option.
   */
 class ScalacOption(
-  val tokens: List[String],
-  val isSupported: ScalaVersion => Boolean = _ => true
+  val option: String,
+  val args: List[String],
+  val isSupported: ScalaVersion => Boolean
 ) {
   override def hashCode(): Int =
-    41 * tokens.hashCode
+    41 * option.hashCode
 
   override def equals(other: Any): Boolean =
     other match {
-      case that: ScalacOption => this.tokens == that.tokens
+      case that: ScalacOption => this.option == that.option
       case _                  => false
     }
 
   override def toString =
-    "ScalacOption(" + tokens.mkString(" ") + ")"
+    (option :: args).mkString("ScalacOption(", " ", ")")
+}
+
+object ScalacOption {
+  def apply(option: String, isSupported: ScalaVersion => Boolean): ScalacOption =
+    new ScalacOption(option, Nil, isSupported)
+
+  def apply(option: String, args: List[String], isSupported: ScalaVersion => Boolean): ScalacOption =
+    new ScalacOption(option, args, isSupported)
 }
