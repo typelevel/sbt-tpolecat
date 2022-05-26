@@ -3,4 +3,4 @@
 > +compile
 # Check that the mode is applied in Test
 > +checkTestOptions
-> +compile
+> +Test/compile
