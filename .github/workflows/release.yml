@@ -13,10 +13,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up JDK & sbt
-      uses: olafurpg/setup-scala@v10
+    - name: Download Java
+      id: download-java
+      uses: typelevel/download-java@v1
       with:
-        java-version: temurin@8
+        distribution: temurin
+        java-version: 8
+
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: jdkfile
+        java-version: 8
+        jdkFile: ${{ steps.download-java.outputs.jdkFile }}
 
     - name: Set up GPG
       run: |

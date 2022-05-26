@@ -10,16 +10,25 @@ jobs:
 
     strategy:
       matrix:
-        java-version: [temurin@8, temurin@11, temurin@17]
+        java-version: [8, 11, 17]
 
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up JDK & sbt
-      uses: olafurpg/setup-scala@v10
+    - name: Download Java
+      id: download-java
+      uses: typelevel/download-java@v1
       with:
+        distribution: temurin
         java-version: ${{ matrix.java-version }}
+
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: jdkfile
+        java-version: ${{ matrix.java-version }}
+        jdkFile: ${{ steps.download-java.outputs.jdkFile }}
 
     - name: Run tests
       run: |
