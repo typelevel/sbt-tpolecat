@@ -56,7 +56,8 @@ private[davidgregory084] trait ScalacOptions {
     */
   def release(version: String) =
     new ScalacOption(
-      List("-release", version),
+      "-release",
+      List(version),
       version => JavaMajorVersion.javaMajorVersion >= 9 && version >= V2_12_5
     )
 
@@ -369,10 +370,10 @@ private[davidgregory084] trait ScalacOptions {
     */
   def privateOption(
     name: String,
-    additionalTokens: List[String],
+    arguments: List[String],
     isSupported: ScalaVersion => Boolean
   ) =
-    new ScalacOption(s"-Y$name" :: additionalTokens, isSupported)
+    new ScalacOption(s"-Y$name", arguments, isSupported)
 
   /** Produce an error if an argument list is modified to match the receiver.
     */

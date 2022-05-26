@@ -45,7 +45,7 @@ object TpolecatPlugin extends AutoPlugin {
           modeScalacOptions
             .filter(_.isSupported(ScalaVersion(maj, min, 0)))
         case (None, _) =>
-          Nil
+          Set.empty[ScalacOption]
       }
 
       supportedOptions.toList.flatMap(opt => opt.option :: opt.args)
