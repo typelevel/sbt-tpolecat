@@ -45,7 +45,10 @@ trait ScalacOptions {
     * provided in [[http://openjdk.java.net/jeps/247 JEP-247: Compile for Older Platform Versions]].
     */
   def release(version: String) =
-    new ScalacOption(List("-release", version), version => version > V2_12_5)
+    new ScalacOption(
+      List("-release", version),
+      version => JavaMajorVersion.javaMajorVersion >= 9 && version >= V2_12_5
+    )
 
   /** Enable features that will be available in a future version of Scala, for purposes of early
     * migration and alpha testing.

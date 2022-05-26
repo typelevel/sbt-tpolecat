@@ -16,7 +16,7 @@ jobs:
     - name: Set up JDK & sbt
       uses: olafurpg/setup-scala@v10
       with:
-        java-version: 8
+        java-version: temurin@8
 
     - name: Set up GPG
       run: |

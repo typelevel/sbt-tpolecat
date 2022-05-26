@@ -1,5 +1,6 @@
-import scala.util.Try
+import _root_.io.github.davidgregory084.JavaMajorVersion
 import munit.Assertions._
+import scala.util.Try
 
 val Scala211 = "2.11.12"
 val Scala212 = "2.12.15"
@@ -221,33 +222,35 @@ TaskKey[Unit]("checkCiMode") := {
 TaskKey[Unit]("checkReleaseMode") := {
   val scalaV = scalaVersion.value
 
+  val fatalWarnings = Seq("-Xfatal-warnings")
+
+  val optimizerOptions = Seq(
+    "-opt:l:method",
+    "-opt:l:inline",
+    "-opt-inline-from:**"
+  )
+
+  val releaseOptions =
+    if (JavaMajorVersion.javaMajorVersion >= 9)
+      Seq("-release", "8")
+    else
+      Seq.empty
+
   val expectedOptions = scalaV match {
     case Scala211 =>
-      Scala211Options ++ Seq("-Xfatal-warnings")
+      Scala211Options ++ fatalWarnings
     case Scala212 =>
-      Scala212Options ++ Seq(
-        "-Xfatal-warnings",
-        "-opt:l:method",
-        "-opt:l:inline",
-        "-opt-inline-from:**",
-        "-release",
-        "8",
+      Scala212Options ++ fatalWarnings ++ optimizerOptions ++ releaseOptions ++ Seq(
         "-Ybackend-parallelism",
         "8"
       )
     case Scala213 =>
-      Scala213Options ++ Seq(
-        "-Xfatal-warnings",
-        "-opt:l:method",
-        "-opt:l:inline",
-        "-opt-inline-from:**",
-        "-release",
-        "8",
+      Scala213Options ++ fatalWarnings ++ optimizerOptions ++ releaseOptions ++ Seq(
         "-Ybackend-parallelism",
         "8"
       )
-    case Scala30 => Scala30Options ++ Seq("-Xfatal-warnings", "-release", "8")
-    case Scala31 => Scala31Options ++ Seq("-Xfatal-warnings", "-release", "8")
+    case Scala30 => Scala30Options ++ fatalWarnings ++ releaseOptions
+    case Scala31 => Scala31Options ++ fatalWarnings ++ releaseOptions
   }
 
   val actualOptions = scalacOptions.value
