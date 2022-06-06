@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.2]
+## [0.3.3]
 
 ### Added
 
@@ -17,6 +17,10 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 * [#74](https://github.com/typelevel/sbt-tpolecat/issues/74) - a bug in filtering of multiple-argument options. This filtering was broken in the attempt to fix [#60](https://github.com/DavidGregory084/sbt-tpolecat/issues/60). Unfortunately this means that if users append to `ThisBuild / scalacOptions`, those appended options will no longer be inherited by other configurations, e.g. `Test / scalacOptions`.
 * [#78](https://github.com/typelevel/sbt-tpolecat/issues/78) - a bug where options were not filtered out of `Test / scalacOptions` as expected. This had the same underlying cause as [#74](https://github.com/typelevel/sbt-tpolecat/issues/74).
 * [#77](https://github.com/typelevel/sbt-tpolecat/issues/77) - the JDK version was not being set as expected by the setup-scala action. Resolved by switching to setup-java instead.
+
+## 0.3.2
+
+Please do not use this release - GitHub accepted a tag push but not its corresponding commit data, so the release proceeded against a commit that is not on the main branch.
 
 ## [0.3.1] - 2022-04-25
 
@@ -89,8 +93,8 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 
 * The `validFor` function that was previously exported via this plugin's `autoImport`.
 
-[Unreleased]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.2...HEAD
-[0.3.2]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.1...v0.3.2
+[Unreleased]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.3...HEAD
+[0.3.3]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.1...v0.3.3
 [0.3.1]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.2...v0.2.3
