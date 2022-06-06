@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased]
 
 ### Added
 
@@ -12,7 +12,7 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 * Support for the `-Ybackend-parallelism` option was added to the `ScalacOptions` DSL. This option can be used to enable scalac to emit class files in parallel.
 * Support for the `-release` option was added to the `ScalacOptions` DSL. This option can be used to compile for a specific version of the Java platform.
 
-### Fixed
+### Fixed
 
 * [#74](https://github.com/typelevel/sbt-tpolecat/issues/74) - a bug in filtering of multiple-argument options. This filtering was broken in the attempt to fix [#60](https://github.com/DavidGregory084/sbt-tpolecat/issues/60). Unfortunately this means that if users append to `ThisBuild / scalacOptions`, those appended options will no longer be inherited by other configurations, e.g. `Test / scalacOptions`.
 * [#78](https://github.com/typelevel/sbt-tpolecat/issues/78) - a bug where options were not filtered out of `Test / scalacOptions` as expected. This had the same underlying cause as [#74](https://github.com/typelevel/sbt-tpolecat/issues/74).
