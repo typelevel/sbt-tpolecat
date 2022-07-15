@@ -14,7 +14,7 @@ As of version 0.1.11, it also supports setting options for Scala 3.x.
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.3.3")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.0")
 ```
 
 Once you are using this plugin we recommend that you don't manipulate the `scalacOptions` key directly.
