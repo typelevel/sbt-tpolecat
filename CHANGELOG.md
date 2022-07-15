@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+* [#75](https://github.com/typelevel/sbt-tpolecat/pull/75) The `ScalacOptions` trait was made package-private. This is to ensure that new methods can be added to this trait without risking binary compatibility breakages.
+* [#75](https://github.com/typelevel/sbt-tpolecat/pull/75) The `ScalacOption` constructor was changed from `(tokens: List[String], ...)` to `(option: String, args: List[String], ...)`. This is to ensure that multi-argument options can be filtered out regardless of which arguments were provided to the option.
+
 ## [0.3.3] - 2022-06-06
 
 ### Added
@@ -18,7 +25,7 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 * [#78](https://github.com/typelevel/sbt-tpolecat/issues/78) - a bug where options were not filtered out of `Test / scalacOptions` as expected. This had the same underlying cause as [#74](https://github.com/typelevel/sbt-tpolecat/issues/74).
 * [#77](https://github.com/typelevel/sbt-tpolecat/issues/77) - the JDK version was not being set as expected by the setup-scala action. Resolved by switching to setup-java instead.
 
-## 0.3.2 - 2022-06-06
+## 0.3.2 - 2022-06-06 [YANKED]
 
 Please do not use this release - GitHub accepted a tag push but not its corresponding commit data, so the release proceeded against a commit that is not on the main branch.
 
