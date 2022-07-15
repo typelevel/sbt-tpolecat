@@ -29,7 +29,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
     forAll(versionGen, versionGen, versionGen) {
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
-        val scalacOption   = new ScalacOption(List("-some-opt"))
+        val scalacOption   = ScalacOption("-some-opt", _ => true)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when neither addedIn nor removedIn"
@@ -42,7 +42,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val addedVersion   = ScalaVersion(currentMaj - 1, 0, 0)
-        val scalacOption   = new ScalacOption(List("-some-opt"), version => version >= addedVersion)
+        val scalacOption   = ScalacOption("-some-opt", version => version >= addedVersion)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when addedIn matches past major release"
@@ -55,7 +55,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val addedVersion   = ScalaVersion(currentMaj, currentMin - 1, 0)
-        val scalacOption   = new ScalacOption(List("-some-opt"), version => version >= addedVersion)
+        val scalacOption   = ScalacOption("-some-opt", version => version >= addedVersion)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when addedIn matches past minor release"
@@ -68,7 +68,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val addedVersion   = ScalaVersion(currentMaj, currentMin, currentPatch - 1)
-        val scalacOption   = new ScalacOption(List("-some-opt"), version => version >= addedVersion)
+        val scalacOption   = ScalacOption("-some-opt", version => version >= addedVersion)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when addedIn matches past patch release"
@@ -80,7 +80,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
     forAll(versionGen, versionGen, versionGen) {
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version >= currentVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version >= currentVersion)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when addedIn matches this minor/patch release"
@@ -93,7 +93,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val addedVersion   = ScalaVersion(currentMaj + 1, currentMin, currentPatch)
-        val scalacOption   = new ScalacOption(List("-some-opt"), version => version >= addedVersion)
+        val scalacOption   = ScalacOption("-some-opt", version => version >= addedVersion)
         assert(
           !scalacOption.isSupported(currentVersion),
           "Should not be valid when addedIn matches a future major release"
@@ -106,7 +106,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val addedVersion   = ScalaVersion(currentMaj, currentMin + 1, currentPatch)
-        val scalacOption   = new ScalacOption(List("-some-opt"), version => version >= addedVersion)
+        val scalacOption   = ScalacOption("-some-opt", version => version >= addedVersion)
         assert(
           !scalacOption.isSupported(currentVersion),
           "Should not be valid when addedIn matches a future minor release"
@@ -119,7 +119,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val addedVersion   = ScalaVersion(currentMaj, currentMin, currentPatch + 1)
-        val scalacOption   = new ScalacOption(List("-some-opt"), version => version >= addedVersion)
+        val scalacOption   = ScalacOption("-some-opt", version => version >= addedVersion)
         assert(
           !scalacOption.isSupported(currentVersion),
           "Should not be valid when addedIn matches a future patch release"
@@ -132,7 +132,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val removedVersion = ScalaVersion(currentMaj + 1, 0, 0)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version < removedVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version < removedVersion)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when removedIn matches next major release"
@@ -145,7 +145,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val removedVersion = ScalaVersion(currentMaj, currentMin + 1, currentPatch)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version < removedVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version < removedVersion)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when removedIn matches next minor release"
@@ -158,7 +158,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val removedVersion = ScalaVersion(currentMaj, currentMin, currentPatch + 1)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version < removedVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version < removedVersion)
         assert(
           scalacOption.isSupported(currentVersion),
           "Should be valid when removedIn matches next patch release"
@@ -170,7 +170,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
     forAll(versionGen, versionGen, versionGen) {
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version < currentVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version < currentVersion)
         assert(
           !scalacOption.isSupported(currentVersion),
           "Should not be valid when removedIn matches this minor/patch release"
@@ -183,7 +183,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val removedVersion = ScalaVersion(currentMaj - 1, currentMin, currentPatch)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version < removedVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version < removedVersion)
         assert(
           !scalacOption.isSupported(currentVersion),
           "Should not be valid when removedIn matches an old major release"
@@ -196,7 +196,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val removedVersion = ScalaVersion(currentMaj, currentMin - 1, currentPatch)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version < removedVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version < removedVersion)
         assert(
           !scalacOption.isSupported(currentVersion),
           "Should not be valid when removedIn matches an old minor release"
@@ -209,7 +209,7 @@ class TpolecatPluginSuite extends AnyFunSuite with ScalaCheckDrivenPropertyCheck
       (currentMaj: Long, currentMin: Long, currentPatch: Long) =>
         val currentVersion = ScalaVersion(currentMaj, currentMin, currentPatch)
         val removedVersion = ScalaVersion(currentMaj, currentMin, currentPatch - 1)
-        val scalacOption = new ScalacOption(List("-some-opt"), version => version < removedVersion)
+        val scalacOption = ScalacOption("-some-opt", version => version < removedVersion)
         assert(
           !scalacOption.isSupported(currentVersion),
           "Should not be valid when removedIn matches an old patch release"

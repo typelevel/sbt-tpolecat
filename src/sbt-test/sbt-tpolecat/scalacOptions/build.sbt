@@ -224,10 +224,11 @@ TaskKey[Unit]("checkReleaseMode") := {
 
   val fatalWarnings = Seq("-Xfatal-warnings")
 
-  val optimizerOptions = Seq(
-    "-opt:l:method",
+  val optimizerMethodLocal = Seq("-opt:l:method")
+
+  val optimizerInline = Seq(
+    "-opt-inline-from:**",
     "-opt:l:inline",
-    "-opt-inline-from:**"
   )
 
   val releaseOptions =
@@ -240,12 +241,12 @@ TaskKey[Unit]("checkReleaseMode") := {
     case Scala211 =>
       Scala211Options ++ fatalWarnings
     case Scala212 =>
-      Scala212Options ++ fatalWarnings ++ optimizerOptions ++ releaseOptions ++ Seq(
+      Scala212Options ++ fatalWarnings ++ optimizerMethodLocal ++ releaseOptions ++ optimizerInline ++ Seq(
         "-Ybackend-parallelism",
         "8"
       )
     case Scala213 =>
-      Scala213Options ++ fatalWarnings ++ optimizerOptions ++ releaseOptions ++ Seq(
+      Scala213Options ++ fatalWarnings ++ optimizerMethodLocal ++ releaseOptions ++ optimizerInline ++ Seq(
         "-Ybackend-parallelism",
         "8"
       )
@@ -259,7 +260,7 @@ TaskKey[Unit]("checkReleaseMode") := {
 }
 
 TaskKey[Unit]("checkConsoleScalacOptions") := {
-  val shouldBeMissing       = ScalacOptions.defaultConsoleExclude.flatMap(_.tokens).toSet
+  val shouldBeMissing       = ScalacOptions.defaultConsoleExclude.flatMap(opt => opt.option :: opt.args).toSet
   val testConsoleOptions    = (Test / console / scalacOptions).value
   val compileConsoleOptions = (Compile / console / scalacOptions).value
 

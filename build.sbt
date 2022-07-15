@@ -49,22 +49,9 @@ ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports"
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
 mimaPreviousArtifacts := Set(
-  projectID.value.withRevision("0.3.0")
 )
 
 mimaBinaryIssueFilters ++= Seq(
-  ProblemFilters.exclude[ReversedMissingMethodProblem](
-    "io.github.davidgregory084.ScalacOptions.privatePartialUnification"
-  ),
-  ProblemFilters.exclude[ReversedMissingMethodProblem](
-    "io.github.davidgregory084.ScalacOptions.async"
-  ),
-  ProblemFilters.exclude[ReversedMissingMethodProblem](
-    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$privatePartialUnification_="
-  ),
-  ProblemFilters.exclude[ReversedMissingMethodProblem](
-    "io.github.davidgregory084.ScalacOptions.io$github$davidgregory084$ScalacOptions$_setter_$async_="
-  )
 )
 
 // Testing
