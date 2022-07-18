@@ -29,7 +29,11 @@ private[davidgregory084] trait ScalacOptions {
 
   /** Provide another option that is not declared by the ScalacOptions DSL.
     */
-  def other(option: String, args: List[String], isSupported: ScalaVersion => Boolean): ScalacOption =
+  def other(
+    option: String,
+    args: List[String],
+    isSupported: ScalaVersion => Boolean
+  ): ScalacOption =
     ScalacOption(option, args, isSupported)
 
   /** Specify character encoding used by source files.
@@ -55,7 +59,7 @@ private[davidgregory084] trait ScalacOptions {
     * provided in [[http://openjdk.java.net/jeps/247 JEP-247: Compile for Older Platform Versions]].
     */
   def release(version: String) =
-    new ScalacOption(
+    ScalacOption(
       "-release",
       List(version),
       version => JavaMajorVersion.javaMajorVersion >= 9 && version >= V2_12_5
@@ -147,6 +151,14 @@ private[davidgregory084] trait ScalacOptions {
     */
   def advancedOption(name: String, isSupported: ScalaVersion => Boolean = _ => true): ScalacOption =
     ScalacOption(s"-X$name", isSupported)
+
+  /** Advanced options (-X)
+    */
+  def advancedOption(
+    name: String,
+    arguments: List[String],
+    isSupported: ScalaVersion => Boolean
+  ): ScalacOption = ScalacOption(s"-X$name", arguments, isSupported)
 
   /** Wrap field accessors to throw an exception on uninitialized access.
     */
@@ -372,8 +384,7 @@ private[davidgregory084] trait ScalacOptions {
     name: String,
     arguments: List[String],
     isSupported: ScalaVersion => Boolean
-  ) =
-    new ScalacOption(s"-Y$name", arguments, isSupported)
+  ) = ScalacOption(s"-Y$name", arguments, isSupported)
 
   /** Produce an error if an argument list is modified to match the receiver.
     */
