@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+* [#84](https://github.com/typelevel/sbt-tpolecat/pull/84) - An `advancedOption` overload with support for multiple argument options was added.
+
 ## [0.4.0] - 2022-07-15
 
 NOTE: This release series will be the final one released under the group ID `io.github.davidgregory084`, and the final one using the package `io.github.davidgregory084`.
