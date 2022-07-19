@@ -369,7 +369,6 @@ private[davidgregory084] trait ScalacOptions {
   /** Advanced options (-X)
     */
   val advancedOptions: Set[ScalacOption] = ListSet(
-    checkInit,
     lint
   ) ++ lintOptions
 
