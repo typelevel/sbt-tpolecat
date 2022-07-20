@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/DavidGregory084/sbt-tpolecat/workflows/CI/badge.svg)](https://github.com/DavidGregory084/sbt-tpolecat/actions?query=workflow%3ACI)
 [![License](https://img.shields.io/github/license/DavidGregory084/sbt-tpolecat.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Latest Version](https://index.scala-lang.org/typelevel/sbt-tpolecat/sbt-tpolecat/latest.svg)](https://index.scala-lang.org/typelevel/sbt-tpolecat/sbt-tpolecat)
 
 ### scalac options for the enlightened
 
