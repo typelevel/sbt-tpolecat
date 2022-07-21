@@ -108,7 +108,7 @@ I can't promise this plugin will work for old minor releases of Scala.
 It is currently tested with Scala 2.x releases:
 
 * 2.13.8
-* 2.12.15
+* 2.12.16
 * 2.11.12
 
 and Scala 3.x releases:
