@@ -225,7 +225,7 @@ TaskKey[Unit]("checkReleaseMode") := {
 
   val optimizerInline = Seq(
     "-opt-inline-from:**",
-    "-opt:l:inline",
+    "-opt:l:inline"
   )
 
   val releaseOptions =
@@ -257,7 +257,8 @@ TaskKey[Unit]("checkReleaseMode") := {
 }
 
 TaskKey[Unit]("checkConsoleScalacOptions") := {
-  val shouldBeMissing       = ScalacOptions.defaultConsoleExclude.flatMap(opt => opt.option :: opt.args).toSet
+  val shouldBeMissing =
+    ScalacOptions.defaultConsoleExclude.flatMap(opt => opt.option :: opt.args).toSet
   val testConsoleOptions    = (Test / console / scalacOptions).value
   val compileConsoleOptions = (Compile / console / scalacOptions).value
 

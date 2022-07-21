@@ -18,7 +18,7 @@ crossScalaVersions := Seq(
 )
 
 Compile / tpolecatOptionsMode := CiMode
-Test / tpolecatOptionsMode := DevMode
+Test / tpolecatOptionsMode    := DevMode
 
 TaskKey[Unit]("checkCompileOptions") := {
   val hasFatalWarnings =
