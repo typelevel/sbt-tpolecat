@@ -83,5 +83,5 @@ lazy val `sbt-tpolecat-plugin` = project
 lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
   // TODO: Re-enable mimaReportBinaryIssues once the scalafix project is published
   .rulesSettings(mimaReportBinaryIssues := {})
-  .inputSettings(addSbtPlugin("io.github.davidgregory084" %% "sbt-tpolecat" % "0.4.0"))
+  .inputSettings(libraryDependencies += (`sbt-tpolecat-plugin` / projectID).value.withRevision("0.4.0"))
   .outputConfigure(_.dependsOn(`sbt-tpolecat-plugin`))
