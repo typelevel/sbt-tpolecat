@@ -1,21 +1,17 @@
 import com.typesafe.tools.mima.core._
 
-// Common settings
+ThisBuild / organization     := "io.github.davidgregory084"
+ThisBuild / organizationName := "David Gregory"
 
-name         := "sbt-tpolecat"
-description  := "scalac options for the enlightened"
-organization := "io.github.davidgregory084"
-
-organizationName := "David Gregory"
-startYear        := Some(2022)
-licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
-scmInfo := Some(
+ThisBuild / startYear := Some(2022)
+ThisBuild / licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
+ThisBuild / scmInfo := Some(
   ScmInfo(
     url("https://github.com/DavidGregory084/sbt-tpolecat"),
     "scm:git:git@github.com:DavidGregory084/sbt-tpolecat.git"
   )
 )
-developers := List(
+ThisBuild / developers := List(
   Developer(
     "DavidGregory084",
     "David Gregory",
@@ -23,24 +19,8 @@ developers := List(
     url("https://github.com/DavidGregory084")
   )
 )
-homepage := scmInfo.value.map(_.browseUrl)
 
-crossSbtVersions := Seq("1.6.2")
-
-enablePlugins(SbtPlugin)
-
-// License headers
-
-Compile / headerCreate := { (Compile / headerCreate).triggeredBy(Compile / compile).value }
-Test / headerCreate    := { (Test / headerCreate).triggeredBy(Test / compile).value }
-
-scalacOptions += "-Xlint:unused"
-
-libraryDependencies ++= Seq(
-  "org.scalatest"     %% "scalatest"       % "3.2.11"   % Test,
-  "org.scalacheck"    %% "scalacheck"      % "1.15.4"   % Test,
-  "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test
-)
+ThisBuild / homepage := scmInfo.value.map(_.browseUrl)
 
 ThisBuild / semanticdbEnabled                              := true
 ThisBuild / semanticdbVersion                              := scalafixSemanticdb.revision
@@ -48,23 +28,51 @@ ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports"
 
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
-mimaPreviousArtifacts := Set(
-  projectID.value.withRevision("0.4.0")
-)
+ThisBuild / crossSbtVersions := Seq("1.6.2")
 
-mimaBinaryIssueFilters ++= Seq(
-)
+lazy val `sbt-tpolecat` = project
+  .in(file("."))
+  .aggregate(`sbt-tpolecat-plugin`)
+  .settings(
+    publish                := {},
+    publishLocal           := {},
+    publishArtifact        := false,
+    publish / skip         := true,
+    mimaReportBinaryIssues := {}
+  )
 
-// Testing
+lazy val `sbt-tpolecat-plugin` = project
+  .in(file("plugin"))
+  .enablePlugins(SbtPlugin)
+  .settings(
+    name                   := "sbt-tpolecat",
+    moduleName             := "sbt-tpolecat",
+    description            := "scalac options for the enlightened",
+    Compile / headerCreate := { (Compile / headerCreate).triggeredBy(Compile / compile).value },
+    Test / headerCreate    := { (Test / headerCreate).triggeredBy(Test / compile).value },
+    scalacOptions += "-Xlint:unused",
+    libraryDependencies ++= Seq(
+      "org.scalatest"     %% "scalatest"       % "3.2.11"   % Test,
+      "org.scalacheck"    %% "scalacheck"      % "1.15.4"   % Test,
+      "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test
+    ),
+    mimaPreviousArtifacts := Set(
+      projectID.value.withRevision("0.4.0")
+    ),
+    mimaBinaryIssueFilters ++= Seq(
+    ),
+    scriptedBufferLog := false,
+    scriptedLaunchOpts := scriptedLaunchOpts.value ++ Seq(
+      "-Xmx1024M",
+      "-Dplugin.version=" + version.value
+    ),
+    test := {
+      (Test / test).value
+      scripted.toTask("").value
+    }
+  )
 
-scriptedBufferLog := false
-
-scriptedLaunchOpts := scriptedLaunchOpts.value ++ Seq(
-  "-Xmx1024M",
-  "-Dplugin.version=" + version.value
-)
-
-test := {
-  (Test / test).value
-  scripted.toTask("").value
-}
+lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
+  .inputSettings(
+    libraryDependencies += (`sbt-tpolecat-plugin` / projectID).value.withRevision("0.4.0")
+  )
