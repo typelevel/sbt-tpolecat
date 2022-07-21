@@ -1,6 +1,6 @@
-import org.typelevel.sbt.TpolecatPlugin
-import org.typelevel.sbt._
-import _root_.org.typelevel.sbt.ScalacOption
-import _root_.org.typelevel.sbt._
+import org.typelevel.sbt.tpolecat.TpolecatPlugin
+import org.typelevel.sbt.tpolecat._
+import _root_.org.typelevel.sbt.tpolecat.ScalacOption
+import _root_.org.typelevel.sbt.tpolecat._
 
 object Tests
