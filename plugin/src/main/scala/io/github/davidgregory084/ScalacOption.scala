@@ -18,8 +18,10 @@ package io.github.davidgregory084
 
 /** A Scala compiler option.
   *
-  * @param option The flag that is used to declare this option.
-  * @param args The arguments provided to this option.
+  * @param option
+  *   The flag that is used to declare this option.
+  * @param args
+  *   The arguments provided to this option.
   * @param isSupported
   *   A predicate function determining whether the provided Scala compiler version supports this
   *   option.
@@ -46,6 +48,10 @@ object ScalacOption {
   def apply(option: String, isSupported: ScalaVersion => Boolean): ScalacOption =
     new ScalacOption(option, Nil, isSupported)
 
-  def apply(option: String, args: List[String], isSupported: ScalaVersion => Boolean): ScalacOption =
+  def apply(
+    option: String,
+    args: List[String],
+    isSupported: ScalaVersion => Boolean
+  ): ScalacOption =
     new ScalacOption(option, args, isSupported)
 }

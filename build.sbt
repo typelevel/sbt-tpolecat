@@ -28,8 +28,6 @@ ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports"
 
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
-ThisBuild / crossSbtVersions := Seq("1.6.2")
-
 lazy val `sbt-tpolecat` = project
   .in(file("."))
   .aggregate(
@@ -60,9 +58,9 @@ lazy val `sbt-tpolecat-plugin` = project
     Test / headerCreate    := { (Test / headerCreate).triggeredBy(Test / compile).value },
     scalacOptions += "-Xlint:unused",
     libraryDependencies ++= Seq(
-      "org.scalatest"     %% "scalatest"       % "3.2.11"   % Test,
-      "org.scalacheck"    %% "scalacheck"      % "1.15.4"   % Test,
-      "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test
+      "org.scalatest"     %% "scalatest"       % "3.2.12"   % Test,
+      "org.scalacheck"    %% "scalacheck"      % "1.16.0"   % Test,
+      "org.scalatestplus" %% "scalacheck-1-16" % "3.2.12.0" % Test
     ),
     mimaPreviousArtifacts := Set(
       projectID.value.withRevision("0.4.0").withExplicitArtifacts(Vector.empty)

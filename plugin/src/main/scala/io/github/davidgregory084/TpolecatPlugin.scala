@@ -125,8 +125,8 @@ object TpolecatPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] = Seq(
     Def.derive(
       scalacOptions := {
-        val pluginOptions = tpolecatScalacOptions.value
-        val pluginExcludes = tpolecatExcludeOptions.value
+        val pluginOptions   = tpolecatScalacOptions.value
+        val pluginExcludes  = tpolecatExcludeOptions.value
         val selectedOptions = pluginOptions.diff(pluginExcludes)
         scalacOptionsFor(scalaVersion.value, selectedOptions)
       }

@@ -3,10 +3,10 @@ import munit.Assertions._
 import scala.util.Try
 
 val Scala211 = "2.11.12"
-val Scala212 = "2.12.15"
+val Scala212 = "2.12.16"
 val Scala213 = "2.13.8"
 val Scala30  = "3.0.2"
-val Scala31  = "3.1.1"
+val Scala31  = "3.1.3"
 
 crossScalaVersions := Seq(
   Scala211,
@@ -225,7 +225,7 @@ TaskKey[Unit]("checkReleaseMode") := {
 
   val optimizerInline = Seq(
     "-opt-inline-from:**",
-    "-opt:l:inline",
+    "-opt:l:inline"
   )
 
   val releaseOptions =
@@ -257,7 +257,8 @@ TaskKey[Unit]("checkReleaseMode") := {
 }
 
 TaskKey[Unit]("checkConsoleScalacOptions") := {
-  val shouldBeMissing       = ScalacOptions.defaultConsoleExclude.flatMap(opt => opt.option :: opt.args).toSet
+  val shouldBeMissing =
+    ScalacOptions.defaultConsoleExclude.flatMap(opt => opt.option :: opt.args).toSet
   val testConsoleOptions    = (Test / console / scalacOptions).value
   val compileConsoleOptions = (Compile / console / scalacOptions).value
 
