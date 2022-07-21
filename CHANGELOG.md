@@ -9,10 +9,12 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 ### Added
 
 * [#84](https://github.com/typelevel/sbt-tpolecat/pull/84) - An `advancedOption` overload with support for multiple argument options was added.
+* [#88](https://github.com/typelevel/sbt-tpolecat/pull/88) - A Scalafix migration rule to migrate package names for the upcoming 0.5.0 release was added.
 
 ### Changed
 
 * [#85](https://github.com/typelevel/sbt-tpolecat/pull/85) - `-Xcheckinit` was removed from the default option set. After discussion on issues [#10](https://github.com/typelevel/sbt-tpolecat/issues/10) and [#83](https://github.com/typelevel/sbt-tpolecat/issues/83) it has become apparent that although `-Xcheckinit` offers a lot of value for some users, it creates some very tricky problems for users that are writing async code. The initialization checking code this option produces introduces `@volatile` variables that can disguise memory visibility issues.
+* [#88](https://github.com/typelevel/sbt-tpolecat/pull/88) - The project was restructured into a multi-module sbt build.
 
 ## [0.4.0] - 2022-07-15
 
