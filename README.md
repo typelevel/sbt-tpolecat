@@ -114,7 +114,7 @@ It is currently tested with Scala 2.x releases:
 and Scala 3.x releases:
 
 * 3.0.2
-* 3.1.1
+* 3.1.3
 
 ### Conduct
 
