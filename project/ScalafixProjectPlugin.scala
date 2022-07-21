@@ -23,7 +23,7 @@ class ScalafixProject private (
 
   lazy val componentProjects = Seq(all, rules, input, output, tests)
 
-  lazy val all = Project(name, file(s"target/$name-scalafix-aggregate"))
+  lazy val all = Project(s"$name-scalafix", file(s"target/$name-scalafix-aggregate"))
     .aggregate(rules, input, output, tests)
     .settings(
       publish                := {},
@@ -86,7 +86,7 @@ class ScalafixProject private (
 object ScalafixProject {
   def apply(name: String): ScalafixProject = {
 
-    lazy val rules = Project(s"$name-scalafix", file(s"scalafix/rules"))
+    lazy val rules = Project(s"$name-scalafix-rules", file(s"scalafix/rules"))
       .settings(
         moduleName := s"$name-scalafix",
         libraryDependencies += "ch.epfl.scala" %% "scalafix-core" % _root_.scalafix.sbt.BuildInfo.scalafixVersion

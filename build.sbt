@@ -32,7 +32,15 @@ ThisBuild / crossSbtVersions := Seq("1.6.2")
 
 lazy val `sbt-tpolecat` = project
   .in(file("."))
-  .aggregate(`sbt-tpolecat-plugin`)
+  .aggregate(
+    `sbt-tpolecat-plugin`,
+    `sbt-tpolecat-scalafix`.rules,
+    `sbt-tpolecat-scalafix`.input,
+    `sbt-tpolecat-scalafix`.tests
+    /* TODO: change individual Scalafix project dependencies to `sbt-tpolecat-scalafix`.all when the package rename is in main;
+     * the Scalafix `output` project will not compile until the package renaming is done.
+     */
+  )
   .settings(
     publish                := {},
     publishLocal           := {},
@@ -57,7 +65,7 @@ lazy val `sbt-tpolecat-plugin` = project
       "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test
     ),
     mimaPreviousArtifacts := Set(
-      projectID.value.withRevision("0.4.0")
+      projectID.value.withRevision("0.4.0").withExplicitArtifacts(Vector.empty)
     ),
     mimaBinaryIssueFilters ++= Seq(
     ),
@@ -73,6 +81,7 @@ lazy val `sbt-tpolecat-plugin` = project
   )
 
 lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
-  .inputSettings(
-    libraryDependencies += (`sbt-tpolecat-plugin` / projectID).value.withRevision("0.4.0")
-  )
+  // TODO: Re-enable mimaReportBinaryIssues once the scalafix project is published
+  .rulesSettings(mimaReportBinaryIssues := {})
+  .inputSettings(addSbtPlugin("io.github.davidgregory084" %% "sbt-tpolecat" % "0.4.0"))
+  .outputConfigure(_.dependsOn(`sbt-tpolecat-plugin`))
