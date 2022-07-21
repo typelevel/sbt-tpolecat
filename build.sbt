@@ -61,7 +61,7 @@ lazy val `sbt-tpolecat-plugin` = project
     scalacOptions += "-Xlint:unused",
     libraryDependencies ++= Seq(
       "org.scalatest"     %% "scalatest"       % "3.2.11"   % Test,
-      "org.scalacheck"    %% "scalacheck"      % "1.15.4"   % Test,
+      "org.scalacheck"    %% "scalacheck"      % "1.16.0"   % Test,
       "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test
     ),
     mimaPreviousArtifacts := Set(
@@ -83,5 +83,7 @@ lazy val `sbt-tpolecat-plugin` = project
 lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
   // TODO: Re-enable mimaReportBinaryIssues once the scalafix project is published
   .rulesSettings(mimaReportBinaryIssues := {})
-  .inputSettings(libraryDependencies += (`sbt-tpolecat-plugin` / projectID).value.withRevision("0.4.0"))
+  .inputSettings(
+    libraryDependencies += (`sbt-tpolecat-plugin` / projectID).value.withRevision("0.4.0")
+  )
   .outputConfigure(_.dependsOn(`sbt-tpolecat-plugin`))
