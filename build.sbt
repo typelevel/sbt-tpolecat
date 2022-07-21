@@ -49,6 +49,7 @@ ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports"
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
 mimaPreviousArtifacts := Set(
+  projectID.value.withRevision("0.4.0")
 )
 
 mimaBinaryIssueFilters ++= Seq(
