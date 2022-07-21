@@ -33,5 +33,5 @@ jobs:
     - name: Run tests
       run: |
         sbt headerCheck
-        sbt ^test
-        sbt ^mimaReportBinaryIssues
+        sbt test
+        sbt mimaReportBinaryIssues

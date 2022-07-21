@@ -28,8 +28,6 @@ ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports"
 
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
-ThisBuild / crossSbtVersions := Seq("1.6.2")
-
 lazy val `sbt-tpolecat` = project
   .in(file("."))
   .aggregate(
