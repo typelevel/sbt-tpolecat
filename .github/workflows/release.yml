@@ -42,16 +42,16 @@ jobs:
     - name: Run tests
       run: |
         sbt headerCheck
-        sbt ^test
-        sbt ^mimaReportBinaryIssues
+        sbt test
+        sbt mimaReportBinaryIssues
 
     - name: Publish release
       run: |
         export GPG_TTY=$(tty)
         sbt ci-release
       env:
-        CI_RELEASE: '^publishSigned'
-        CI_SNAPSHOT_RELEASE: '^publish'
+        CI_RELEASE: 'publishSigned'
+        CI_SNAPSHOT_RELEASE: 'publish'
         PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
