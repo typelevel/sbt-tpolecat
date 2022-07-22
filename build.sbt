@@ -81,7 +81,7 @@ lazy val `sbt-tpolecat-plugin` = project
 lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
   .rulesConfigure(project =>
     project.settings(
-      mimaPreviousArtifacts := Set((project / projectID).value.withRevision("0.4.1"))
+      mimaPreviousArtifacts := Set((project / projectID).value.withRevision("0.4.1").withExplicitArtifacts(Vector.empty))
     )
   )
   .inputSettings(
