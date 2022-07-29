@@ -48,7 +48,7 @@ object TpolecatPlugin extends AutoPlugin {
           Set.empty[ScalacOption]
       }
 
-      supportedOptions.toList.flatMap(opt => opt.option :: opt.args)
+      supportedOptions.toList.sortBy(_.option).flatMap(opt => opt.option :: opt.args)
     }
 
     val tpolecatDefaultOptionsMode = settingKey[OptionsMode](
@@ -113,42 +113,43 @@ object TpolecatPlugin extends AutoPlugin {
     tpolecatDevModeEnvVar      := "SBT_TPOLECAT_DEV",
     tpolecatCiModeEnvVar       := "SBT_TPOLECAT_CI",
     tpolecatReleaseModeEnvVar  := "SBT_TPOLECAT_RELEASE",
+    tpolecatDevModeOptions     := Set.empty,
+    tpolecatCiModeOptions      := Set.empty,
+    tpolecatReleaseModeOptions := Set.empty,
     tpolecatOptionsMode := {
       if (sys.env.contains(tpolecatReleaseModeEnvVar.value)) ReleaseMode
       else if (sys.env.contains(tpolecatCiModeEnvVar.value)) CiMode
       else if (sys.env.contains(tpolecatDevModeEnvVar.value)) DevMode
       else tpolecatDefaultOptionsMode.value
-    },
-    tpolecatDevModeOptions := ScalacOptions.default
+    }
   ) ++ commandAliases
 
-  override def projectSettings: Seq[Setting[_]] = Seq(
-    Def.derive(
-      scalacOptions := {
-        val pluginOptions   = tpolecatScalacOptions.value
-        val pluginExcludes  = tpolecatExcludeOptions.value
-        val selectedOptions = pluginOptions.diff(pluginExcludes)
-        scalacOptionsFor(scalaVersion.value, selectedOptions)
-      }
-    ),
-    Def.derive(
-      tpolecatCiModeOptions := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings
-    ),
-    Def.derive(
-      tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal
-    ),
-    Def.derive(tpolecatScalacOptions := {
+  def sbtTpolecatSettings: Seq[Setting[_]] = Seq(
+    tpolecatExcludeOptions := Set.empty,
+    console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude,
+    tpolecatDevModeOptions ++= ScalacOptions.default,
+    tpolecatCiModeOptions ++= tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings,
+    tpolecatReleaseModeOptions ++= tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal,
+    tpolecatScalacOptions := {
       tpolecatOptionsMode.value match {
         case DevMode     => tpolecatDevModeOptions.value
         case CiMode      => tpolecatCiModeOptions.value
         case ReleaseMode => tpolecatReleaseModeOptions.value
       }
-    }),
-    Compile / console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude,
-    Test / console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude
+    },
+    scalacOptions := {
+      val previousOptions = scalacOptions.value
+      val pluginOptions   = tpolecatScalacOptions.value
+      val pluginExcludes  = tpolecatExcludeOptions.value
+      val selectedOptions = pluginOptions.diff(pluginExcludes)
+      previousOptions ++ scalacOptionsFor(scalaVersion.value, selectedOptions)
+    }
   )
 
-  override def globalSettings: Seq[Def.Setting[_]] = Seq(
-    tpolecatExcludeOptions := Set.empty
+  override def projectSettings: Seq[Setting[_]] = Def.settings(
+    inConfig(Compile)(sbtTpolecatSettings),
+    inConfig(Test)(sbtTpolecatSettings)
   )
+
+  override def globalSettings: Seq[Def.Setting[_]] = Seq.empty
 }

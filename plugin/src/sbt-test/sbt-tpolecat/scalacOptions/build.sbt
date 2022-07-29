@@ -29,15 +29,6 @@ tpolecatReleaseModeOptions ++= {
 
 val Scala211Options =
   Seq(
-    "-encoding",
-    "utf8",
-    "-deprecation",
-    "-feature",
-    "-unchecked",
-    "-language:existentials",
-    "-language:experimental.macros",
-    "-language:higherKinds",
-    "-language:implicitConversions",
     "-Xlint:adapted-args",
     "-Xlint:by-name-right-associative",
     "-Xlint:delayedinit-select",
@@ -62,20 +53,20 @@ val Scala211Options =
     "-Ywarn-numeric-widen",
     "-Ywarn-unused",
     "-Ywarn-unused-import",
-    "-Ywarn-value-discard"
-  )
-
-val Scala212Options =
-  Seq(
+    "-Ywarn-value-discard",
+    "-deprecation",
     "-encoding",
     "utf8",
-    "-deprecation",
     "-feature",
-    "-unchecked",
     "-language:existentials",
     "-language:experimental.macros",
     "-language:higherKinds",
     "-language:implicitConversions",
+    "-unchecked",
+  )
+
+val Scala212Options =
+  Seq(
     "-Xlint:adapted-args",
     "-Xlint:by-name-right-associative",
     "-Xlint:constant",
@@ -93,6 +84,7 @@ val Scala212Options =
     "-Xlint:stars-align",
     "-Xlint:type-parameter-shadow",
     "-Xlint:unsound-match",
+    "-Xsource:2.13",
     "-Yno-adapted-args",
     "-Ypartial-unification",
     "-Ywarn-dead-code",
@@ -100,33 +92,46 @@ val Scala212Options =
     "-Ywarn-nullary-override",
     "-Ywarn-nullary-unit",
     "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard",
     "-Ywarn-unused:implicits",
     "-Ywarn-unused:imports",
     "-Ywarn-unused:locals",
     "-Ywarn-unused:params",
     "-Ywarn-unused:patvars",
     "-Ywarn-unused:privates",
-    "-Xsource:2.13"
-  )
-
-val Scala213Options =
-  Seq(
+    "-Ywarn-value-discard",
+    "-deprecation",
     "-encoding",
     "utf8",
     "-feature",
-    "-unchecked",
     "-language:existentials",
     "-language:experimental.macros",
     "-language:higherKinds",
     "-language:implicitConversions",
+    "-unchecked",
+  )
+
+val Scala213Options =
+  Seq(
+    "-Wdead-code",
+    "-Wextra-implicit",
+    "-Wnumeric-widen",
+    "-Wunused:explicits",
+    "-Wunused:implicits",
+    "-Wunused:imports",
+    "-Wunused:locals",
+    "-Wunused:nowarn",
+    "-Wunused:params",
+    "-Wunused:patvars",
+    "-Wunused:privates",
+    "-Wvalue-discard",
+    "-Xlint:-byname-implicit",
     "-Xlint:adapted-args",
     "-Xlint:constant",
     "-Xlint:delayedinit-select",
     "-Xlint:deprecation",
     "-Xlint:doc-detached",
-    "-Xlint:implicit-recursion",
     "-Xlint:implicit-not-found",
+    "-Xlint:implicit-recursion",
     "-Xlint:inaccessible",
     "-Xlint:infer-any",
     "-Xlint:missing-interpolator",
@@ -138,50 +143,45 @@ val Scala213Options =
     "-Xlint:stars-align",
     "-Xlint:strict-unsealed-patmat",
     "-Xlint:type-parameter-shadow",
-    "-Xlint:-byname-implicit",
-    "-Wdead-code",
-    "-Wextra-implicit",
-    "-Wnumeric-widen",
-    "-Wvalue-discard",
-    "-Wunused:nowarn",
-    "-Wunused:implicits",
-    "-Wunused:explicits",
-    "-Wunused:imports",
-    "-Wunused:locals",
-    "-Wunused:params",
-    "-Wunused:patvars",
-    "-Wunused:privates",
-    "-Xsource:2.13"
+    "-Xsource:2.13",
+    "-encoding",
+    "utf8",
+    "-feature",
+    "-language:existentials",
+    "-language:experimental.macros",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked",
   )
 
 val Scala30Options =
   Seq(
+    "-Ykind-projector",
+    "-deprecation",
     "-encoding",
     "utf8",
-    "-deprecation",
     "-feature",
-    "-unchecked",
     "-language:experimental.macros",
     "-language:higherKinds",
     "-language:implicitConversions",
-    "-Ykind-projector",
     "-source",
-    "3.0-migration"
+    "3.0-migration",
+    "-unchecked",
   )
 
 val Scala31Options =
   Seq(
+    "-Ykind-projector",
+    "-deprecation",
     "-encoding",
     "utf8",
-    "-deprecation",
     "-feature",
-    "-unchecked",
     "-language:experimental.macros",
     "-language:higherKinds",
     "-language:implicitConversions",
-    "-Ykind-projector",
     "-source",
-    "3.0-migration"
+    "3.0-migration",
+    "-unchecked",
   )
 
 TaskKey[Unit]("checkDevMode") := {
@@ -195,25 +195,33 @@ TaskKey[Unit]("checkDevMode") := {
     case Scala31  => Scala31Options
   }
 
-  val actualOptions = scalacOptions.value
+  val actualOptions = (Compile / scalacOptions).value
 
-  assertEquals(actualOptions, expectedOptions)
+  assertEquals(
+    actualOptions,
+    expectedOptions,
+    s"Expected dev mode options were not applied for $scalaV"
+  )
 }
 
 TaskKey[Unit]("checkCiMode") := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
-    case Scala211 => Scala211Options ++ Seq("-Xfatal-warnings")
-    case Scala212 => Scala212Options ++ Seq("-Xfatal-warnings")
-    case Scala213 => Scala213Options ++ Seq("-Xfatal-warnings")
-    case Scala30  => Scala30Options ++ Seq("-Xfatal-warnings")
-    case Scala31  => Scala31Options ++ Seq("-Xfatal-warnings")
+    case Scala211 => "-Xfatal-warnings" +: Scala211Options
+    case Scala212 => Scala212Options
+    case Scala213 => Scala213Options
+    case Scala30  => Scala30Options
+    case Scala31  => Scala31Options
   }
 
-  val actualOptions = scalacOptions.value
+  val actualOptions = (Compile / scalacOptions).value
 
-  assertEquals(actualOptions, expectedOptions)
+  assertEquals(
+    actualOptions,
+    expectedOptions,
+    s"Expected CI mode options were not applied for $scalaV"
+  )
 }
 
 TaskKey[Unit]("checkReleaseMode") := {
@@ -251,9 +259,13 @@ TaskKey[Unit]("checkReleaseMode") := {
     case Scala31 => Scala31Options ++ fatalWarnings ++ releaseOptions
   }
 
-  val actualOptions = scalacOptions.value
+  val actualOptions = (Compile / scalacOptions).value
 
-  assertEquals(actualOptions, expectedOptions)
+  assertEquals(
+    actualOptions,
+    expectedOptions,
+    s"Expected release mode options were not applied for $scalaV"
+  )
 }
 
 TaskKey[Unit]("checkConsoleScalacOptions") := {

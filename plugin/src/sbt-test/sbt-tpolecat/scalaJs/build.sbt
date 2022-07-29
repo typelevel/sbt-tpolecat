@@ -17,6 +17,14 @@ crossScalaVersions := Seq(
 enablePlugins(ScalaJSPlugin)
 
 TaskKey[Unit]("checkScalaJsOption") := {
-  val actualOptions = scalacOptions.value
-  assert(actualOptions.contains("-scalajs"))
+  val actualOptions = (Compile / scalacOptions).value
+
+  scalaVersion.value match {
+    case Scala30 =>
+      assert(actualOptions.contains("-scalajs"), "The -scalajs option was not present on Scala 3.0")
+    case Scala31 =>
+      assert(actualOptions.contains("-scalajs"), "The -scalajs option was not present on Scala 3.1")
+    case _ =>
+      assert(!actualOptions.contains("-scalajs"), "The -scalajs option was present on Scala 2.x")
+  }
 }

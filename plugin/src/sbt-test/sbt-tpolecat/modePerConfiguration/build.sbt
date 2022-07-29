@@ -22,14 +22,20 @@ Test / tpolecatOptionsMode    := DevMode
 
 TaskKey[Unit]("checkCompileOptions") := {
   val hasFatalWarnings =
-    scalacOptions.value.contains("-Xfatal-warnings")
+    (Compile / scalacOptions).value.contains("-Xfatal-warnings")
 
-  assert(hasFatalWarnings)
+  val scalaV =
+    scalaVersion.value
+
+  assert(hasFatalWarnings, s"Compile options does not contain expected fatal warnings option for $scalaV")
 }
 
 TaskKey[Unit]("checkTestOptions") := {
   val hasFatalWarnings =
     (Test / scalacOptions).value.contains("-Xfatal-warnings")
 
-  assert(!hasFatalWarnings)
+  val scalaV =
+    scalaVersion.value
+
+  assert(!hasFatalWarnings, s"Test options contains unexpected fatal warnings option for $scalaV")
 }
