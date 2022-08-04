@@ -1,4 +1,4 @@
-import _root_.io.github.davidgregory084.JavaMajorVersion
+import org.typelevel.scalacoptions._
 import munit.Assertions._
 import scala.util.Try
 
