@@ -1,5 +1,5 @@
-import _root_.io.github.davidgregory084.CiMode
-import _root_.io.github.davidgregory084.DevMode
+import _root_.org.typelevel.sbt.tpolecat.CiMode
+import _root_.org.typelevel.sbt.tpolecat.DevMode
 import munit.Assertions._
 import scala.util.Try
 

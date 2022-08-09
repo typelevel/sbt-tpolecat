@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 David Gregory
+ * Copyright 2022 Typelevel
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.davidgregory084
+package org.typelevel.sbt.tpolecat
 
 sealed abstract class OptionsMode extends Product with Serializable
 
