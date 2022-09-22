@@ -566,6 +566,11 @@ private[davidgregory084] trait ScalacOptions {
   val warnValueDiscard =
     warnOption("value-discard", version => version.isBetween(V2_13_0, V3_0_0))
 
+  /** Warn when and expression is ignored because it is followed by another expression.
+    */
+  val warnNonUnitStatement = 
+    warnOption("nonunit-statement", version => version.isBetween(V2_13_9, V3_0_0))
+
   /** Fail the compilation if there are any warnings.
     */
   val warnError =
@@ -637,7 +642,8 @@ private[davidgregory084] trait ScalacOptions {
     warnDeadCode,
     warnExtraImplicit,
     warnNumericWiden,
-    warnValueDiscard
+    warnValueDiscard,
+    warnNonUnitStatement
   ) ++ warnUnusedOptions
 
   /** Options which fail the compilation if there are any warnings.
