@@ -568,7 +568,7 @@ private[davidgregory084] trait ScalacOptions {
 
   /** Warn when and expression is ignored because it is followed by another expression.
     */
-  val warnNonUnitStatement = 
+  val warnNonUnitStatement =
     warnOption("nonunit-statement", version => version.isBetween(V2_13_9, V3_0_0))
 
   /** Fail the compilation if there are any warnings.
