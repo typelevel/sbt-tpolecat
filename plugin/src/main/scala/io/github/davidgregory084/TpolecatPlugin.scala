@@ -29,11 +29,11 @@ object TpolecatPlugin extends AutoPlugin {
   object autoImport {
     object ScalacOptions extends ScalacOptions
 
-    def scalacOptionsFor(
+    private[TpolecatPlugin] def supportedOptionsFor(
       version: String,
       modeScalacOptions: Set[ScalacOption]
-    ): Seq[String] = {
-      val supportedOptions = (CrossVersion.partialVersion(version), version.split('.')) match {
+    ): Set[ScalacOption] = {
+      (CrossVersion.partialVersion(version), version.split('.')) match {
         case (Some((0, _)), _) => // dotty prereleases use 0 as major version
           modeScalacOptions
             .filter(_.isSupported(V3_0_0)) // treat dotty prereleases as 3.0.0
@@ -47,8 +47,13 @@ object TpolecatPlugin extends AutoPlugin {
         case (None, _) =>
           Set.empty[ScalacOption]
       }
+    }
 
-      supportedOptions.toList.flatMap(opt => opt.option :: opt.args)
+    def scalacOptionsFor(
+      version: String,
+      modeScalacOptions: Set[ScalacOption]
+    ): Seq[String] = {
+      supportedOptionsFor(version, modeScalacOptions).toList.flatMap(opt => opt.option :: opt.args)
     }
 
     val tpolecatDefaultOptionsMode = settingKey[OptionsMode](
@@ -90,6 +95,14 @@ object TpolecatPlugin extends AutoPlugin {
     val tpolecatExcludeOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be excluded."
     )
+
+    val tpolecatEffectiveScalacOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that will effectively be applied by the sbt-tpolecat. For internal use only."
+    ).withRank(sbt.KeyRanks.Invisible)
+
+    val tpolecatManagedScalacOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that sbt-tpolecat owns and manages. Defaults to anything it ever adds in any scope delegation chain."
+    ).withRank(sbt.KeyRanks.DSetting)
   }
 
   import autoImport._
@@ -122,13 +135,60 @@ object TpolecatPlugin extends AutoPlugin {
     tpolecatDevModeOptions := ScalacOptions.default
   ) ++ commandAliases
 
+  private def removeOption(options: List[String], optionToRemove: ScalacOption): List[String] = {
+    val option = optionToRemove.option
+    val args   = optionToRemove.args
+
+    if (args.isEmpty) {
+      // fast path
+      options.filterNot(_ == option)
+    } else {
+      def loop(options: List[String]): List[String] = options match {
+        case Nil                                       => Nil
+        case `option` :: tail if tail.startsWith(args) => loop(tail.drop(args.size))
+        case head :: tail                              => head :: loop(tail)
+      }
+      loop(options)
+    }
+  }
+
+  private def addOption(options: List[String], optionToAdd: ScalacOption): List[String] = {
+    val option = optionToAdd.option
+    val args   = optionToAdd.args
+
+    if (args.isEmpty) {
+      // fast path
+      if (options.contains(option)) options
+      else options ::: option :: Nil
+    } else {
+      if (options.containsSlice(option :: args)) options
+      else options ::: option :: args
+    }
+  }
+
   override def projectSettings: Seq[Setting[_]] = Seq(
     Def.derive(
       scalacOptions := {
+        val prevOptions      = scalacOptions.value.toList
+        val managedOptions   = tpolecatManagedScalacOptions.value
+        val effectiveOptions = tpolecatEffectiveScalacOptions.value
+
+        val optionsToRemove = managedOptions.diff(effectiveOptions)
+        val optionsToAdd    = effectiveOptions
+
+        val optionsWithRemovals = optionsToRemove.foldLeft(prevOptions)(removeOption(_, _))
+        optionsToAdd.foldLeft(optionsWithRemovals)(addOption(_, _))
+      }
+    ),
+    Def.derive(
+      tpolecatManagedScalacOptions ++= tpolecatEffectiveScalacOptions.value
+    ),
+    Def.derive(
+      tpolecatEffectiveScalacOptions := {
         val pluginOptions   = tpolecatScalacOptions.value
         val pluginExcludes  = tpolecatExcludeOptions.value
         val selectedOptions = pluginOptions.diff(pluginExcludes)
-        scalacOptionsFor(scalaVersion.value, selectedOptions)
+        supportedOptionsFor(scalaVersion.value, selectedOptions)
       }
     ),
     Def.derive(
@@ -149,6 +209,7 @@ object TpolecatPlugin extends AutoPlugin {
   )
 
   override def globalSettings: Seq[Def.Setting[_]] = Seq(
-    tpolecatExcludeOptions := Set.empty
+    tpolecatManagedScalacOptions := Set.empty,
+    tpolecatExcludeOptions       := Set.empty
   )
 }
