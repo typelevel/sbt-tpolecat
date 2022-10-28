@@ -19,7 +19,6 @@ package io.github.davidgregory084
 import scala.Ordering.Implicits._
 import scala.collection.immutable.ListSet
 
-//noinspection TypeAnnotation,ScalaUnusedSymbol
 private[davidgregory084] trait ScalacOptions {
   import ScalaVersion._
 
