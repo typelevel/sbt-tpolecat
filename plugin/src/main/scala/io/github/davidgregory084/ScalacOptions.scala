@@ -19,6 +19,7 @@ package io.github.davidgregory084
 import scala.Ordering.Implicits._
 import scala.collection.immutable.ListSet
 
+//noinspection TypeAnnotation,ScalaUnusedSymbol
 private[davidgregory084] trait ScalacOptions {
   import ScalaVersion._
 
@@ -568,7 +569,7 @@ private[davidgregory084] trait ScalacOptions {
 
   /** Warn when and expression is ignored because it is followed by another expression.
     */
-  val warnNonUnitStatement = 
+  val warnNonUnitStatement =
     warnOption("nonunit-statement", version => version.isBetween(V2_13_9, V3_0_0))
 
   /** Fail the compilation if there are any warnings.
@@ -653,6 +654,40 @@ private[davidgregory084] trait ScalacOptions {
     warnError
   )
 
+  /** Verbose options (-V)
+    */
+  def verboseOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
+    ScalacOption(s"-V$name", isSupported)
+
+  /** Print dependent missing implicits.
+    */
+  val verboseImplicits =
+    verboseOption("implicits", _.isBetween(V2_13_6, V3_0_0))
+
+  /** Print found/required error messages as colored diffs.
+    */
+  val verboseTypeDiffs =
+    verboseOption("type-diffs", _.isBetween(V2_13_6, V3_0_0))
+
+  /** Explain type errors in more detail.
+    */
+  val explaintypes2 =
+    // alternatively --explain-types which is still different from Scala 3 :(
+    ScalacOption("-explaintypes", _ < V3_0_0)
+
+  /** Explain type errors in more detail.
+    */
+  val explaintypes3 = ScalacOption("-explain-types", _ >= V3_0_0)
+
+  /** Verbose options (-V)
+    */
+  val verboseOptions: Set[ScalacOption] = ListSet(
+    verboseImplicits,
+    verboseTypeDiffs,
+    explaintypes2,
+    explaintypes3
+  )
+
   /** The default set of Scala compiler options defined by sbt-tpolecat.
     */
   val default: Set[ScalacOption] = ListSet(
@@ -660,7 +695,7 @@ private[davidgregory084] trait ScalacOptions {
     deprecation,
     feature,
     unchecked
-  ) ++ languageFeatureOptions ++ advancedOptions ++ privateOptions ++ warnOptions
+  ) ++ languageFeatureOptions ++ advancedOptions ++ privateOptions ++ warnOptions ++ verboseOptions
 
   /** Optimizer options (-opt)
     */
