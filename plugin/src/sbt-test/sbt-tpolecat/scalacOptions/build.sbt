@@ -62,7 +62,8 @@ val Scala211Options =
     "-Ywarn-numeric-widen",
     "-Ywarn-unused",
     "-Ywarn-unused-import",
-    "-Ywarn-value-discard"
+    "-Ywarn-value-discard",
+    "-explaintypes"
   )
 
 val Scala212Options =
@@ -107,6 +108,7 @@ val Scala212Options =
     "-Ywarn-unused:params",
     "-Ywarn-unused:patvars",
     "-Ywarn-unused:privates",
+    "-explaintypes",
     "-Xsource:2.13"
   )
 
@@ -151,6 +153,9 @@ val Scala213Options =
     "-Wunused:params",
     "-Wunused:patvars",
     "-Wunused:privates",
+    "-Vimplicits",
+    "-Vtype-diffs",
+    "-explaintypes",
     "-Xsource:2.13"
   )
 
@@ -165,6 +170,7 @@ val Scala30Options =
     "-language:higherKinds",
     "-language:implicitConversions",
     "-Ykind-projector",
+    "-explain-types",
     "-source",
     "3.0-migration"
   )
@@ -180,6 +186,7 @@ val Scala31Options =
     "-language:higherKinds",
     "-language:implicitConversions",
     "-Ykind-projector",
+    "-explain-types",
     "-source",
     "3.0-migration"
   )
