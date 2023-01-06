@@ -8,6 +8,8 @@ val Scala213 = "2.13.8"
 val Scala30  = "3.0.2"
 val Scala31  = "3.1.3"
 
+enablePlugins(OtherPlugin)
+
 crossScalaVersions := Seq(
   Scala211,
   Scala212,
@@ -279,4 +281,31 @@ addCommandAlias(
 TaskKey[Unit]("checkThisProjectScalacOptions") := {
   val options = (Compile / scalacOptions).value
   assert(options.contains("non-existent-key"), "Scope ThisProject was ignored")
+}
+
+addCommandAlias(
+  "addOtherPluginsScalacOptions",
+  "set ThisProject / otherPluginActivate := true"
+)
+
+TaskKey[Unit]("checkOtherPluginsScalacOptions") := {
+  val optionsProject = scalacOptions.value
+  assert(
+    optionsProject.contains("other-plugin-option-1"),
+    "Project scope of OtherPlugin was ignored in Project"
+  )
+  assert(
+    !optionsProject.contains("other-plugin-option-2"),
+    "Unexpected Compile-only setting in Project"
+  )
+
+  val optionsCompile = (Compile / scalacOptions).value
+  assert(
+    optionsCompile.contains("other-plugin-option-1"),
+    "Project scope of OtherPlugin was ignored in Compile"
+  )
+  assert(
+    optionsCompile.contains("other-plugin-option-2"),
+    "Compile scope of OtherPlugin was ignored in Compile"
+  )
 }
