@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2]
+
+### Fixed
+
+* [#102](https://github.com/typelevel/sbt-tpolecat/issues/102) - a bug which resulted in scalac options contributed by other plugins being overwritten, most notably the Scala.js plugin. Huge thanks to [@sjrd](https://github.com/sjrd) for their work on [#126](https://github.com/typelevel/sbt-tpolecat/pull/126) which resolves this issue.
+
 ## [0.4.1]
 
 ### Added
@@ -41,7 +47,7 @@ A Scalafix migration will be provided upon the release of `0.5.0` to migrate any
 
 ### Fixed
 
-* [#74](https://github.com/typelevel/sbt-tpolecat/issues/74) - a bug in filtering of multiple-argument options. This filtering was broken in the attempt to fix [#60](https://github.com/DavidGregory084/sbt-tpolecat/issues/60). Unfortunately this means that if users append to `ThisBuild / scalacOptions`, those appended options will no longer be inherited by other configurations, e.g. `Test / scalacOptions`.
+* [#74](https://github.com/typelevel/sbt-tpolecat/issues/74) - a bug in filtering of multiple-argument options. This filtering was broken in the attempt to fix [#60](https://github.com/typelevel/sbt-tpolecat/issues/60). Unfortunately this means that if users append to `ThisBuild / scalacOptions`, those appended options will no longer be inherited by other configurations, e.g. `Test / scalacOptions`.
 * [#78](https://github.com/typelevel/sbt-tpolecat/issues/78) - a bug where options were not filtered out of `Test / scalacOptions` as expected. This had the same underlying cause as [#74](https://github.com/typelevel/sbt-tpolecat/issues/74).
 * [#77](https://github.com/typelevel/sbt-tpolecat/issues/77) - the JDK version was not being set as expected by the setup-scala action. Resolved by switching to setup-java instead.
 
@@ -63,7 +69,7 @@ Please do not use this release - GitHub accepted a tag push but not its correspo
 
 ### Changed
 
-* `tpolecatConsoleOptionsFilter` was replaced by `tpolecatExcludeOptions`. The use of a function to filter out console options did not interact well with the new method of setting `scalacOptions` in sbt-tpolecat [0.2.3](https://github.com/DavidGregory084/sbt-tpolecat/releases/tag/v0.2.3). Please append to `tpolecatExcludeOptions` in the `console` task you wish to configure instead, e.g.
+* `tpolecatConsoleOptionsFilter` was replaced by `tpolecatExcludeOptions`. The use of a function to filter out console options did not interact well with the new method of setting `scalacOptions` in sbt-tpolecat [0.2.3](https://github.com/typelevel/sbt-tpolecat/releases/tag/v0.2.3). Please append to `tpolecatExcludeOptions` in the `console` task you wish to configure instead, e.g.
 
     ```scala
     IntegrationTest / console / tpolecatExcludeOptions ++= ScalacOptions.defaultConsoleExclude
@@ -78,7 +84,7 @@ Please do not use this release - GitHub accepted a tag push but not its correspo
 
 ### Fixed
 
-* [#60](https://github.com/DavidGregory084/sbt-tpolecat/issues/60) - a bug in setting `scalacOptions` where it was set using `:=` rather than appended to via `++=`. This prevented scope delegation via `ThisBuild / scalacOptions` from working for some users.
+* [#60](https://github.com/typelevel/sbt-tpolecat/issues/60) - a bug in setting `scalacOptions` where it was set using `:=` rather than appended to via `++=`. This prevented scope delegation via `ThisBuild / scalacOptions` from working for some users.
 
 ## [0.2.2] - 2022-03-30
 
@@ -120,13 +126,14 @@ Please do not use this release - GitHub accepted a tag push but not its correspo
 
 * The `validFor` function that was previously exported via this plugin's `autoImport`.
 
-[Unreleased]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.4.1...HEAD
-[0.4.1]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.3...v0.4.0
-[0.3.3]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.1...v0.3.3
-[0.3.1]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.3.0...v0.3.1
-[0.3.0]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.3...v0.3.0
-[0.2.3]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.2...v0.2.3
-[0.2.2]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.1...v0.2.2
-[0.2.1]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/DavidGregory084/sbt-tpolecat/compare/v0.1.22...v0.2.0
+[Unreleased]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.1...v0.4.2
+[0.4.1]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.0...v0.4.1
+[0.4.0]: https://github.com/typelevel/sbt-tpolecat/compare/v0.3.3...v0.4.0
+[0.3.3]: https://github.com/typelevel/sbt-tpolecat/compare/v0.3.1...v0.3.3
+[0.3.1]: https://github.com/typelevel/sbt-tpolecat/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/typelevel/sbt-tpolecat/compare/v0.2.3...v0.3.0
+[0.2.3]: https://github.com/typelevel/sbt-tpolecat/compare/v0.2.2...v0.2.3
+[0.2.2]: https://github.com/typelevel/sbt-tpolecat/compare/v0.2.1...v0.2.2
+[0.2.1]: https://github.com/typelevel/sbt-tpolecat/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/typelevel/sbt-tpolecat/compare/v0.1.22...v0.2.0

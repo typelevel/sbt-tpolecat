@@ -7,8 +7,8 @@ ThisBuild / startYear := Some(2022)
 ThisBuild / licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 ThisBuild / scmInfo := Some(
   ScmInfo(
-    url("https://github.com/DavidGregory084/sbt-tpolecat"),
-    "scm:git:git@github.com:DavidGregory084/sbt-tpolecat.git"
+    url("https://github.com/typelevel/sbt-tpolecat"),
+    "scm:git:git@github.com:typelevel/sbt-tpolecat.git"
   )
 )
 ThisBuild / developers := List(
