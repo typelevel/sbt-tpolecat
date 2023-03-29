@@ -8,4 +8,4 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.10.1")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.1")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.2")
