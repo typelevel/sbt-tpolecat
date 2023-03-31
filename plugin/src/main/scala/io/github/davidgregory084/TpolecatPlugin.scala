@@ -110,15 +110,15 @@ object TpolecatPlugin extends AutoPlugin {
   val commandAliases =
     addCommandAlias(
       "tpolecatDevMode",
-      "set ThisBuild / tpolecatOptionsMode := _root_.io.github.davidgregory084.DevMode"
+      "set every tpolecatOptionsMode := _root_.io.github.davidgregory084.DevMode"
     ) ++
       addCommandAlias(
         "tpolecatCiMode",
-        "set ThisBuild / tpolecatOptionsMode := _root_.io.github.davidgregory084.CiMode"
+        "set every tpolecatOptionsMode := _root_.io.github.davidgregory084.CiMode"
       ) ++
       addCommandAlias(
         "tpolecatReleaseMode",
-        "set ThisBuild / tpolecatOptionsMode := _root_.io.github.davidgregory084.ReleaseMode"
+        "set every tpolecatOptionsMode := _root_.io.github.davidgregory084.ReleaseMode"
       )
 
   override def buildSettings: Seq[Setting[_]] = Seq(
