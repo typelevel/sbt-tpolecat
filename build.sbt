@@ -7,8 +7,8 @@ ThisBuild / startYear := Some(2022)
 ThisBuild / licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 ThisBuild / scmInfo := Some(
   ScmInfo(
-    url("https://github.com/DavidGregory084/sbt-tpolecat"),
-    "scm:git:git@github.com:DavidGregory084/sbt-tpolecat.git"
+    url("https://github.com/typelevel/sbt-tpolecat"),
+    "scm:git:git@github.com:typelevel/sbt-tpolecat.git"
   )
 )
 ThisBuild / developers := List(
@@ -58,7 +58,7 @@ lazy val `sbt-tpolecat-plugin` = project
     Test / headerCreate    := { (Test / headerCreate).triggeredBy(Test / compile).value },
     scalacOptions += "-Xlint:unused",
     libraryDependencies ++= Seq(
-      "org.scalatest"     %% "scalatest"       % "3.2.14"   % Test,
+      "org.scalatest"     %% "scalatest"       % "3.2.15"   % Test,
       "org.scalacheck"    %% "scalacheck"      % "1.17.0"   % Test,
       "org.scalatestplus" %% "scalacheck-1-16" % "3.2.14.0" % Test
     ),
