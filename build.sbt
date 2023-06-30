@@ -22,9 +22,8 @@ ThisBuild / developers := List(
 
 ThisBuild / homepage := scmInfo.value.map(_.browseUrl)
 
-ThisBuild / semanticdbEnabled                              := true
-ThisBuild / semanticdbVersion                              := scalafixSemanticdb.revision
-ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
