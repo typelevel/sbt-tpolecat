@@ -7,6 +7,7 @@ val Scala212 = "2.12.17"
 val Scala213 = "2.13.8"
 val Scala30  = "3.0.2"
 val Scala31  = "3.1.3"
+val Scala33  = "3.3.0"
 
 enablePlugins(OtherPlugin)
 
@@ -15,7 +16,8 @@ crossScalaVersions := Seq(
   Scala212,
   Scala213,
   Scala30,
-  Scala31
+  Scala31,
+  Scala33
 )
 
 tpolecatDevModeOptions ++= Set(
@@ -185,6 +187,27 @@ val Scala31Options =
     "-source",
     "3.0-migration"
   )
+val Scala33Options =
+  Seq(
+    "-encoding",
+    "utf8",
+    "-deprecation",
+    "-feature",
+    "-unchecked",
+    "-language:experimental.macros",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-Ykind-projector",
+    "-Wvalue-discard",
+    "-Wunused:implicits",
+    "-Wunused:explicits",
+    "-Wunused:imports",
+    "-Wunused:locals",
+    "-Wunused:params",
+    "-Wunused:privates",
+    "-source",
+    "3.0-migration",
+  )
 
 TaskKey[Unit]("checkDevMode") := {
   val scalaV = scalaVersion.value
@@ -195,6 +218,7 @@ TaskKey[Unit]("checkDevMode") := {
     case Scala213 => Scala213Options
     case Scala30  => Scala30Options
     case Scala31  => Scala31Options
+    case Scala33  => Scala33Options
   }
 
   val actualOptions = scalacOptions.value
@@ -211,6 +235,7 @@ TaskKey[Unit]("checkCiMode") := {
     case Scala213 => Scala213Options ++ Seq("-Xfatal-warnings")
     case Scala30  => Scala30Options ++ Seq("-Xfatal-warnings")
     case Scala31  => Scala31Options ++ Seq("-Xfatal-warnings")
+    case Scala33  => Scala33Options ++ Seq("-Xfatal-warnings")
   }
 
   val actualOptions = scalacOptions.value
@@ -251,6 +276,7 @@ TaskKey[Unit]("checkReleaseMode") := {
       )
     case Scala30 => Scala30Options ++ fatalWarnings ++ releaseOptions
     case Scala31 => Scala31Options ++ fatalWarnings ++ releaseOptions
+    case Scala33 => Scala33Options ++ fatalWarnings ++ releaseOptions
   }
 
   val actualOptions = scalacOptions.value
