@@ -22,6 +22,20 @@ Once you are using this plugin we recommend that you don't manipulate the `scala
 
 Instead you should modify the `tpolecatScalacOptions` key or the options key for the relevant mode, for example `tpolecatDevModeOptions` for the development mode.
 
+### ScalaTest warnings
+
+One of the options configured by **sbt-tpolecat** (`-Wnonunit-statement`) is designed to warn users about discarded values in their code.
+
+However, Scalatest assertions return a value of type `Assertion` by design, in order to support async testing.
+
+Unfortunately, this means that in synchronous test suites, every assertion discards this `Assertion` value, triggering the `-Wnonunit-statement` compiler warning.
+
+If you find yourself in this situation, you can disable the `-Wnonunit-discard` option in your test suite like so:
+
+```scala
+Test / tpolecatExcludeOptions += ScalacOptions.warnNonUnitStatement
+```
+
 ### Configuring the REPL
 
 To filter out scala compiler options that don't work well in the REPL, use the `tpolecatExcludeOptions`.
