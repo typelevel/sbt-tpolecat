@@ -22,7 +22,7 @@ case class ScalaVersion(major: Long, minor: Long, patch: Long) {
   def isBetween(addedVersion: ScalaVersion, removedVersion: ScalaVersion) =
     this >= addedVersion && this < removedVersion
 
-  def isAfter(addedVersion: ScalaVersion) = this >= addedVersion
+  def isAtLeast(addedVersion: ScalaVersion) = this >= addedVersion
 }
 
 object ScalaVersion {
