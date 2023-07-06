@@ -86,6 +86,6 @@ lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
     )
   )
   .inputSettings(
-    libraryDependencies += (`sbt-tpolecat-plugin` / projectID).value.withRevision("0.4.0")
+    libraryDependencies += (`sbt-tpolecat-plugin` / projectID).value.withRevision("0.4.3")
   )
   .outputConfigure(_.dependsOn(`sbt-tpolecat-plugin`))
