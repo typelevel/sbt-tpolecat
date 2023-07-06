@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.3]
+
+### Added
+
+* [#147](https://github.com/typelevel/sbt-tpolecat/pull/147) - added support for compiler warnings re-introduced in Scala 3.3.0.
+
+### Changed
+
+* [#143](https://github.com/typelevel/sbt-tpolecat/pull/143) - set `tpolecatOptionsMode` in every scope when using the mode commands, rather than just `ThisBuild` scope. This enables users who set the mode differently in different subprojects to make use of mode commands.
+
 ## [0.4.2]
+
+### Added
+
+* [#115](https://github.com/typelevel/sbt-tpolecat/pull/115) - added the new `-Wnonunit-statement` option.
 
 ### Fixed
 
@@ -126,7 +140,8 @@ Please do not use this release - GitHub accepted a tag push but not its correspo
 
 * The `validFor` function that was previously exported via this plugin's `autoImport`.
 
-[Unreleased]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.3...HEAD
+[0.4.3]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/typelevel/sbt-tpolecat/compare/v0.3.3...v0.4.0
