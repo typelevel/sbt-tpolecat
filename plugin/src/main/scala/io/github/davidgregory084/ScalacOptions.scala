@@ -661,7 +661,7 @@ private[davidgregory084] trait ScalacOptions {
   /** Print dependent missing implicits.
     */
   val verboseImplicits =
-    verboseOption("implicits", _.isBetween(V2_13_6, V3_0_0))
+    verboseOption("implicits", _.isBetween(V2_13_0, V3_0_0))
 
   /** Print found/required error messages as colored diffs.
     */
@@ -670,21 +670,20 @@ private[davidgregory084] trait ScalacOptions {
 
   /** Explain type errors in more detail.
     */
-  val explaintypes2 =
-    // alternatively --explain-types which is still different from Scala 3 :(
+  val explainTypes =
     ScalacOption("-explaintypes", _ < V3_0_0)
 
-  /** Explain type errors in more detail.
+  /** Explain errors in more detail.
     */
-  val explaintypes3 = ScalacOption("-explain-types", _ >= V3_0_0)
+  val explain = ScalacOption("-explain", _ >= V3_0_0)
 
   /** Verbose options (-V)
     */
   val verboseOptions: Set[ScalacOption] = ListSet(
     verboseImplicits,
     verboseTypeDiffs,
-    explaintypes2,
-    explaintypes3
+    explainTypes,
+    explain
   )
 
   /** The default set of Scala compiler options defined by sbt-tpolecat.
@@ -694,7 +693,7 @@ private[davidgregory084] trait ScalacOptions {
     deprecation,
     feature,
     unchecked
-  ) ++ languageFeatureOptions ++ advancedOptions ++ privateOptions ++ warnOptions ++ verboseOptions
+  ) ++ languageFeatureOptions ++ advancedOptions ++ privateOptions ++ warnOptions
 
   /** Optimizer options (-opt)
     */

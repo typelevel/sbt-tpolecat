@@ -5,6 +5,10 @@
 > tpolecatDevMode
 > +checkDevMode
 > +compile
+# Check verbose mode options
+> tpolecatVerboseMode
+> +checkVerboseMode
+> +compile
 # Check CI mode options
 > tpolecatCiMode
 > +checkCiMode
