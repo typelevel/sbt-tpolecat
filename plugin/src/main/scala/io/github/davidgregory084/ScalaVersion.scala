@@ -21,6 +21,8 @@ import scala.Ordering.Implicits._
 case class ScalaVersion(major: Long, minor: Long, patch: Long) {
   def isBetween(addedVersion: ScalaVersion, removedVersion: ScalaVersion) =
     this >= addedVersion && this < removedVersion
+
+  def isAtLeast(addedVersion: ScalaVersion) = this >= addedVersion
 }
 
 object ScalaVersion {
@@ -38,6 +40,7 @@ object ScalaVersion {
   val V2_13_9  = ScalaVersion(2, 13, 9)
   val V3_0_0   = ScalaVersion(3, 0, 0)
   val V3_1_0   = ScalaVersion(3, 1, 0)
+  val V3_3_0   = ScalaVersion(3, 3, 0)
 
   implicit val scalaVersionOrdering: Ordering[ScalaVersion] =
     Ordering.by(version => (version.major, version.minor, version.patch))

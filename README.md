@@ -1,7 +1,7 @@
 ## sbt-tpolecat
 
-[![Build Status](https://github.com/DavidGregory084/sbt-tpolecat/workflows/CI/badge.svg)](https://github.com/DavidGregory084/sbt-tpolecat/actions?query=workflow%3ACI)
-[![License](https://img.shields.io/github/license/DavidGregory084/sbt-tpolecat.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://github.com/typelevel/sbt-tpolecat/workflows/CI/badge.svg)](https://github.com/typelevel/sbt-tpolecat/actions?query=workflow%3ACI)
+[![License](https://img.shields.io/github/license/typelevel/sbt-tpolecat.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Latest Version](https://index.scala-lang.org/typelevel/sbt-tpolecat/sbt-tpolecat/latest.svg)](https://index.scala-lang.org/typelevel/sbt-tpolecat/sbt-tpolecat)
 
 ### scalac options for the enlightened
@@ -15,12 +15,26 @@ As of version 0.1.11, it also supports setting options for Scala 3.x.
 Add the following to your project's `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.1")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.3")
 ```
 
 Once you are using this plugin we recommend that you don't manipulate the `scalacOptions` key directly.
 
 Instead you should modify the `tpolecatScalacOptions` key or the options key for the relevant mode, for example `tpolecatDevModeOptions` for the development mode.
+
+### ScalaTest warnings
+
+One of the options configured by **sbt-tpolecat** (`-Wnonunit-statement`) is designed to warn users about discarded values in their code.
+
+However, Scalatest assertions return a value of type `Assertion` by design, in order to support async testing.
+
+Unfortunately, this means that in synchronous test suites, every assertion discards this `Assertion` value, triggering the `-Wnonunit-statement` compiler warning.
+
+If you find yourself in this situation, you can disable the `-Wnonunit-discard` option in your test suite like so:
+
+```scala
+Test / tpolecatExcludeOptions += ScalacOptions.warnNonUnitStatement
+```
 
 ### Configuring the REPL
 
@@ -115,6 +129,7 @@ and Scala 3.x releases:
 
 * 3.0.2
 * 3.1.3
+* 3.3.0
 
 ### Conduct
 

@@ -8,13 +8,15 @@ val Scala212 = "2.12.17"
 val Scala213 = "2.13.8"
 val Scala30  = "3.0.2"
 val Scala31  = "3.1.3"
+val Scala33  = "3.3.0"
 
 crossScalaVersions := Seq(
   Scala211,
   Scala212,
   Scala213,
   Scala30,
-  Scala31
+  Scala31,
+  Scala33,
 )
 
 Compile / tpolecatOptionsMode := CiMode
