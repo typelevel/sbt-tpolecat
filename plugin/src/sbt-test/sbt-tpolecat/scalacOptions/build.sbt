@@ -226,6 +226,23 @@ TaskKey[Unit]("checkDevMode") := {
   assertEquals(actualOptions, expectedOptions)
 }
 
+TaskKey[Unit]("checkVerboseMode") := {
+  val scalaV = scalaVersion.value
+
+  val expectedOptions = scalaV match {
+    case Scala211 => Scala211Options ++ Seq("-explaintypes")
+    case Scala212 => Scala212Options ++ Seq("-explaintypes")
+    case Scala213 => Scala213Options ++ Seq("-Vimplicits", "-Vtype-diffs", "-explaintypes")
+    case Scala30  => Scala30Options ++ Seq("-explain")
+    case Scala31  => Scala31Options ++ Seq("-explain")
+    case Scala33  => Scala33Options ++ Seq("-explain")
+  }
+
+  val actualOptions = scalacOptions.value
+
+  assertEquals(actualOptions, expectedOptions)
+}
+
 TaskKey[Unit]("checkCiMode") := {
   val scalaV = scalaVersion.value
 

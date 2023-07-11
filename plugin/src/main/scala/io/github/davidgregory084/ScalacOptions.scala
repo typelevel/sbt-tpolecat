@@ -564,7 +564,10 @@ private[davidgregory084] trait ScalacOptions {
   /** Warn when non-Unit expression results are unused.
     */
   val warnValueDiscard =
-    warnOption("value-discard", version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0))
+    warnOption(
+      "value-discard",
+      version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0)
+    )
 
   /** Warn when an expression is ignored because it is followed by another expression.
     */
@@ -589,29 +592,44 @@ private[davidgregory084] trait ScalacOptions {
   /** Warn if an implicit parameter is unused.
     */
   val warnUnusedImplicits =
-    warnUnusedOption("implicits", version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0))
+    warnUnusedOption(
+      "implicits",
+      version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0)
+    )
 
   /** Warn if an explicit parameter is unused.
     */
   val warnUnusedExplicits =
-    warnUnusedOption("explicits", version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0))
+    warnUnusedOption(
+      "explicits",
+      version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0)
+    )
 
   /** Warn if an import selector is not referenced.
     */
   val warnUnusedImports =
-    warnUnusedOption("imports", version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0))
+    warnUnusedOption(
+      "imports",
+      version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0)
+    )
 
   /** Warn if a local definition is unused.
     */
   val warnUnusedLocals =
-    warnUnusedOption("locals", version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0))
+    warnUnusedOption(
+      "locals",
+      version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0)
+    )
 
   /** Warn if either explicit or implicit parameters are unused.
     *
     * Equivalent to -Wunused:explicits,implicits.
     */
   val warnUnusedParams =
-    warnUnusedOption("params", version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0))
+    warnUnusedOption(
+      "params",
+      version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0)
+    )
 
   /** Warn if a variable bound in a pattern is unused.
     */
@@ -621,7 +639,10 @@ private[davidgregory084] trait ScalacOptions {
   /** Warn if a private member is unused.
     */
   val warnUnusedPrivates =
-    warnUnusedOption("privates", version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0))
+    warnUnusedOption(
+      "privates",
+      version => version.isBetween(V2_13_0, V3_0_0) || version.isAtLeast(V3_3_0)
+    )
 
   /** Unused warning options (-Wunused:)
     */
@@ -651,6 +672,39 @@ private[davidgregory084] trait ScalacOptions {
   val fatalWarningOptions: Set[ScalacOption] = ListSet(
     fatalWarnings,
     warnError
+  )
+
+  /** Verbose options (-V)
+    */
+  def verboseOption(name: String, isSupported: ScalaVersion => Boolean = _ => true) =
+    ScalacOption(s"-V$name", isSupported)
+
+  /** Print dependent missing implicits.
+    */
+  val verboseImplicits =
+    verboseOption("implicits", _.isBetween(V2_13_0, V3_0_0))
+
+  /** Print found/required error messages as colored diffs.
+    */
+  val verboseTypeDiffs =
+    verboseOption("type-diffs", _.isBetween(V2_13_6, V3_0_0))
+
+  /** Explain type errors in more detail.
+    */
+  val explainTypes =
+    ScalacOption("-explaintypes", _ < V3_0_0)
+
+  /** Explain errors in more detail.
+    */
+  val explain = ScalacOption("-explain", _ >= V3_0_0)
+
+  /** Verbose options (-V)
+    */
+  val verboseOptions: Set[ScalacOption] = ListSet(
+    verboseImplicits,
+    verboseTypeDiffs,
+    explainTypes,
+    explain
   )
 
   /** The default set of Scala compiler options defined by sbt-tpolecat.

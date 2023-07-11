@@ -64,6 +64,10 @@ object TpolecatPlugin extends AutoPlugin {
       "The mode to use for configuring scalac options via the sbt-tpolecat plugin."
     )
 
+    val tpolecatVerboseModeEnvVar = settingKey[String](
+      "The environment variable to use to enable the sbt-tpolecat verbose mode."
+    )
+
     val tpolecatDevModeEnvVar = settingKey[String](
       "The environment variable to use to enable the sbt-tpolecat development mode."
     )
@@ -74,6 +78,10 @@ object TpolecatPlugin extends AutoPlugin {
 
     val tpolecatReleaseModeEnvVar = settingKey[String](
       "The environment variable to use to enable the sbt-tpolecat release mode."
+    )
+
+    val tpolecatVerboseModeOptions = settingKey[Set[ScalacOption]](
+      "The set of scalac options that will be applied by the sbt-tpolecat plugin in the verbose mode."
     )
 
     val tpolecatDevModeOptions = settingKey[Set[ScalacOption]](
@@ -109,9 +117,13 @@ object TpolecatPlugin extends AutoPlugin {
 
   val commandAliases =
     addCommandAlias(
-      "tpolecatDevMode",
-      "set every tpolecatOptionsMode := _root_.io.github.davidgregory084.DevMode"
+      "tpolecatVerboseMode",
+      "set every tpolecatOptionsMode := _root_.io.github.davidgregory084.VerboseMode"
     ) ++
+      addCommandAlias(
+        "tpolecatDevMode",
+        "set every tpolecatOptionsMode := _root_.io.github.davidgregory084.DevMode"
+      ) ++
       addCommandAlias(
         "tpolecatCiMode",
         "set every tpolecatOptionsMode := _root_.io.github.davidgregory084.CiMode"
@@ -123,6 +135,7 @@ object TpolecatPlugin extends AutoPlugin {
 
   override def buildSettings: Seq[Setting[_]] = Seq(
     tpolecatDefaultOptionsMode := CiMode,
+    tpolecatVerboseModeEnvVar  := "SBT_TPOLECAT_VERBOSE",
     tpolecatDevModeEnvVar      := "SBT_TPOLECAT_DEV",
     tpolecatCiModeEnvVar       := "SBT_TPOLECAT_CI",
     tpolecatReleaseModeEnvVar  := "SBT_TPOLECAT_RELEASE",
@@ -130,6 +143,7 @@ object TpolecatPlugin extends AutoPlugin {
       if (sys.env.contains(tpolecatReleaseModeEnvVar.value)) ReleaseMode
       else if (sys.env.contains(tpolecatCiModeEnvVar.value)) CiMode
       else if (sys.env.contains(tpolecatDevModeEnvVar.value)) DevMode
+      else if (sys.env.contains(tpolecatVerboseModeEnvVar.value)) VerboseMode
       else tpolecatDefaultOptionsMode.value
     },
     tpolecatDevModeOptions := ScalacOptions.default
@@ -192,6 +206,9 @@ object TpolecatPlugin extends AutoPlugin {
       }
     ),
     Def.derive(
+      tpolecatVerboseModeOptions := tpolecatDevModeOptions.value ++ ScalacOptions.verboseOptions
+    ),
+    Def.derive(
       tpolecatCiModeOptions := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings
     ),
     Def.derive(
@@ -199,6 +216,7 @@ object TpolecatPlugin extends AutoPlugin {
     ),
     Def.derive(tpolecatScalacOptions := {
       tpolecatOptionsMode.value match {
+        case VerboseMode => tpolecatVerboseModeOptions.value
         case DevMode     => tpolecatDevModeOptions.value
         case CiMode      => tpolecatCiModeOptions.value
         case ReleaseMode => tpolecatReleaseModeOptions.value

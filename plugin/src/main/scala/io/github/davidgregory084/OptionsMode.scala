@@ -18,6 +18,7 @@ package io.github.davidgregory084
 
 sealed abstract class OptionsMode extends Product with Serializable
 
+case object VerboseMode extends OptionsMode
 case object DevMode     extends OptionsMode
 case object CiMode      extends OptionsMode
 case object ReleaseMode extends OptionsMode
