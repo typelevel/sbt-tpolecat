@@ -76,6 +76,24 @@ tpolecatDevModeOptions ~= { opts =>
 
 You can customise the environment variable that is used to enable this mode by modifying the `ThisBuild / tpolecatDevModeEnvVar` key. Default: `"SBT_TPOLECAT_DEV"`.
 
+#### Verbose mode
+
+To enable the verbose mode, use the `tpolecatVerboseMode` command or define the environment variable `SBT_TPOLECAT_VERBOSE`.
+
+In this mode all development mode options are enabled, and several verbose options that are commonly used for debugging implicit resolution and providing detailed compile errors are enabled.
+
+You can customise the options that are enabled in this mode by modifying the `tpolecatVerboseModeOptions` key. Default: `tpolecatDevModeOptions.value ++ ScalacOptions.verboseOptions`.
+
+For example, to disable verbose implicit logging you could customise the verbose mode options as follows:
+
+```scala
+tpolecatVerboseModeOptions ~= { opts =>
+  opts.filterNot(Set(ScalacOptions.verboseImplicits))
+}
+```
+
+You can customise the environment variable that is used to enable this mode by modifying the `ThisBuild / tpolecatVerboseModeEnvVar` key. Default: `"SBT_TPOLECAT_VERBOSE"`.
+
 #### Continuous integration mode
 
 To enable the continuous integration mode, use the `tpolecatCiMode` command or define the environment variable `SBT_TPOLECAT_CI`.
