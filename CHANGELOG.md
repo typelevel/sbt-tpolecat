@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.4]
+
+### Added
+
+* [#127](https://github.com/typelevel/sbt-tpolecat/pull/147) - add a verbose mode, which enables verbose options such as `-Vimplicits` and `-explain`.
+
 ## [0.4.3]
 
 ### Added
@@ -140,7 +146,8 @@ Please do not use this release - GitHub accepted a tag push but not its correspo
 
 * The `validFor` function that was previously exported via this plugin's `autoImport`.
 
-[Unreleased]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.3...HEAD
+[Unreleased]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.4...HEAD
+[0.4.4]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.0...v0.4.1
