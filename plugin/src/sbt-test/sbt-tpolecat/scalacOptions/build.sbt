@@ -206,7 +206,7 @@ val Scala33Options =
     "-Wunused:params",
     "-Wunused:privates",
     "-source",
-    "3.0-migration",
+    "3.0-migration"
   )
 
 TaskKey[Unit]("checkDevMode") := {

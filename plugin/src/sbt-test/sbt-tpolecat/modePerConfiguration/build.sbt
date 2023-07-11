@@ -16,7 +16,7 @@ crossScalaVersions := Seq(
   Scala213,
   Scala30,
   Scala31,
-  Scala33,
+  Scala33
 )
 
 Compile / tpolecatOptionsMode := CiMode
