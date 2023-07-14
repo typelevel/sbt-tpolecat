@@ -8,7 +8,7 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 
 ### Added
 
-* [#127](https://github.com/typelevel/sbt-tpolecat/pull/147) - add a verbose mode, which enables verbose options such as `-Vimplicits` and `-explain`.
+* [#127](https://github.com/typelevel/sbt-tpolecat/pull/127) - add a verbose mode, which enables verbose options such as `-Vimplicits` and `-explain`.
 
 ## [0.4.3]
 
