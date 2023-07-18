@@ -21,7 +21,7 @@ ThisBuild / developers := List(
 )
 
 ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
-ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+ThisBuild / sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
 
 ThisBuild / homepage := scmInfo.value.map(_.browseUrl)
 
