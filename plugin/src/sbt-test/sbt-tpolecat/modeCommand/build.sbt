@@ -1,4 +1,4 @@
-import _root_.io.github.davidgregory084._
+import _root_.org.typelevel.sbt.tpolecat._
 
 lazy val subProject = project
   .settings(tpolecatOptionsMode := CiMode)

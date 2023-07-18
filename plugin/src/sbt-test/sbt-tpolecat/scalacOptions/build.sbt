@@ -1,4 +1,4 @@
-import _root_.io.github.davidgregory084.JavaMajorVersion
+import org.typelevel.scalacoptions._
 import munit.Assertions._
 import scala.util.Try
 
@@ -84,6 +84,7 @@ val Scala212Options =
     "-Xlint:by-name-right-associative",
     "-Xlint:constant",
     "-Xlint:delayedinit-select",
+    "-Xlint:deprecation",
     "-Xlint:doc-detached",
     "-Xlint:inaccessible",
     "-Xlint:infer-any",
@@ -111,6 +112,7 @@ val Scala212Options =
     "-Ywarn-unused:params",
     "-Ywarn-unused:patvars",
     "-Ywarn-unused:privates",
+    "-Ywarn-unused:nowarn",
     "-Xsource:2.13"
   )
 
