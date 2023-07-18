@@ -36,10 +36,10 @@ object TpolecatPlugin extends AutoPlugin {
             if maj.toString == maj2 && min.toString == min2 =>
           val patchVersion  = patch.takeWhile(_.isDigit)
           val binaryVersion = ScalaVersion(maj, min, Try(patchVersion.toLong).getOrElse(0))
-          ScalacOptions.tokensForVersion(binaryVersion, modeScalacOptions)
+          ScalacOptions.optionsForVersion(binaryVersion, modeScalacOptions)
         case (Some((maj, min)), _) =>
           val binaryVersion = ScalaVersion(maj, min, 0)
-          ScalacOptions.tokensForVersion(binaryVersion, modeScalacOptions)
+          ScalacOptions.optionsForVersion(binaryVersion, modeScalacOptions)
         case (None, _) =>
           Set.empty[ScalacOption]
       }
