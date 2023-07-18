@@ -30,7 +30,8 @@ class v0_5 extends SemanticRule("v0_5") {
   val CiModeSym         = SymbolMatcher.exact("io/github/davidgregory084/CiMode.")
   val ReleaseModeSym    = SymbolMatcher.exact("io/github/davidgregory084/ReleaseMode.")
 
-  val PluginSym = TpolecatPluginSym + OptionsModeSym + VerboseModeSym + DevModeSym + CiModeSym + ReleaseModeSym
+  val PluginSym =
+    TpolecatPluginSym + OptionsModeSym + VerboseModeSym + DevModeSym + CiModeSym + ReleaseModeSym
 
   // Moved to scalac-options
   val JavaMajorVersionSym = SymbolMatcher.exact("io/github/davidgregory084/JavaMajorVersion.")
