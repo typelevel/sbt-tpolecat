@@ -1,29 +1,16 @@
 import com.typesafe.tools.mima.core._
 
+ThisBuild / tlBaseVersion := "0.4"
+
 ThisBuild / organization     := "org.typelevel"
 ThisBuild / organizationName := "Typelevel"
 
 ThisBuild / startYear := Some(2022)
-ThisBuild / licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
-ThisBuild / scmInfo := Some(
-  ScmInfo(
-    url("https://github.com/typelevel/sbt-tpolecat"),
-    "scm:git:git@github.com:typelevel/sbt-tpolecat.git"
-  )
-)
-ThisBuild / developers := List(
-  Developer(
-    "DavidGregory084",
-    "David Gregory",
-    "davidgregory084@gmail.com",
-    url("https://github.com/DavidGregory084")
-  )
-)
+ThisBuild / licenses  := Seq(License.Apache2)
 
-ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
-ThisBuild / sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
-
-ThisBuild / homepage := scmInfo.value.map(_.browseUrl)
+ThisBuild / developers ++= List(
+  tlGitHubDev("DavidGregory084", "David Gregory")
+)
 
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
@@ -32,21 +19,10 @@ ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
 lazy val `sbt-tpolecat` = project
   .in(file("."))
+  .enablePlugins(NoPublishPlugin)
   .aggregate(
     `sbt-tpolecat-plugin`,
-    `sbt-tpolecat-scalafix`.rules,
-    `sbt-tpolecat-scalafix`.input,
-    `sbt-tpolecat-scalafix`.tests
-    /* TODO: change individual Scalafix project dependencies to `sbt-tpolecat-scalafix`.all when the package rename is in main;
-     * the Scalafix `output` project will not compile until the package renaming is done.
-     */
-  )
-  .settings(
-    publish                := {},
-    publishLocal           := {},
-    publishArtifact        := false,
-    publish / skip         := true,
-    mimaReportBinaryIssues := {}
+    `sbt-tpolecat-scalafix`.all
   )
 
 lazy val `sbt-tpolecat-plugin` = project
