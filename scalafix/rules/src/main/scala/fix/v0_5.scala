@@ -40,6 +40,10 @@ class v0_5 extends SemanticRule("v0_5") {
 
   val ScalacOptionsSym = JavaMajorVersionSym + ScalacOptionSym + ScalaVersionSym
 
+  // autoImport contents
+  val TpolecatPluginAutoImportSym =
+    SymbolMatcher.exact("io/github/davidgregory084/TpolecatPlugin.autoImport.")
+
   private def makeSelector(packages: String*): Term.Ref =
     packages.tail.foldLeft(Term.Name(packages.head): Term.Ref) { case (selector, pkg) =>
       Term.Select(selector, Term.Name(pkg))
@@ -48,6 +52,14 @@ class v0_5 extends SemanticRule("v0_5") {
   private def makePluginImport(importee: Importee) =
     Patch.addGlobalImport(
       Importer(makeSelector("org", "typelevel", "sbt", "tpolecat"), List(importee))
+    )
+
+  private def makeAutoImportObjectImport(importee: Importee) =
+    Patch.addGlobalImport(
+      Importer(
+        makeSelector("org", "typelevel", "sbt", "tpolecat", "TpolecatPlugin", "autoImport"),
+        List(importee)
+      )
     )
 
   private def makeScalacOptionsImport(importee: Importee) =
@@ -71,6 +83,15 @@ class v0_5 extends SemanticRule("v0_5") {
             makePluginImport(importee) +
               makeScalacOptionsImport(importee) +
               Patch.removeImportee(importee)
+        }.asPatch
+      case importer @ Importer(ref, importees) if TpolecatPluginAutoImportSym.matches(ref) =>
+        importees.collect {
+          case importee @ Importee.Name(name) =>
+            makeAutoImportObjectImport(importee) + Patch.removeImportee(importee)
+          case rename @ Importee.Rename(name, _) =>
+            makeAutoImportObjectImport(rename) + Patch.removeImportee(rename)
+          case importee @ Importee.Wildcard() =>
+            makeAutoImportObjectImport(importee) + Patch.removeImportee(importee)
         }.asPatch
     }.asPatch
 }
