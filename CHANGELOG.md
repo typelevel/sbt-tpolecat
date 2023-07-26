@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.org/overviews/core/binary-compatibility-for-library-authors.html#recommended-versioning-scheme) in addition to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0]
+
+### Changed
+
+* The plugin artifact is now published under the `org.typelevel` group ID. An artifact migration has been added to Scala Steward, so Scala Steward users should not have to update the artifact group ID manually.
+
+* The project now makes use of the [scalac-options](https://github.com/typelevel/scalac-options) library, so symbols relating to scalac options and their availability on differing Scala versions have been moved to the package `org.typelevel.scalacoptions`.
+
+* All other symbols provided by this plugin have been moved to the `org.typelevel.sbt.tpolecat` package.
+
+*  A Scalafix migration is available, and can be applied using the `github:` scheme, e.g.
+
+  ```bash
+  $ scalafix github:typelevel/sbt-tpolecat/v0_5?sha=v0.5.0
+  ```
+
+  or via the `dependency:` scheme, e.g.
+
+  ```bash
+  $ scalafix dependency:v0_5@org.typelevel::sbt-tpolecat-scalafix:0.5.0
+  ```
+
 ## [0.4.4]
 
 ### Added
@@ -146,7 +168,8 @@ Please do not use this release - GitHub accepted a tag push but not its correspo
 
 * The `validFor` function that was previously exported via this plugin's `autoImport`.
 
-[Unreleased]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.4...HEAD
+[Unreleased]: https://github.com/typelevel/sbt-tpolecat/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.4...v0.5.0
 [0.4.4]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/typelevel/sbt-tpolecat/compare/v0.4.1...v0.4.2
