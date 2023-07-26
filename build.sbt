@@ -1,6 +1,6 @@
 import com.typesafe.tools.mima.core._
 
-ThisBuild / tlBaseVersion := "0.4"
+ThisBuild / tlBaseVersion := "0.5"
 
 ThisBuild / organization     := "org.typelevel"
 ThisBuild / organizationName := "Typelevel"
