@@ -44,6 +44,10 @@ class v0_5 extends SemanticRule("v0_5") {
   val TpolecatPluginAutoImportSym =
     SymbolMatcher.exact("io/github/davidgregory084/TpolecatPlugin.autoImport.")
 
+  // ScalacOptions contents
+  val TpolecatPluginScalacOptionsSym =
+    SymbolMatcher.exact("io/github/davidgregory084/TpolecatPlugin.autoImport.ScalacOptions.")
+
   private def makeSelector(packages: String*): Term.Ref =
     packages.tail.foldLeft(Term.Name(packages.head): Term.Ref) { case (selector, pkg) =>
       Term.Select(selector, Term.Name(pkg))
@@ -54,6 +58,19 @@ class v0_5 extends SemanticRule("v0_5") {
       Importer(makeSelector("org", "typelevel", "sbt", "tpolecat"), List(importee))
     )
 
+  private def makeScalacOptionsImport(importee: Importee) =
+    Patch.addGlobalImport(
+      Importer(makeSelector("org", "typelevel", "scalacoptions"), List(importee))
+    )
+
+  private def makeTpolecatPluginObjectImport(importee: Importee) =
+    Patch.addGlobalImport(
+      Importer(
+        makeSelector("org", "typelevel", "sbt", "tpolecat", "TpolecatPlugin"),
+        List(importee)
+      )
+    )
+
   private def makeAutoImportObjectImport(importee: Importee) =
     Patch.addGlobalImport(
       Importer(
@@ -62,13 +79,35 @@ class v0_5 extends SemanticRule("v0_5") {
       )
     )
 
-  private def makeScalacOptionsImport(importee: Importee) =
+  private def makeScalacOptionsObjectImport(importee: Importee) =
     Patch.addGlobalImport(
-      Importer(makeSelector("org", "typelevel", "scalacoptions"), List(importee))
+      Importer(
+        makeSelector("org", "typelevel", "scalacoptions", "ScalacOptions"),
+        List(importee)
+      )
     )
+
+  private def makeScalaVersionObjectImport(importee: Importee) =
+    Patch.addGlobalImport(
+      Importer(
+        makeSelector("org", "typelevel", "scalacoptions", "ScalaVersion"),
+        List(importee)
+      )
+    )
+
+  def handleImports(importees: List[Importee], createNewImport: Importee => Patch): Patch =
+    importees.collect {
+      case importee @ Importee.Name(name) =>
+        createNewImport(importee) + Patch.removeImportee(importee)
+      case rename @ Importee.Rename(name, _) =>
+        createNewImport(rename) + Patch.removeImportee(rename)
+      case importee @ Importee.Wildcard() =>
+        createNewImport(importee) + Patch.removeImportee(importee)
+    }.asPatch
 
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {
+      // Handle imports from `io.github.davidgregory084`
       case importer @ Importer(ref, importees) if PackageSym.matches(ref) =>
         importees.collect {
           case importee @ Importee.Name(name) if PluginSym.matches(name) =>
@@ -84,14 +123,17 @@ class v0_5 extends SemanticRule("v0_5") {
               makeScalacOptionsImport(importee) +
               Patch.removeImportee(importee)
         }.asPatch
+      // Handle imports from `io.github.davidgregory084.TpolecatPlugin`
+      case importer @ Importer(ref, importees) if TpolecatPluginSym.matches(ref) =>
+        handleImports(importees, makeTpolecatPluginObjectImport)
+      // Handle imports from `io.github.davidgregory084.ScalaVersion`
+      case importer @ Importer(ref, importees) if ScalaVersionSym.matches(ref) =>
+        handleImports(importees, makeScalaVersionObjectImport)
+      // Handle imports from `io.github.davidgregory084.TpolecatPlugin.autoImport`
       case importer @ Importer(ref, importees) if TpolecatPluginAutoImportSym.matches(ref) =>
-        importees.collect {
-          case importee @ Importee.Name(name) =>
-            makeAutoImportObjectImport(importee) + Patch.removeImportee(importee)
-          case rename @ Importee.Rename(name, _) =>
-            makeAutoImportObjectImport(rename) + Patch.removeImportee(rename)
-          case importee @ Importee.Wildcard() =>
-            makeAutoImportObjectImport(importee) + Patch.removeImportee(importee)
-        }.asPatch
+        handleImports(importees, makeAutoImportObjectImport)
+      // Handle imports from `io.github.davidgregory084.TpolecatPlugin.ScalacOptions`
+      case importer @ Importer(ref, importees) if TpolecatPluginScalacOptionsSym.matches(ref) =>
+        handleImports(importees, makeScalacOptionsObjectImport)
     }.asPatch
 }
