@@ -17,7 +17,7 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 *  A Scalafix migration is available, and can be applied using the `github:` scheme, e.g.
 
   ```bash
-  $ scalafix github:typelevel/sbt-tpolecat/v0_5?sha=810cd65cac5fd1e3b46560cea1dd7ce1a27cc58c
+  $ scalafix github:typelevel/sbt-tpolecat/v0_5?sha=4837a5bad7426c97be9bb3a5b792fd779f5c921a
   ```
 
 ## [0.4.4]
