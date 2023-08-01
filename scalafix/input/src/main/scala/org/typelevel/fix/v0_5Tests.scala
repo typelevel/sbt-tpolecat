@@ -7,6 +7,7 @@ import io.github.davidgregory084.{ScalaVersion => Version}
 import io.github.davidgregory084.{DevMode => Dev}
 import io.github.davidgregory084.TpolecatPlugin._
 import io.github.davidgregory084.TpolecatPlugin.autoImport
+import io.github.davidgregory084.TpolecatPlugin.autoImport.ScalacOptions
 import io.github.davidgregory084.TpolecatPlugin.autoImport._
 import io.github.davidgregory084.TpolecatPlugin.autoImport.{ tpolecatCiModeEnvVar, scalacOptionsFor }
 import io.github.davidgregory084._

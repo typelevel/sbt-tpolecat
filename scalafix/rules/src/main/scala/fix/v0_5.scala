@@ -129,11 +129,23 @@ class v0_5 extends SemanticRule("v0_5") {
       // Handle imports from `io.github.davidgregory084.ScalaVersion`
       case importer @ Importer(ref, importees) if ScalaVersionSym.matches(ref) =>
         handleImports(importees, makeScalaVersionObjectImport)
-      // Handle imports from `io.github.davidgregory084.TpolecatPlugin.autoImport`
-      case importer @ Importer(ref, importees) if TpolecatPluginAutoImportSym.matches(ref) =>
-        handleImports(importees, makeAutoImportObjectImport)
       // Handle imports from `io.github.davidgregory084.TpolecatPlugin.ScalacOptions`
       case importer @ Importer(ref, importees) if TpolecatPluginScalacOptionsSym.matches(ref) =>
         handleImports(importees, makeScalacOptionsObjectImport)
+      // Handle imports from `io.github.davidgregory084.TpolecatPlugin.autoImport`
+      case importer @ Importer(ref, importees) if TpolecatPluginAutoImportSym.matches(ref) =>
+        importees.collect {
+          // The `ScalacOptions` object moved to `scalac-options`
+          case importee @ Importee.Name(name) if TpolecatPluginScalacOptionsSym.matches(name) =>
+            makeScalacOptionsImport(importee) + Patch.removeImportee(importee)
+          case rename @ Importee.Rename(name, _) if TpolecatPluginScalacOptionsSym.matches(name) =>
+            makeScalacOptionsImport(rename) + Patch.removeImportee(rename)
+          case importee @ Importee.Name(name) =>
+            makeAutoImportObjectImport(importee) + Patch.removeImportee(importee)
+          case rename @ Importee.Rename(name, _) =>
+            makeAutoImportObjectImport(rename) + Patch.removeImportee(rename)
+          case importee @ Importee.Wildcard() =>
+            makeAutoImportObjectImport(importee) + Patch.removeImportee(importee)
+        }.asPatch
     }.asPatch
 }
