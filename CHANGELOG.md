@@ -13,6 +13,8 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
 * The project now makes use of the [scalac-options](https://github.com/typelevel/scalac-options) library, so symbols relating to scalac options and their availability on differing Scala versions have been moved to the package `org.typelevel.scalacoptions`.
 
 * All other symbols provided by this plugin have been moved to the `org.typelevel.sbt.tpolecat` package.
+ 
+* The `ScalacOptions` object is no longer part of this plugin's `autoImport` symbols. You will need to explicitly `import org.typelevel.scalacoptions.ScalacOptions`.
 
 *  A Scalafix migration is available, and can be applied using the `github:` scheme, e.g.
 
