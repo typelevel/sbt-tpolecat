@@ -22,9 +22,7 @@ and this project adheres to [Early Semantic Versioning](https://docs.scala-lang.
   $ scalafix github:typelevel/sbt-tpolecat/v0_5?sha=4837a5bad7426c97be9bb3a5b792fd779f5c921a
   ```
 
-  However, please note that there are severe limitations on running Scalafix migrations that require semantic information on sbt build files.
-  
-  Scalafix semantic migrations are able to update `*.scala` files but not `*.sbt` files.
+* However, please note that there are severe limitations on running Scalafix migrations that require semantic information on sbt build files. Scalafix semantic migrations are able to update `*.scala` files but not `*.sbt` files.
 
 ## [0.4.4]
 
