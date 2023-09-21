@@ -22,6 +22,28 @@ Once you are using this plugin we recommend that you don't manipulate the `scala
 
 Instead you should modify the `tpolecatScalacOptions` key or the options key for the relevant mode, for example `tpolecatDevModeOptions` for the development mode.
 
+### Excluding specific warnings
+
+To exclude an individual warning, say to ignore unused imports during testing, you can add the following to your configuration:
+
+```scala
+import org.typelevel.scalacoptions.ScalacOptions
+
+Test / tpolecatExcludeOptions += ScalacOptions.warnUnusedImports
+```
+
+If you would like to exclude more than one warning, you can add a `Set` of scalac options, like so:
+
+```scala
+import org.typelevel.scalacoptions.ScalacOptions
+
+Test / tpolecatExcludeOptions ++= Set(
+  ScalacOptions.warnValueDiscard,
+  ScalacOptions.warnUnusedImports,
+  ScalacOptions.warnUnusedLocals
+)
+```
+
 ### ScalaTest warnings
 
 One of the options configured by **sbt-tpolecat** (`-Wnonunit-statement`) is designed to warn users about discarded values in their code.
@@ -33,6 +55,8 @@ Unfortunately, this means that in synchronous test suites, every assertion disca
 If you find yourself in this situation, you can disable the `-Wnonunit-discard` option in your test suite like so:
 
 ```scala
+import org.typelevel.scalacoptions.ScalacOptions
+
 Test / tpolecatExcludeOptions += ScalacOptions.warnNonUnitStatement
 ```
 
