@@ -148,6 +148,7 @@ and Scala 3.x releases:
 * 3.0.2
 * 3.1.3
 * 3.3.0
+* 3.3.1
 
 ### Conduct
 
