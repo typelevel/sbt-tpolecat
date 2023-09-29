@@ -8,6 +8,7 @@ val Scala213 = "2.13.8"
 val Scala30  = "3.0.2"
 val Scala31  = "3.1.3"
 val Scala33  = "3.3.0"
+val Scala331 = "3.3.1"
 
 enablePlugins(OtherPlugin)
 
@@ -17,7 +18,8 @@ crossScalaVersions := Seq(
   Scala213,
   Scala30,
   Scala31,
-  Scala33
+  Scala33,
+  Scala331
 )
 
 tpolecatDevModeOptions ++= Set(
@@ -210,6 +212,28 @@ val Scala33Options =
     "-source",
     "3.0-migration"
   )
+val Scala331Options =
+  Seq(
+    "-encoding",
+    "utf8",
+    "-deprecation",
+    "-feature",
+    "-unchecked",
+    "-language:experimental.macros",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-Ykind-projector",
+    "-Wvalue-discard",
+    "-Wnonunit-statement",
+    "-Wunused:implicits",
+    "-Wunused:explicits",
+    "-Wunused:imports",
+    "-Wunused:locals",
+    "-Wunused:params",
+    "-Wunused:privates",
+    "-source",
+    "3.0-migration"
+  )
 
 TaskKey[Unit]("checkDevMode") := {
   val scalaV = scalaVersion.value
@@ -221,6 +245,7 @@ TaskKey[Unit]("checkDevMode") := {
     case Scala30  => Scala30Options
     case Scala31  => Scala31Options
     case Scala33  => Scala33Options
+    case Scala331 => Scala331Options
   }
 
   val actualOptions = scalacOptions.value
@@ -238,6 +263,7 @@ TaskKey[Unit]("checkVerboseMode") := {
     case Scala30  => Scala30Options ++ Seq("-explain")
     case Scala31  => Scala31Options ++ Seq("-explain")
     case Scala33  => Scala33Options ++ Seq("-explain")
+    case Scala331 => Scala331Options ++ Seq("-explain")
   }
 
   val actualOptions = scalacOptions.value
@@ -255,6 +281,7 @@ TaskKey[Unit]("checkCiMode") := {
     case Scala30  => Scala30Options ++ Seq("-Xfatal-warnings")
     case Scala31  => Scala31Options ++ Seq("-Xfatal-warnings")
     case Scala33  => Scala33Options ++ Seq("-Xfatal-warnings")
+    case Scala331 => Scala331Options ++ Seq("-Xfatal-warnings")
   }
 
   val actualOptions = scalacOptions.value
@@ -293,9 +320,10 @@ TaskKey[Unit]("checkReleaseMode") := {
         "-Ybackend-parallelism",
         "8"
       )
-    case Scala30 => Scala30Options ++ fatalWarnings ++ releaseOptions
-    case Scala31 => Scala31Options ++ fatalWarnings ++ releaseOptions
-    case Scala33 => Scala33Options ++ fatalWarnings ++ releaseOptions
+    case Scala30  => Scala30Options ++ fatalWarnings ++ releaseOptions
+    case Scala31  => Scala31Options ++ fatalWarnings ++ releaseOptions
+    case Scala33  => Scala33Options ++ fatalWarnings ++ releaseOptions
+    case Scala331 => Scala331Options ++ fatalWarnings ++ releaseOptions
   }
 
   val actualOptions = scalacOptions.value
