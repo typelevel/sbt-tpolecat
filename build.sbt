@@ -60,7 +60,8 @@ lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
   .rulesConfigure(project =>
     project.settings(
       mimaPreviousArtifacts := Set(
-      )
+      ),
+      scalacOptions -= "-Xfatal-warnings"
     )
   )
   .inputSettings(addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.0"))
