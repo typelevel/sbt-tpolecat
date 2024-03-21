@@ -52,7 +52,7 @@ However, Scalatest assertions return a value of type `Assertion` by design, in o
 
 Unfortunately, this means that in synchronous test suites, every assertion discards this `Assertion` value, triggering the `-Wnonunit-statement` compiler warning.
 
-If you find yourself in this situation, you can disable the `-Wnonunit-discard` option in your test suite like so:
+If you find yourself in this situation, you can disable the `-Wnonunit-statement` option in your test suite like so:
 
 ```scala
 import org.typelevel.scalacoptions.ScalacOptions
