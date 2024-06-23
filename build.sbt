@@ -37,7 +37,7 @@ lazy val `sbt-tpolecat-plugin` = project
     scalacOptions += "-Xlint:unused",
     libraryDependencies ++= Seq(
       "org.typelevel"     %% "scalac-options"  % "0.1.5",
-      "org.scalatest"     %% "scalatest"       % "3.2.16"   % Test,
+      "org.scalatest"     %% "scalatest"       % "3.2.19"   % Test,
       "org.scalacheck"    %% "scalacheck"      % "1.17.1"   % Test,
       "org.scalatestplus" %% "scalacheck-1-16" % "3.2.14.0" % Test
     ),
