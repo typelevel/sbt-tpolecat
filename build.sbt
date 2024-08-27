@@ -17,7 +17,7 @@ ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
-ThisBuild / scalaVersion := "2.12.19"
+ThisBuild / scalaVersion := "2.13.14"
 
 lazy val `sbt-tpolecat` = project
   .in(file("."))
