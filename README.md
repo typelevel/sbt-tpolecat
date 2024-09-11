@@ -80,7 +80,7 @@ Modes can be selected by using mode switching commands, or by setting environmen
 
 When multiple mode-setting environment variables are defined, the most restrictive mode is selected. For example, if the `SBT_TPOLECAT_DEV` and `SBT_TPOLECAT_CI` variables are both defined, continuous integration mode will be enabled.
 
-You can customise the default mode by modifying the `ThisBuild / tpolecatDefaultOptionsMode` key. Default: `CiMode`.
+You can customise the default mode by modifying the `ThisBuild / tpolecatDefaultOptionsMode` key. Default is `CiMode`, and the available modes are `org.typelevel.sbt.tpolecat.{CiMode, DevMode, ReleaseMode, VerboseMode}`.
 
 #### Development mode
 
