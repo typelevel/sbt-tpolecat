@@ -40,7 +40,7 @@ lazy val `sbt-tpolecat-plugin` = project
     libraryDependencies ++= Seq(
       "org.typelevel"     %% "scalac-options"  % "0.1.7",
       "org.scalatest"     %% "scalatest"       % "3.2.19"   % Test,
-      "org.scalacheck"    %% "scalacheck"      % "1.18.0"   % Test,
+      "org.scalacheck"    %% "scalacheck"      % "1.18.1"   % Test,
       "org.scalatestplus" %% "scalacheck-1-16" % "3.2.14.0" % Test
     ),
     mimaPreviousArtifacts := Set(
