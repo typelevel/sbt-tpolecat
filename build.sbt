@@ -17,7 +17,7 @@ ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
-ThisBuild / crossScalaVersions := Seq("2.12.20", "3.3.4")
+ThisBuild / crossScalaVersions := Seq("2.12.19", "3.3.4")
 
 lazy val `sbt-tpolecat` = project
   .in(file("."))
@@ -64,7 +64,7 @@ lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
     project.settings(
       mimaPreviousArtifacts := Set(
       ),
-      crossScalaVersions := Seq("2.12.20")
+      crossScalaVersions := Seq("2.12.19")
     )
   )
   .inputSettings(addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.0"))
