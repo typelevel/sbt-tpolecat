@@ -17,7 +17,7 @@
 package org.typelevel.sbt.tpolecat
 
 import sbt.Keys._
-import sbt.{ScalaVersion => _, _}
+import sbt.{ScalaVersion => _, given, _}
 
 import scala.util.Try
 import org.typelevel.scalacoptions._
