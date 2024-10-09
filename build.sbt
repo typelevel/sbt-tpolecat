@@ -1,5 +1,3 @@
-import com.typesafe.tools.mima.core._
-
 ThisBuild / tlBaseVersion := "0.5"
 
 ThisBuild / organization     := "org.typelevel"
@@ -17,7 +15,7 @@ ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 ThisBuild / versionScheme := Some(VersionScheme.EarlySemVer)
 
-ThisBuild / scalaVersion := "2.12.19"
+ThisBuild / scalaVersion := "2.12.20"
 
 lazy val `sbt-tpolecat` = project
   .in(file("."))
@@ -59,15 +57,13 @@ lazy val `sbt-tpolecat-plugin` = project
   )
 
 lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
-  .rulesConfigure(project =>
-    project.settings(
-      mimaPreviousArtifacts := Set(
-      )
-    )
+  .rulesSettings(mimaPreviousArtifacts := Set.empty)
+  .inputSettings(
+    addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.0"),
+    tlFatalWarnings := false
   )
-  .inputSettings(addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.0"))
-  .inputSettings(tlFatalWarnings := false)
   .inputConfigure(_.enablePlugins(SbtPlugin))
   .outputSettings(tlFatalWarnings := false)
   .outputConfigure(_.dependsOn(`sbt-tpolecat-plugin`))
   .outputConfigure(_.enablePlugins(SbtPlugin))
+  .testsSettings(scalaVersion := _root_.scalafix.sbt.BuildInfo.scala212)
