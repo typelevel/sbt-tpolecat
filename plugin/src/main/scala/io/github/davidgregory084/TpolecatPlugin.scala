@@ -205,7 +205,7 @@ object TpolecatPlugin extends AutoPlugin {
       tpolecatVerboseModeOptions := tpolecatDevModeOptions.value ++ ScalacOptions.verboseOptions
     ),
     Def.derive(
-      tpolecatCiModeOptions := tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings
+      tpolecatCiModeOptions := tpolecatDevModeOptions.value ++ ScalacOptions.fatalWarningOptions
     ),
     Def.derive(
       tpolecatReleaseModeOptions := tpolecatCiModeOptions.value + ScalacOptions.optimizerMethodLocal
