@@ -124,7 +124,7 @@ To enable the continuous integration mode, use the `tpolecatCiMode` command or d
 
 In this mode all development mode options are enabled, and the fatal warnings option (`-Xfatal-warnings` or `-Werror`, depending on the Scala version ) is added.
 
-You can customise the options that are enabled in this mode by modifying the `tpolecatCiModeOptions` key. Default: `tpolecatDevModeOptions.value + ScalacOptions.fatalWarningsOptions`.
+You can customise the options that are enabled in this mode by modifying the `tpolecatCiModeOptions` key. Default: `tpolecatDevModeOptions.value + ScalacOptions.fatalWarningOptions`.
 
 For example, to disable unused linting you could customise the CI options as follows:
 
