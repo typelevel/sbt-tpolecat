@@ -36,10 +36,8 @@ lazy val `sbt-tpolecat-plugin` = project
     Test / headerCreate    := { (Test / headerCreate).triggeredBy(Test / compile).value },
     scalacOptions += "-Xlint:unused",
     libraryDependencies ++= Seq(
-      "org.typelevel"     %% "scalac-options"  % "0.1.8",
-      "org.scalatest"     %% "scalatest"       % "3.2.19"   % Test,
-      "org.scalacheck"    %% "scalacheck"      % "1.18.1"   % Test,
-      "org.scalatestplus" %% "scalacheck-1-16" % "3.2.14.0" % Test
+      "org.typelevel" %% "scalac-options" % "0.1.9",
+      "org.scalatest" %% "scalatest"      % "3.2.19" % Test
     ),
     mimaPreviousArtifacts := Set(
     ),
