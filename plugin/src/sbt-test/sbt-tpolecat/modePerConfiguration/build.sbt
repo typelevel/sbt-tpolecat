@@ -25,15 +25,17 @@ Compile / tpolecatOptionsMode := CiMode
 Test / tpolecatOptionsMode    := DevMode
 
 TaskKey[Unit]("checkCompileOptions") := {
-  val options = scalacOptions.value
-  val hasFatalWarningsOrWarnError = options.contains("-Xfatal-warnings") || options.contains("-Werror")
+  val options                     = scalacOptions.value
+  val hasFatalWarningsOrWarnError =
+    options.contains("-Xfatal-warnings") || options.contains("-Werror")
 
   assert(hasFatalWarningsOrWarnError)
 }
 
 TaskKey[Unit]("checkTestOptions") := {
-  val options = (Test / scalacOptions).value
-  val hasFatalWarningsOrWarnError = options.contains("-Xfatal-warnings") || options.contains("-Werror")
+  val options                     = (Test / scalacOptions).value
+  val hasFatalWarningsOrWarnError =
+    options.contains("-Xfatal-warnings") || options.contains("-Werror")
 
   assert(!hasFatalWarningsOrWarnError)
 }

@@ -135,7 +135,7 @@ object TpolecatPlugin extends AutoPlugin {
     tpolecatDevModeEnvVar      := "SBT_TPOLECAT_DEV",
     tpolecatCiModeEnvVar       := "SBT_TPOLECAT_CI",
     tpolecatReleaseModeEnvVar  := "SBT_TPOLECAT_RELEASE",
-    tpolecatOptionsMode := {
+    tpolecatOptionsMode        := {
       if (sys.env.contains(tpolecatReleaseModeEnvVar.value)) ReleaseMode
       else if (sys.env.contains(tpolecatCiModeEnvVar.value)) CiMode
       else if (sys.env.contains(tpolecatDevModeEnvVar.value)) DevMode
