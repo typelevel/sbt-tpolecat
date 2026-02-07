@@ -1,6 +1,6 @@
 ## sbt-tpolecat
 
-[![Build Status](https://github.com/typelevel/sbt-tpolecat/workflows/CI/badge.svg)](https://github.com/typelevel/sbt-tpolecat/actions?query=workflow%3ACI)
+[![Continuous Integration](https://github.com/typelevel/sbt-tpolecat/actions/workflows/ci.yml/badge.svg)](https://github.com/typelevel/sbt-tpolecat/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/typelevel/sbt-tpolecat.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Latest Version](https://index.scala-lang.org/typelevel/sbt-tpolecat/sbt-tpolecat/latest.svg)](https://index.scala-lang.org/typelevel/sbt-tpolecat/sbt-tpolecat)
 
