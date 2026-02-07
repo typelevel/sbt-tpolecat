@@ -122,9 +122,9 @@ You can customise the environment variable that is used to enable this mode by m
 
 To enable the continuous integration mode, use the `tpolecatCiMode` command or define the environment variable `SBT_TPOLECAT_CI`.
 
-In this mode all development mode options are enabled, and the fatal warnings option (`-Xfatal-warnings` ) is added.
+In this mode all development mode options are enabled, and the fatal warnings option (`-Xfatal-warnings` or `-Werror`, depending on the Scala version ) is added.
 
-You can customise the options that are enabled in this mode by modifying the `tpolecatCiModeOptions` key. Default: `tpolecatDevModeOptions.value + ScalacOptions.fatalWarnings`.
+You can customise the options that are enabled in this mode by modifying the `tpolecatCiModeOptions` key. Default: `tpolecatDevModeOptions.value + ScalacOptions.fatalWarningOptions`.
 
 For example, to disable unused linting you could customise the CI options as follows:
 

@@ -277,11 +277,11 @@ TaskKey[Unit]("checkCiMode") := {
   val expectedOptions = scalaV match {
     case Scala211 => Scala211Options ++ Seq("-Xfatal-warnings")
     case Scala212 => Scala212Options ++ Seq("-Xfatal-warnings")
-    case Scala213 => Scala213Options ++ Seq("-Xfatal-warnings")
-    case Scala30  => Scala30Options ++ Seq("-Xfatal-warnings")
-    case Scala31  => Scala31Options ++ Seq("-Xfatal-warnings")
-    case Scala33  => Scala33Options ++ Seq("-Xfatal-warnings")
-    case Scala331 => Scala331Options ++ Seq("-Xfatal-warnings")
+    case Scala213 => Scala213Options ++ Seq("-Werror")
+    case Scala30  => Scala30Options ++ Seq("-Werror")
+    case Scala31  => Scala31Options ++ Seq("-Werror")
+    case Scala33  => Scala33Options ++ Seq("-Werror")
+    case Scala331 => Scala331Options ++ Seq("-Werror")
   }
 
   val actualOptions = scalacOptions.value
@@ -293,6 +293,8 @@ TaskKey[Unit]("checkReleaseMode") := {
   val scalaV = scalaVersion.value
 
   val fatalWarnings = Seq("-Xfatal-warnings")
+
+  val warnError = Seq("-Werror")
 
   val optimizerMethodLocal = Seq("-opt:l:method")
 
@@ -316,14 +318,14 @@ TaskKey[Unit]("checkReleaseMode") := {
         "8"
       )
     case Scala213 =>
-      Scala213Options ++ fatalWarnings ++ optimizerMethodLocal ++ releaseOptions ++ optimizerInline ++ Seq(
+      Scala213Options ++ warnError ++ optimizerMethodLocal ++ releaseOptions ++ optimizerInline ++ Seq(
         "-Ybackend-parallelism",
         "8"
       )
-    case Scala30  => Scala30Options ++ fatalWarnings ++ releaseOptions
-    case Scala31  => Scala31Options ++ fatalWarnings ++ releaseOptions
-    case Scala33  => Scala33Options ++ fatalWarnings ++ releaseOptions
-    case Scala331 => Scala331Options ++ fatalWarnings ++ releaseOptions
+    case Scala30  => Scala30Options ++ warnError ++ releaseOptions
+    case Scala31  => Scala31Options ++ warnError ++ releaseOptions
+    case Scala33  => Scala33Options ++ warnError ++ releaseOptions
+    case Scala331 => Scala331Options ++ warnError ++ releaseOptions
   }
 
   val actualOptions = scalacOptions.value
