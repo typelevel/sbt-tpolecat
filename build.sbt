@@ -43,7 +43,7 @@ lazy val `sbt-tpolecat-plugin` = project
     ),
     mimaBinaryIssueFilters ++= Seq(
     ),
-    scriptedBufferLog := false,
+    scriptedBufferLog  := false,
     scriptedLaunchOpts := scriptedLaunchOpts.value ++ Seq(
       "-Xmx1024M",
       "-Dplugin.version=" + version.value
