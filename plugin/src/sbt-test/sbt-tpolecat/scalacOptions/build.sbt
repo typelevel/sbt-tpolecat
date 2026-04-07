@@ -173,6 +173,7 @@ val Scala30Options =
     "-language:higherKinds",
     "-language:implicitConversions",
     "-Ykind-projector",
+    "-Ycheck-all-patmat",
     "-source",
     "3.0-migration"
   )
@@ -188,6 +189,7 @@ val Scala31Options =
     "-language:higherKinds",
     "-language:implicitConversions",
     "-Ykind-projector",
+    "-Ycheck-all-patmat",
     "-source",
     "3.0-migration"
   )
@@ -202,6 +204,7 @@ val Scala33Options =
     "-language:higherKinds",
     "-language:implicitConversions",
     "-Ykind-projector",
+    "-Ycheck-all-patmat",
     "-Wvalue-discard",
     "-Wunused:implicits",
     "-Wunused:explicits",
@@ -223,6 +226,7 @@ val Scala331Options =
     "-language:higherKinds",
     "-language:implicitConversions",
     "-Ykind-projector",
+    "-Ycheck-all-patmat",
     "-Wvalue-discard",
     "-Wnonunit-statement",
     "-Wunused:implicits",
