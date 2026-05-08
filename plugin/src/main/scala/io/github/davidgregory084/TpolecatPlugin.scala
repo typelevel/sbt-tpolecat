@@ -76,34 +76,42 @@ object TpolecatPlugin extends AutoPlugin {
       "The environment variable to use to enable the sbt-tpolecat release mode."
     )
 
+    @transient
     val tpolecatVerboseModeOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be applied by the sbt-tpolecat plugin in the verbose mode."
     )
 
+    @transient
     val tpolecatDevModeOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be applied by the sbt-tpolecat plugin in the development mode."
     )
 
+    @transient
     val tpolecatCiModeOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be applied by the sbt-tpolecat plugin in the continuous integration mode."
     )
 
+    @transient
     val tpolecatReleaseModeOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be applied by the sbt-tpolecat plugin in the release mode."
     )
 
+    @transient
     val tpolecatScalacOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be applied by the sbt-tpolecat plugin."
     )
 
+    @transient
     val tpolecatExcludeOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will be excluded."
     )
 
+    @transient
     val tpolecatEffectiveScalacOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that will effectively be applied by the sbt-tpolecat. For internal use only."
     ).withRank(sbt.KeyRanks.Invisible)
 
+    @transient
     val tpolecatManagedScalacOptions = settingKey[Set[ScalacOption]](
       "The set of scalac options that sbt-tpolecat owns and manages. Defaults to anything it ever adds in any scope delegation chain."
     ).withRank(sbt.KeyRanks.DSetting)
