@@ -22,6 +22,10 @@ Once you are using this plugin we recommend that you don't manipulate the `scala
 
 Instead you should modify the `tpolecatScalacOptions` key or the options key for the relevant mode, for example `tpolecatDevModeOptions` for the development mode.
 
+#### Note for Mill users
+
+There is a version of this project dedicated to Mill users, [mill-tpolecat](https://github.com/DavidGregory084/mill-tpolecat). However, the recommendation is to use the library that underpins sbt-tpolecat directly instead, since it is more actively maintained. Please visit the [scalac-options repository for more information](https://github.com/typelevel/scalac-options/).
+
 ### Excluding specific warnings
 
 To exclude an individual warning, say to ignore unused imports during testing, you can add the following to your configuration:
