@@ -108,7 +108,7 @@ lazy val `sbt-tpolecat-scalafix` = scalafixProject("sbt-tpolecat")
   .inputConfigure(_.enablePlugins(SbtPlugin))
   .inputConfigure(_.settings(skipOnNonScala212))
   .outputSettings(
-    addSbtPlugin("org.typelevel" % "sbt-tpolecat" % "0.5.2"),
+    addSbtPlugin("org.typelevel" % "sbt-tpolecat" % "0.5.3"),
     tlFatalWarnings    := false,
     crossScalaVersions := Seq("2.12.20")
   )
