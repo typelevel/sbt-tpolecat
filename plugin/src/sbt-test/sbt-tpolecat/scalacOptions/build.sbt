@@ -258,6 +258,7 @@ val LatestLTSOptions =
     "-Wunused:imports",
     "-Wunused:locals",
     "-Wunused:params",
+    "-Wunused:patvars",
     "-Wunused:privates",
     "-source",
     "3.0-migration"
@@ -280,6 +281,7 @@ val LatestNextOptions =
     "-Wunused:imports",
     "-Wunused:locals",
     "-Wunused:params",
+    "-Wunused:patvars",
     "-Wunused:privates",
     "-source",
     "3.0-migration"
