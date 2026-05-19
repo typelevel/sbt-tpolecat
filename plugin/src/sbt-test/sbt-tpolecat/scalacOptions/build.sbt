@@ -9,6 +9,10 @@ val Scala30  = "3.0.2"
 val Scala31  = "3.1.3"
 val Scala33  = "3.3.0"
 val Scala331 = "3.3.1"
+// Latest Scala LTS
+val LatestLTS = "3.3.7"
+// Latest Scala Next
+val LatestNext = "3.8.3"
 
 enablePlugins(OtherPlugin)
 
@@ -19,7 +23,9 @@ crossScalaVersions := Seq(
   Scala30,
   Scala31,
   Scala33,
-  Scala331
+  Scala331,
+  LatestLTS,
+  LatestNext
 )
 
 tpolecatDevModeOptions ++= Set(
@@ -28,8 +34,9 @@ tpolecatDevModeOptions ++= Set(
 )
 
 tpolecatReleaseModeOptions ++= {
+  val releaseTarget = if (scalaVersion.value == LatestNext) "17" else "8"
   ScalacOptions.optimizerOptions("**") +
-    ScalacOptions.release("8") +
+    ScalacOptions.release(releaseTarget) +
     ScalacOptions.privateBackendParallelism(8)
 }
 
@@ -233,18 +240,64 @@ val Scala331Options =
     "-source",
     "3.0-migration"
   )
+val LatestLTSOptions =
+  Seq(
+    "-encoding",
+    "utf8",
+    "-deprecation",
+    "-feature",
+    "-unchecked",
+    "-language:experimental.macros",
+    "-language:implicitConversions",
+    "-Ykind-projector",
+    "-Ycheck-all-patmat",
+    "-Wvalue-discard",
+    "-Wnonunit-statement",
+    "-Wunused:implicits",
+    "-Wunused:explicits",
+    "-Wunused:imports",
+    "-Wunused:locals",
+    "-Wunused:params",
+    "-Wunused:privates",
+    "-source",
+    "3.0-migration"
+  )
+val LatestNextOptions =
+  Seq(
+    "-encoding",
+    "utf8",
+    "-deprecation",
+    "-feature",
+    "-unchecked",
+    "-language:experimental.macros",
+    "-language:implicitConversions",
+    "-Xkind-projector",
+    "-Ycheck-all-patmat",
+    "-Wvalue-discard",
+    "-Wnonunit-statement",
+    "-Wunused:implicits",
+    "-Wunused:explicits",
+    "-Wunused:imports",
+    "-Wunused:locals",
+    "-Wunused:params",
+    "-Wunused:privates",
+    "-source",
+    "3.0-migration"
+  )
 
 TaskKey[Unit]("checkDevMode") := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
-    case Scala211 => Scala211Options
-    case Scala212 => Scala212Options
-    case Scala213 => Scala213Options
-    case Scala30  => Scala30Options
-    case Scala31  => Scala31Options
-    case Scala33  => Scala33Options
-    case Scala331 => Scala331Options
+    case Scala211   => Scala211Options
+    case Scala212   => Scala212Options
+    case Scala213   => Scala213Options
+    case Scala30    => Scala30Options
+    case Scala31    => Scala31Options
+    case Scala33    => Scala33Options
+    case Scala331   => Scala331Options
+    case LatestLTS  => LatestLTSOptions
+    case LatestNext => LatestNextOptions
   }
 
   val actualOptions = scalacOptions.value
@@ -256,13 +309,15 @@ TaskKey[Unit]("checkVerboseMode") := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
-    case Scala211 => Scala211Options ++ Seq("-explaintypes")
-    case Scala212 => Scala212Options ++ Seq("-explaintypes")
-    case Scala213 => Scala213Options ++ Seq("-Vimplicits", "-Vtype-diffs", "-explaintypes")
-    case Scala30  => Scala30Options ++ Seq("-explain")
-    case Scala31  => Scala31Options ++ Seq("-explain")
-    case Scala33  => Scala33Options ++ Seq("-explain")
-    case Scala331 => Scala331Options ++ Seq("-explain")
+    case Scala211   => Scala211Options ++ Seq("-explaintypes")
+    case Scala212   => Scala212Options ++ Seq("-explaintypes")
+    case Scala213   => Scala213Options ++ Seq("-Vimplicits", "-Vtype-diffs", "-explaintypes")
+    case Scala30    => Scala30Options ++ Seq("-explain")
+    case Scala31    => Scala31Options ++ Seq("-explain")
+    case Scala33    => Scala33Options ++ Seq("-explain")
+    case Scala331   => Scala331Options ++ Seq("-explain")
+    case LatestLTS  => LatestLTSOptions ++ Seq("-explain")
+    case LatestNext => LatestNextOptions ++ Seq("-explain")
   }
 
   val actualOptions = scalacOptions.value
@@ -274,13 +329,15 @@ TaskKey[Unit]("checkCiMode") := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
-    case Scala211 => Scala211Options ++ Seq("-Xfatal-warnings")
-    case Scala212 => Scala212Options ++ Seq("-Xfatal-warnings")
-    case Scala213 => Scala213Options ++ Seq("-Werror")
-    case Scala30  => Scala30Options ++ Seq("-Werror")
-    case Scala31  => Scala31Options ++ Seq("-Werror")
-    case Scala33  => Scala33Options ++ Seq("-Werror")
-    case Scala331 => Scala331Options ++ Seq("-Werror")
+    case Scala211   => Scala211Options ++ Seq("-Xfatal-warnings")
+    case Scala212   => Scala212Options ++ Seq("-Xfatal-warnings")
+    case Scala213   => Scala213Options ++ Seq("-Werror")
+    case Scala30    => Scala30Options ++ Seq("-Werror")
+    case Scala31    => Scala31Options ++ Seq("-Werror")
+    case Scala33    => Scala33Options ++ Seq("-Werror")
+    case Scala331   => Scala331Options ++ Seq("-Werror")
+    case LatestLTS  => LatestLTSOptions ++ Seq("-Werror")
+    case LatestNext => LatestNextOptions ++ Seq("-Werror")
   }
 
   val actualOptions = scalacOptions.value
@@ -308,6 +365,8 @@ TaskKey[Unit]("checkReleaseMode") := {
     else
       Seq.empty
 
+  val releaseOptionsLatestNext = Seq("-release", "17")
+
   val expectedOptions = scalaV match {
     case Scala211 =>
       Scala211Options ++ fatalWarnings
@@ -321,10 +380,12 @@ TaskKey[Unit]("checkReleaseMode") := {
         "-Ybackend-parallelism",
         "8"
       )
-    case Scala30  => Scala30Options ++ warnError ++ releaseOptions
-    case Scala31  => Scala31Options ++ warnError ++ releaseOptions
-    case Scala33  => Scala33Options ++ warnError ++ releaseOptions
-    case Scala331 => Scala331Options ++ warnError ++ releaseOptions
+    case Scala30    => Scala30Options ++ warnError ++ releaseOptions
+    case Scala31    => Scala31Options ++ warnError ++ releaseOptions
+    case Scala33    => Scala33Options ++ warnError ++ releaseOptions
+    case Scala331   => Scala331Options ++ warnError ++ releaseOptions
+    case LatestLTS  => LatestLTSOptions ++ warnError ++ releaseOptions
+    case LatestNext => LatestNextOptions ++ warnError ++ releaseOptionsLatestNext
   }
 
   val actualOptions = scalacOptions.value
