@@ -57,7 +57,7 @@ lazy val `sbt-tpolecat-plugin` = project
       }
     },
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "scalac-options" % "0.1.10",
+      "org.typelevel" %% "scalac-options" % "0.1.11",
       "org.scalatest" %% "scalatest"      % "3.2.20" % Test
     ),
     mimaPreviousArtifacts := Set(
