@@ -287,7 +287,8 @@ val LatestNextOptions =
     "3.0-migration"
   )
 
-TaskKey[Unit]("checkDevMode") := {
+@transient lazy val checkDevMode = taskKey[Unit]("checkDevMode")
+checkDevMode := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
@@ -307,7 +308,8 @@ TaskKey[Unit]("checkDevMode") := {
   assertEquals(actualOptions, expectedOptions)
 }
 
-TaskKey[Unit]("checkVerboseMode") := {
+@transient lazy val checkVerboseMode = taskKey[Unit]("checkVerboseMode")
+checkVerboseMode := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
@@ -327,7 +329,8 @@ TaskKey[Unit]("checkVerboseMode") := {
   assertEquals(actualOptions, expectedOptions)
 }
 
-TaskKey[Unit]("checkCiMode") := {
+@transient lazy val checkCiMode = taskKey[Unit]("checkCiMode")
+checkCiMode := {
   val scalaV = scalaVersion.value
 
   val expectedOptions = scalaV match {
@@ -347,7 +350,8 @@ TaskKey[Unit]("checkCiMode") := {
   assertEquals(actualOptions, expectedOptions)
 }
 
-TaskKey[Unit]("checkReleaseMode") := {
+@transient lazy val checkReleaseMode = taskKey[Unit]("checkReleaseMode")
+checkReleaseMode := {
   val scalaV = scalaVersion.value
 
   val fatalWarnings = Seq("-Xfatal-warnings")
@@ -395,7 +399,8 @@ TaskKey[Unit]("checkReleaseMode") := {
   assertEquals(actualOptions, expectedOptions)
 }
 
-TaskKey[Unit]("checkConsoleScalacOptions") := {
+@transient lazy val checkConsoleScalacOptions = taskKey[Unit]("checkConsoleScalacOptions")
+checkConsoleScalacOptions := {
   val shouldBeMissing =
     ScalacOptions.defaultConsoleExclude.flatMap(opt => opt.option :: opt.args).toSet
   val testConsoleOptions    = (Test / console / scalacOptions).value
@@ -415,7 +420,8 @@ addCommandAlias(
   "set ThisProject / scalacOptions += \"non-existent-key\""
 )
 
-TaskKey[Unit]("checkThisProjectScalacOptions") := {
+@transient lazy val checkThisProjectScalacOptions = taskKey[Unit]("checkThisProjectScalacOptions")
+checkThisProjectScalacOptions := {
   val options = (Compile / scalacOptions).value
   assert(options.contains("non-existent-key"), "Scope ThisProject was ignored")
 }
@@ -425,7 +431,8 @@ addCommandAlias(
   "set ThisProject / otherPluginActivate := true"
 )
 
-TaskKey[Unit]("checkOtherPluginsScalacOptions") := {
+@transient lazy val checkOtherPluginsScalacOptions = taskKey[Unit]("checkOtherPluginsScalacOptions")
+checkOtherPluginsScalacOptions := {
   val optionsProject = scalacOptions.value
   assert(
     optionsProject.contains("other-plugin-option-1"),

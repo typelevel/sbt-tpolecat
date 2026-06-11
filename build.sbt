@@ -60,6 +60,7 @@ lazy val `sbt-tpolecat-plugin` = project
       "org.typelevel" %% "scalac-options" % "0.1.11",
       "org.scalatest" %% "scalatest"      % "3.2.20" % Test
     ),
+    addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.1.0"),
     mimaPreviousArtifacts := Set(
     ),
     mimaBinaryIssueFilters ++= Seq(
@@ -76,7 +77,7 @@ lazy val `sbt-tpolecat-plugin` = project
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
         case "2.12" => "1.11.4"
-        case _      => "2.0.0-RC12"
+        case _      => "2.0.0-RC16"
       }
     }
   )
