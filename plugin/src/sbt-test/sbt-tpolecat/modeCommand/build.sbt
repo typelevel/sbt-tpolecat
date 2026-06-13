@@ -6,7 +6,9 @@ lazy val subProject = project
 lazy val subProjectWithConfig = project
   .settings(Test / tpolecatOptionsMode := CiMode)
 
-TaskKey[Unit]("check") := {
+@transient
+lazy val check = taskKey[Unit]("check")
+check := {
   assert(tpolecatOptionsMode.value == DevMode)
   assert((subProject / tpolecatOptionsMode).value == DevMode)
   assert((subProjectWithConfig / Test / tpolecatOptionsMode).value == DevMode)

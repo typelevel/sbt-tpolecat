@@ -24,7 +24,9 @@ crossScalaVersions := Seq(
 Compile / tpolecatOptionsMode := CiMode
 Test / tpolecatOptionsMode    := DevMode
 
-TaskKey[Unit]("checkCompileOptions") := {
+@transient
+lazy val checkCompileOptions = taskKey[Unit]("checkCompileOptions")
+checkCompileOptions := {
   val options                     = scalacOptions.value
   val hasFatalWarningsOrWarnError =
     options.contains("-Xfatal-warnings") || options.contains("-Werror")
@@ -32,7 +34,9 @@ TaskKey[Unit]("checkCompileOptions") := {
   assert(hasFatalWarningsOrWarnError)
 }
 
-TaskKey[Unit]("checkTestOptions") := {
+@transient
+lazy val checkTestOptions = taskKey[Unit]("checkTestOptions")
+checkTestOptions := {
   val options                     = (Test / scalacOptions).value
   val hasFatalWarningsOrWarnError =
     options.contains("-Xfatal-warnings") || options.contains("-Werror")
