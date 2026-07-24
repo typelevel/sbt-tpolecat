@@ -60,7 +60,7 @@ lazy val `sbt-tpolecat-plugin` = project
       "org.typelevel" %% "scalac-options" % "0.1.11",
       "org.scalatest" %% "scalatest"      % "3.2.20" % Test
     ),
-    addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.1.0"),
+    addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.2.0"),
     mimaPreviousArtifacts := Set(
     ),
     mimaBinaryIssueFilters ++= Seq(
