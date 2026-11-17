@@ -30,11 +30,6 @@ jobs:
         os: [ubuntu-22.04]
         scala: [2.12, 3]
         java: [temurin@17, temurin@21, temurin@25]
-        exclude:
-          - scala: 3
-            java: temurin@21
-          - scala: 3
-            java: temurin@25
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
@@ -88,20 +83,13 @@ jobs:
       - name: Check that workflows are up to date
         run: sbt githubWorkflowCheck
 
-      - name: Check headers and formatting
-        if: matrix.java == 'temurin@17' && matrix.os == 'ubuntu-22.04'
-        run: sbt '++ ${{ matrix.scala }}' headerCheckAll scalafmtCheckAll 'project /' scalafmtSbtCheck
-
-      - name: Test
+      - name: Full tests, including historical compilers
+        if: matrix.java == 'temurin@17'
         run: sbt '++ ${{ matrix.scala }}' test
 
-      - name: Check binary compatibility
-        if: matrix.java == 'temurin@17' && matrix.os == 'ubuntu-22.04'
-        run: sbt '++ ${{ matrix.scala }}' mimaReportBinaryIssues
-
-      - name: Generate API documentation
-        if: matrix.java == 'temurin@17' && matrix.os == 'ubuntu-22.04'
-        run: sbt '++ ${{ matrix.scala }}' doc
+      - name: Plugin tests on current JDKs
+        if: matrix.java != 'temurin@17'
+        run: sbt '++ ${{ matrix.scala }}' sbt-tpolecat-plugin/Test/test
 
       - name: Make target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')

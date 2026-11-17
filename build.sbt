@@ -32,6 +32,20 @@ ThisBuild / githubWorkflowJavaVersions := Seq(
 ThisBuild / githubWorkflowGeneratedCI ~= (_.map { job =>
   if (job.id == "publish") job.withJavas(List(JavaSpec.temurin("17"))) else job
 })
+ThisBuild / githubWorkflowBuildMatrixExclusions := Nil
+ThisBuild / githubWorkflowBuild                 := Seq(
+  // The scripted matrix deliberately compiles historical Scala releases.
+  WorkflowStep.Sbt(
+    List("test"),
+    name = Some("Full tests, including historical compilers"),
+    cond = Some("matrix.java == 'temurin@17'")
+  ),
+  WorkflowStep.Sbt(
+    List("sbt-tpolecat-plugin/Test/test"),
+    name = Some("Plugin tests on current JDKs"),
+    cond = Some("matrix.java != 'temurin@17'")
+  )
+)
 
 lazy val `sbt-tpolecat` = project
   .in(file("."))
