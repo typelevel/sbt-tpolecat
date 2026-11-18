@@ -47,9 +47,9 @@ ThisBuild / githubWorkflowBuild                 := Seq(
   )
 )
 
-githubWorkflowAddedJobs := {
-  val config = tlCiStewardValidateConfig.value
-  githubWorkflowAddedJobs.value.map { job =>
+ThisBuild / githubWorkflowAddedJobs := {
+  val config = (ThisBuild / tlCiStewardValidateConfig).value
+  (ThisBuild / githubWorkflowAddedJobs).value.map { job =>
     if (job.id == "validate-steward") config.fold(job) { file =>
       val java = List(JavaSpec.temurin("17"))
       job
