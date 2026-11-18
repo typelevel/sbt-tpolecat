@@ -47,6 +47,25 @@ ThisBuild / githubWorkflowBuild                 := Seq(
   )
 )
 
+githubWorkflowAddedJobs := {
+  val config = tlCiStewardValidateConfig.value
+  githubWorkflowAddedJobs.value.map { job =>
+    if (job.id == "validate-steward") config.fold(job) { file =>
+      val java = List(JavaSpec.temurin("17"))
+      job
+        .withJavas(java)
+        .withSteps(
+          WorkflowStep.Checkout :: WorkflowStep.SetupJava(java, false) ::: List(
+            WorkflowStep
+              .Use(UseRef.Public("coursier", "setup-action", "v1"), Map("apps" -> "scala-steward")),
+            WorkflowStep.Run(List(s"scala-steward validate-repo-config $file"))
+          )
+        )
+    }
+    else job
+  }
+}
+
 lazy val `sbt-tpolecat` = project
   .in(file("."))
   .enablePlugins(NoPublishPlugin)
